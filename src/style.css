@@ -2,13 +2,6 @@
 
 @theme {
   --font-inter: Inter, Avenir, Helvetica, Arial, sans-serif;
-
-  --drop-shadow-logo: 0 0 2em #646cffaa;
-  --drop-shadow-logo-tw: 0 0 2em #38bdf8aa;
-
-  --height-18: 4.5rem;
-
-  --color-transparent-white: rgba(255, 255, 255, 0.87);
 }
 
 /*
@@ -39,8 +32,5 @@
 }
 
 a {
-  @apply font-medium text-[#646cff];
-}
-a:hover {
-  @apply text-[#535bf2];
+  color: inherit;
 }

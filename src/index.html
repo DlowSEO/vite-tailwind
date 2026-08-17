@@ -4,50 +4,177 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Claude SEO Assistant: an open-source Claude Code toolkit that runs full site audits and diagnoses SEO issues automatically. 8 commands, 8 skills, 8 agents. MIT licensed."
+    />
     <link rel="stylesheet" href="/style.css" />
-    <title>Vite + Tailwind CSS Starter</title>
+    <title>Claude SEO Assistant: Automated audits for Claude Code</title>
   </head>
 
   <body
-    class="m-0 flex min-h-screen min-w-[320px] place-items-center bg-[#ffffff] font-inter text-base font-normal text-[#213547] dark:bg-[#242424] dark:text-transparent-white"
+    class="min-h-screen bg-white font-inter text-base font-normal text-slate-800 dark:bg-slate-950 dark:text-slate-200"
   >
     <div
-      class="mx-auto flex max-w-[1280px] flex-col items-center justify-center p-8"
-    >
-      <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
-        <img
-          src="./vite.svg"
-          class="h-24 p-5 will-change-[filter] hover:drop-shadow-logo"
-          alt="Vite logo"
-        />
-      </a>
-      <a
-        href="https://tailwindcss.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="./tailwindcss.svg"
-          class="h-18 w-auto p-5 will-change-[filter] hover:drop-shadow-logo-tw"
-          alt="TailwindCSS logo"
-        />
-      </a>
-      <h1
-        class="my-12 bg-linear-to-r from-green-400 to-blue-500 bg-clip-text p-4 text-6xl text-transparent"
-      >
-        Hello Vite!
-      </h1>
-      <div class="flex flex-row items-center gap-3 text-gray-600">
-        Built with love by
+      id="cursor-glow"
+      class="pointer-events-none fixed inset-0 -z-10"
+      aria-hidden="true"
+    ></div>
+    <div class="mx-auto flex max-w-5xl flex-col px-6">
+      <!-- Header -->
+      <header class="flex items-center justify-between py-6">
         <a
-          href="https://kometo.co/?utm_source=vite-tailwind-nojs-starter"
+          href="#"
+          class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
+        >
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-sm text-white dark:bg-white dark:text-slate-900"
+            >⌁</span
+          >
+          claude-seo
+        </a>
+        <a
+          href="https://github.com/DlowSEO/claude-seo"
           target="_blank"
           rel="noopener noreferrer"
-          title="KometoLabs"
-          class="shadow-xs"
-          ><img class="inline" src="/img/kometo.png" alt="KometoLabs logo"
-        /></a>
-      </div>
+          class="flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+            />
+          </svg>
+          View on GitHub
+        </a>
+      </header>
+
+      <!-- Hero -->
+      <section
+        class="relative isolate flex flex-col items-center gap-6 overflow-hidden py-20 text-center sm:py-28"
+      >
+        <canvas
+          id="snake-canvas"
+          class="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+          aria-hidden="true"
+        ></canvas>
+        <span
+          class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 dark:border-slate-700 dark:text-slate-400"
+        >
+          Free forever &middot; MIT licensed &middot; runs locally
+        </span>
+        <h1
+          class="max-w-2xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white"
+        >
+          Your SEO team, in the terminal
+        </h1>
+        <p class="max-w-xl text-lg text-slate-600 dark:text-slate-400">
+          claude-seo turns Claude Code into a full SEO department: 8
+          commands trigger parallel specialist agents that crawl your
+          site, diagnose technical, content, and AI-search issues, then
+          hand you a health score and a prioritized action plan: no
+          dashboards, no subscription, just your terminal.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <a
+            href="https://github.com/DlowSEO/claude-seo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-blue-500/30 bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]"
+          >
+            View the repo
+          </a>
+          <a
+            href="#install"
+            class="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500"
+          >
+            Install guide
+          </a>
+        </div>
+      </section>
+
+      <!-- Install -->
+      <section id="install" class="scroll-mt-10 pb-20">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          Install
+        </h2>
+        <pre
+          class="overflow-x-auto rounded-xl bg-slate-900 p-5 text-sm text-slate-100 dark:bg-black"
+        ><code>git clone --depth 1 https://github.com/DlowSEO/claude-seo.git
+bash claude-seo/install.sh</code></pre>
+        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          Requires Python 3.10+, Git, and Claude Code. The install takes
+          seconds, the audit runs itself, you just read the report.
+        </p>
+      </section>
+
+      <!-- Commands -->
+      <section class="pb-20">
+        <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          Commands
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+          <table class="w-full border-collapse text-left text-sm">
+            <tbody>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo audit &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Full site audit: crawl, parallel specialists, health score, action plan</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo analyse &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Page + technical analysis (technical, schema, sitemap, images, hreflang)</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo content &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">E-E-A-T content analysis, plus content briefs by topic</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo local &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Local SEO: GBP, NAP, citations, reviews, geo-grid</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo geo &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">AI Overviews / ChatGPT / Perplexity readiness</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo backlinks &lt;url&gt;</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Backlink profile via free APIs</td>
+              </tr>
+              <tr class="border-b border-slate-200 dark:border-slate-800">
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo strategy [mode]</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Planning: cluster, programmatic, competitor pages, ecommerce</td>
+              </tr>
+              <tr>
+                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo google [cmd]</td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">GSC, PageSpeed Insights, CrUX, GA4, Indexing APIs</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer
+        class="flex flex-col items-center gap-1 border-t border-slate-200 py-10 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400"
+      >
+        <p class="mb-1">Built by Dan Lowry</p>
+        <a
+          href="https://github.com/DlowSEO/claude-seo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+        >
+          github.com/DlowSEO/claude-seo
+        </a>
+        <a
+          href="https://linkedin.com/in/dan-lowry-seo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+        >
+          linkedin.com/in/dan-lowry-seo
+        </a>
+      </footer>
     </div>
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
