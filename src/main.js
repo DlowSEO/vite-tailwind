@@ -1,3 +1,15 @@
+// Close the Commands dropdown on outside click or Escape.
+const menus = document.querySelectorAll("details.nav-menu");
+document.addEventListener("click", (event) => {
+  menus.forEach((menu) => {
+    if (!menu.contains(event.target)) menu.removeAttribute("open");
+  });
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape")
+    menus.forEach((menu) => menu.removeAttribute("open"));
+});
+
 // "Copy" button on every code block, so commands can be copied in one tap.
 document.querySelectorAll("pre > code").forEach((code) => {
   const button = document.createElement("button");

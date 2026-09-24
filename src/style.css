@@ -79,3 +79,12 @@
 .copy-btn:hover {
   background: rgb(255 255 255 / 0.14);
 }
+
+/* Commands dropdown in the header */
+.nav-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-menu[open] summary svg {
+  transform: rotate(180deg);
+}
