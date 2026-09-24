@@ -36,3 +36,46 @@
     color: inherit;
   }
 }
+
+/* Code blocks: wrap long commands on phones instead of scrolling sideways,
+   keep them on one line from the sm breakpoint up. */
+@layer base {
+  pre {
+    position: relative;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding-right: 5.5rem !important;
+  }
+
+  @media (min-width: 40rem) {
+    pre {
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+  }
+
+  body {
+    overflow-x: clip;
+  }
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 0.06);
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  color: rgb(226 232 240);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.copy-btn:hover {
+  background: rgb(255 255 255 / 0.14);
+}

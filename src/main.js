@@ -1,3 +1,32 @@
+// "Copy" button on every code block, so commands can be copied in one tap.
+document.querySelectorAll("pre > code").forEach((code) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "copy-btn";
+  button.textContent = "Copy";
+  button.setAttribute("aria-label", "Copy code to clipboard");
+
+  button.addEventListener("click", async () => {
+    const text = code.innerText.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+    }
+    button.textContent = "Copied";
+    setTimeout(() => (button.textContent = "Copy"), 1600);
+  });
+
+  code.parentElement.appendChild(button);
+});
+
 // Soft glow that follows the cursor across the whole page.
 const glow = document.getElementById("cursor-glow");
 if (glow) {
