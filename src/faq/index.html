@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Answers to common questions about claude-seo: cost, installation, how audits and the health score work, data privacy, API keys and AI search optimisation."
+    />
+    <link rel="canonical" href="https://claudeseo.co.uk/faq/" />
+    <meta
+      property="og:title"
+      content="claude-seo FAQ: audits, scoring, setup and AI search"
+    />
+    <meta
+      property="og:description"
+      content="Answers to common questions about claude-seo: cost, installation, how audits and the health score work, data privacy, API keys and AI search optimisation."
+    />
+    <meta property="og:url" content="https://claudeseo.co.uk/faq/" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>claude-seo FAQ: audits, scoring, setup and AI search</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://claudeseo.co.uk/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "FAQ",
+            "item": "https://claudeseo.co.uk/faq/"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-white font-inter text-base font-normal text-slate-800 dark:bg-slate-950 dark:text-slate-200"
+  >
+    <div
+      id="cursor-glow"
+      class="pointer-events-none fixed inset-0 -z-10"
+      aria-hidden="true"
+    ></div>
+    <div class="mx-auto flex max-w-5xl flex-col px-6">
+      <header class="flex flex-wrap items-center justify-between gap-4 py-6">
+        <a
+          href="/"
+          class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
+        >
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-sm text-white dark:bg-white dark:text-slate-900"
+            >⌁</span
+          >
+          claude-seo
+        </a>
+        <nav class="flex items-center gap-5" aria-label="Main">
+          <a
+            href="/commands/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Commands</a
+          ><a
+            href="/install/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Install</a
+          ><a
+            href="/faq/"
+            class="text-sm font-medium text-slate-900 transition dark:text-white"
+            aria-current="page"
+            >FAQ</a
+          >
+          <a
+            href="https://github.com/DlowSEO/claude-seo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
+          >
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              />
+            </svg>
+            GitHub
+          </a>
+        </nav>
+      </header>
+      <main>
+        <nav
+          class="pt-6 text-xs text-slate-500 dark:text-slate-400"
+          aria-label="Breadcrumb"
+        >
+          <a href="/" class="hover:text-slate-900 dark:hover:text-white"
+            >Home</a
+          >
+          / <span class="text-slate-700 dark:text-slate-300">FAQ</span>
+        </nav>
+
+        <section class="flex flex-col gap-5 py-14 sm:py-20">
+          <span
+            class="w-fit rounded-full border border-slate-200 px-3 py-1 font-mono text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400"
+            >FAQ</span
+          >
+          <h1
+            class="max-w-3xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white"
+          >
+            Frequently asked questions
+          </h1>
+          <p class="max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+            Answers to the questions people ask most about installing
+            claude-seo, running audits and reading the results.
+          </p>
+        </section>
+        <section class="scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            General
+          </h2>
+          <div class="flex flex-col gap-3">
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What is claude-seo?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                claude-seo is a free, open-source toolkit that adds SEO commands
+                to Claude Code. Eight commands trigger specialist agents that
+                crawl a site, diagnose technical, content and AI search issues,
+                and return a health score with a prioritised action plan.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Is it free?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Yes. It is MIT licensed with no paid tier. You need your own
+                Claude Code access, and some optional data sources, such as the
+                Google Ads API or premium backlink data, have their own terms.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                How is this different from the original claude-seo?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                It is a simplified fork of claude-seo by Daniel Agrici. The
+                original grew to 25 skills, 18 agents and more than 30 commands.
+                This build merges overlapping skills into
+                <a
+                  href="/commands/"
+                  class="font-medium text-slate-900 underline underline-offset-2 dark:text-white"
+                  >8 commands</a
+                >
+                while keeping the underlying analysis material.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Does it replace tools like Ahrefs or Semrush?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Not entirely. Paid platforms hold large keyword and link
+                databases built over years. claude-seo is strongest at auditing
+                and diagnosing a site you can crawl, explaining the problems in
+                plain language and turning them into an action plan. Many people
+                use both.
+              </div>
+            </details>
+          </div>
+        </section>
+        <section class="scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            Audits and scoring
+          </h2>
+          <div class="flex flex-col gap-3">
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                How long does an audit take?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                It depends on the size and speed of the site. A snapshot audit
+                of a small site is usually quick. A full audit can crawl up to
+                500 pages with a one second delay between requests, so large
+                sites take longer.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What does the health score mean?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                It is a 0 to 100 score weighted across content quality,
+                technical SEO, on-page SEO, schema, performance, AI search
+                readiness and images. It is a way to prioritise work, not a
+                prediction of rankings. See the
+                <a
+                  href="/commands/audit/"
+                  class="font-medium text-slate-900 underline underline-offset-2 dark:text-white"
+                  >audit page</a
+                >
+                for the weightings.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What is the difference between a snapshot and a full audit?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                A snapshot crawls up to 50 pages and reports only the top
+                findings in a report of up to 10 pages. A full audit crawls up
+                to 500 pages and reports everything. Both use the same evidence
+                standard.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Can I trust the findings?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Every finding has to name the affected URLs and show the value
+                actually found on the page. Anything that would apply to any
+                site without evidence is cut before the report is written. As
+                with any automated tool, it is worth checking critical findings
+                before acting on them.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Does it change my website?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                No. It reads the public site and writes files to your own
+                computer only.
+              </div>
+            </details>
+          </div>
+        </section>
+        <section class="scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            Setup and data
+          </h2>
+          <div class="flex flex-col gap-3">
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What do I need to install it?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Claude Code, Python 3.10 or later and Git. The full steps are on
+                the
+                <a
+                  href="/install/"
+                  class="font-medium text-slate-900 underline underline-offset-2 dark:text-white"
+                  >install page</a
+                >.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Does it work on Windows?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Yes. There is a PowerShell installer alongside the macOS and
+                Linux script, and the plugin install works on every platform
+                Claude Code supports.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Do I need API keys?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                No, the core commands work without any. Free Google, Moz and
+                Bing Webmaster keys add real search data, field Core Web Vitals
+                and richer backlink data.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Where does my data go?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Audit files are saved locally in a folder named after the
+                domain. Requests go to the site being audited and to any APIs
+                you have chosen to connect.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What kinds of sites does it support?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                It detects the business type, such as SaaS, local service,
+                e-commerce, publisher or agency, and adjusts its
+                recommendations. Local SEO checks switch on automatically for
+                location based businesses.
+              </div>
+            </details>
+          </div>
+        </section>
+        <section class="scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            AI search
+          </h2>
+          <div class="flex flex-col gap-3">
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                What is generative engine optimisation?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                GEO is the practice of making content easy for AI search
+                features, such as Google AI Overviews, ChatGPT search and
+                Perplexity, to find, understand and cite. Google's position is
+                that this is still SEO, applied to new surfaces. The
+                <a
+                  href="/commands/geo/"
+                  class="font-medium text-slate-900 underline underline-offset-2 dark:text-white"
+                  >geo command</a
+                >
+                checks it.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
+                Do I need an llms.txt file?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Google has said llms.txt is not needed for its AI features. The
+                geo command reports whether one exists, but does not treat a
+                missing file as a serious problem.
+              </div>
+            </details>
+          </div>
+        </section>
+        <section
+          class="mb-20 rounded-2xl border border-slate-200 p-8 text-center dark:border-slate-800"
+        >
+          <h2
+            class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+          >
+            Free, MIT licensed and ready in minutes
+          </h2>
+          <p class="mx-auto mt-3 max-w-xl text-slate-600 dark:text-slate-400">
+            Install claude-seo once and every command on this site is available
+            inside Claude Code.
+          </p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href="/install/"
+              class="rounded-lg border border-blue-500/30 bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]"
+              >Install guide</a
+            >
+            <a
+              href="https://github.com/DlowSEO/claude-seo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500"
+              >View the repo</a
+            >
+          </div>
+        </section>
+      </main>
+
+      <footer
+        class="flex flex-col items-center gap-1 border-t border-slate-200 py-10 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400"
+      >
+        <nav
+          class="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-1"
+          aria-label="Footer"
+        >
+          <a href="/" class="hover:text-slate-900 dark:hover:text-white"
+            >Home</a
+          >
+          <a
+            href="/commands/"
+            class="hover:text-slate-900 dark:hover:text-white"
+            >Commands</a
+          >
+          <a href="/install/" class="hover:text-slate-900 dark:hover:text-white"
+            >Install</a
+          >
+          <a href="/faq/" class="hover:text-slate-900 dark:hover:text-white"
+            >FAQ</a
+          >
+        </nav>
+        <p class="mb-1">Built by Dan Lowry</p>
+        <a
+          href="https://github.com/DlowSEO/claude-seo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+          >github.com/DlowSEO/claude-seo</a
+        >
+        <a
+          href="https://linkedin.com/in/dan-lowry-seo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+          >linkedin.com/in/dan-lowry-seo</a
+        >
+      </footer>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

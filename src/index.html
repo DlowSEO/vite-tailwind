@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -9,6 +9,7 @@
       content="Claude SEO Assistant: an open-source Claude Code toolkit that runs full site audits and diagnoses SEO issues automatically. 8 commands, 8 skills, 8 agents. MIT licensed."
     />
     <link rel="stylesheet" href="/style.css" />
+    <link rel="canonical" href="https://claudeseo.co.uk/" />
     <title>Claude SEO Assistant: Automated audits for Claude Code</title>
   </head>
 
@@ -22,9 +23,9 @@
     ></div>
     <div class="mx-auto flex max-w-5xl flex-col px-6">
       <!-- Header -->
-      <header class="flex items-center justify-between py-6">
+      <header class="flex flex-wrap items-center justify-between gap-4 py-6">
         <a
-          href="#"
+          href="/"
           class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
         >
           <span
@@ -33,19 +34,41 @@
           >
           claude-seo
         </a>
-        <a
-          href="https://github.com/DlowSEO/claude-seo"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
-            />
-          </svg>
-          View on GitHub
-        </a>
+        <nav class="flex items-center gap-5" aria-label="Main">
+          <a
+            href="/commands/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Commands</a
+          >
+          <a
+            href="/install/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Install</a
+          >
+          <a
+            href="/faq/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >FAQ</a
+          >
+          <a
+            href="https://github.com/DlowSEO/claude-seo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
+          >
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              />
+            </svg>
+            GitHub
+          </a>
+        </nav>
       </header>
 
       <!-- Hero -->
@@ -68,11 +91,11 @@
           Your SEO team, in the terminal
         </h1>
         <p class="max-w-xl text-lg text-slate-600 dark:text-slate-400">
-          claude-seo turns Claude Code into a full SEO department: 8
-          commands trigger parallel specialist agents that crawl your
-          site, diagnose technical, content, and AI-search issues, then
-          hand you a health score and a prioritized action plan: no
-          dashboards, no subscription, just your terminal.
+          claude-seo turns Claude Code into a full SEO department: 8 commands
+          trigger parallel specialist agents that crawl your site, diagnose
+          technical, content, and AI-search issues, then hand you a health score
+          and a prioritised action plan: no dashboards, no subscription, just
+          your terminal.
         </p>
         <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
@@ -84,7 +107,7 @@
             View the repo
           </a>
           <a
-            href="#install"
+            href="/install/"
             class="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500"
           >
             Install guide
@@ -94,7 +117,9 @@
 
       <!-- Install -->
       <section id="install" class="scroll-mt-10 pb-20">
-        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <h2
+          class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+        >
           Install
         </h2>
         <pre
@@ -109,53 +134,168 @@ bash claude-seo/install.sh</code></pre>
 
       <!-- Commands -->
       <section class="pb-20">
-        <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <h2
+          class="mb-6 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+        >
           Commands
         </h2>
-        <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+        <div
+          class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"
+        >
           <table class="w-full border-collapse text-left text-sm">
             <tbody>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo audit &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Full site audit: crawl, parallel specialists, health score, action plan</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/audit/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo audit &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  Full site audit: crawl, parallel specialists, health score,
+                  action plan
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo analyse &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Page + technical analysis (technical, schema, sitemap, images, hreflang)</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/analyse/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo analyse &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  Page + technical analysis (technical, schema, sitemap, images,
+                  hreflang)
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo content &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">E-E-A-T content analysis, plus content briefs by topic</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/content/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo content &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  E-E-A-T content analysis, plus content briefs by topic
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo local &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Local SEO: GBP, NAP, citations, reviews, geo-grid</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/local/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo local &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  Local SEO: GBP, NAP, citations, reviews, geo-grid
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo geo &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">AI Overviews / ChatGPT / Perplexity readiness</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/geo/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo geo &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  AI Overviews / ChatGPT / Perplexity readiness
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo backlinks &lt;url&gt;</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Backlink profile via free APIs</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/backlinks/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo backlinks &lt;url&gt;</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  Backlink profile via free APIs
+                </td>
               </tr>
               <tr class="border-b border-slate-200 dark:border-slate-800">
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo strategy [mode]</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">Planning: cluster, programmatic, competitor pages, ecommerce</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/strategy/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo strategy [mode]</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  Planning: cluster, programmatic, competitor pages, ecommerce
+                </td>
               </tr>
               <tr>
-                <td class="w-56 whitespace-nowrap px-5 py-3 font-mono text-slate-900 dark:text-white">/seo google [cmd]</td>
-                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">GSC, PageSpeed Insights, CrUX, GA4, Indexing APIs</td>
+                <td
+                  class="w-56 px-5 py-3 font-mono whitespace-nowrap text-slate-900 dark:text-white"
+                >
+                  <a
+                    href="/commands/google/"
+                    class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900 dark:decoration-slate-600 dark:hover:decoration-white"
+                    >/seo google [cmd]</a
+                  >
+                </td>
+                <td class="px-5 py-3 text-slate-600 dark:text-slate-400">
+                  GSC, PageSpeed Insights, CrUX, GA4, Indexing APIs
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          <a
+            href="/commands/"
+            class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+            >See every command in detail</a
+          >
+          &middot;
+          <a
+            href="/install/"
+            class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300"
+            >Full install guide</a
+          >
+        </p>
       </section>
 
       <!-- Footer -->
       <footer
         class="flex flex-col items-center gap-1 border-t border-slate-200 py-10 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400"
       >
+        <nav
+          class="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-1"
+          aria-label="Footer"
+        >
+          <a
+            href="/commands/"
+            class="hover:text-slate-900 dark:hover:text-white"
+            >Commands</a
+          >
+          <a href="/install/" class="hover:text-slate-900 dark:hover:text-white"
+            >Install</a
+          >
+          <a href="/faq/" class="hover:text-slate-900 dark:hover:text-white"
+            >FAQ</a
+          >
+        </nav>
         <p class="mb-1">Built by Dan Lowry</p>
         <a
           href="https://github.com/DlowSEO/claude-seo"

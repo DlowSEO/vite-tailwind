@@ -28,7 +28,8 @@ if (canvas) {
   const ctx = canvas.getContext("2d");
   const CELL = 16;
   const MAX_LENGTH = 40;
-  const isDark = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   let cols = 0;
   let rows = 0;
@@ -68,7 +69,13 @@ if (canvas) {
     const dy = food.y - head.y;
     if (dx !== 0) candidates.push({ x: Math.sign(dx), y: 0 });
     if (dy !== 0) candidates.push({ x: 0, y: Math.sign(dy) });
-    candidates.push(dir, { x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 });
+    candidates.push(
+      dir,
+      { x: 1, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+      { x: 0, y: -1 },
+    );
 
     const next = candidates.find((option) => {
       const nx = (head.x + option.x + cols) % cols;
@@ -95,7 +102,9 @@ if (canvas) {
     const dark = isDark();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = dark ? "rgba(148,163,184,0.07)" : "rgba(100,116,139,0.08)";
+    ctx.strokeStyle = dark
+      ? "rgba(148,163,184,0.07)"
+      : "rgba(100,116,139,0.08)";
     ctx.lineWidth = 1;
     for (let x = 0; x <= cols; x++) {
       ctx.beginPath();
@@ -118,7 +127,12 @@ if (canvas) {
       ctx.fillStyle = dark
         ? `rgba(52,211,153,${alpha})`
         : `rgba(15,23,42,${alpha})`;
-      ctx.fillRect(segment.x * CELL + 1, segment.y * CELL + 1, CELL - 2, CELL - 2);
+      ctx.fillRect(
+        segment.x * CELL + 1,
+        segment.y * CELL + 1,
+        CELL - 2,
+        CELL - 2,
+      );
     });
   }
 
