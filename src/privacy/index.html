@@ -16,7 +16,25 @@
     />
     <meta property="og:url" content="https://claudeseo.co.uk/privacy/" />
     <meta property="og:type" content="website" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <link rel="stylesheet" href="/style.css" />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/thanks/*" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
     <title>Privacy policy | SEO Agent</title>
     <script type="application/ld+json">
       {

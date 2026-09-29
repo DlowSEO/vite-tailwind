@@ -16,7 +16,25 @@
     />
     <meta property="og:url" content="https://claudeseo.co.uk/terms/" />
     <meta property="og:type" content="website" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <link rel="stylesheet" href="/style.css" />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/thanks/*" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
     <title>Terms and licence | SEO Agent</title>
     <script type="application/ld+json">
       {

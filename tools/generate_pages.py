@@ -159,7 +159,9 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
     <meta property="og:description" content="{e(desc)}" />
     <meta property="og:url" content="{SITE}{path}" />
     <meta property="og:type" content="website" />
+    <script>document.documentElement.classList.add("js")</script>
     <link rel="stylesheet" href="/style.css" />
+    <script type="speculationrules">{{"prerender":[{{"where":{{"and":[{{"href_matches":"/*"}},{{"not":{{"href_matches":"/thanks/*"}}}}]}},"eagerness":"moderate"}}]}}</script>
     <title>{e(title)}</title>
     {ld}
   </head>
@@ -196,7 +198,7 @@ def hero(eyebrow, h1, lead, tag=""):
 def section(title, inner, sid=None):
     idattr = f' id="{sid}"' if sid else ""
     return f"""
-      <section{idattr} class="scroll-mt-10 pb-16">
+      <section{idattr} class="reveal scroll-mt-10 pb-16">
         <h2 class="{H2}">{e(title)}</h2>
         {inner}
       </section>"""
@@ -965,7 +967,7 @@ def pricing_cards(buy_href="/pricing/#buy"):
         <div class="mt-6 flex-1">{tick_list(LITE_FEATURES)}</div>
         <a href="/download/" {BTN2.replace('px-5', 'px-5 text-center mt-8')}>Download Lite</a>
       </div>
-      <div class="relative flex flex-col rounded-2xl border-2 border-blue-500/60 p-7 shadow-xl shadow-blue-600/10 dark:bg-[#040c1f]">
+      <div class="glow-border relative flex flex-col rounded-2xl border-2 border-blue-500/40 p-7 shadow-xl shadow-blue-600/10 dark:bg-[#040c1f]">
         <span class="absolute -top-3 left-7 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-medium text-white">Most popular</span>
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">SEO Agent Pro</h3>
         <p class="mt-1 text-sm {P}">Client-ready audits for any size of site.</p>
@@ -1291,6 +1293,17 @@ def home_page():
           <a href="/pricing/" {BTN}>Get Pro, {PRICE}</a>
           <a href="/download/" {BTN2}>Try Lite free</a>
         </div>
+      </section>
+      <section class="reveal -mt-6 pb-20" aria-label="Example audit run">
+        <div class="terminal mx-auto max-w-3xl overflow-hidden rounded-2xl border border-slate-800 bg-[#030712] text-left shadow-2xl shadow-blue-900/30">
+          <div class="flex items-center gap-3 border-b border-slate-800 bg-[#040c1f] px-4 py-2.5">
+            <span class="flex gap-1.5" aria-hidden="true"><span class="h-3 w-3 rounded-full bg-rose-400/80"></span><span class="h-3 w-3 rounded-full bg-amber-400/80"></span><span class="h-3 w-3 rounded-full bg-emerald-400/80"></span></span>
+            <span class="font-mono text-xs text-slate-400">claude · seo agent pro</span>
+            <button type="button" class="terminal-replay ml-auto rounded-md border border-slate-700 px-2 py-0.5 font-mono text-[11px] text-slate-300 hover:border-slate-500">replay</button>
+          </div>
+          <div id="terminal-demo" class="terminal-body font-mono text-[12.5px] leading-6 text-slate-200 sm:text-sm" aria-live="off"></div>
+        </div>
+        <p class="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">Illustrative run on a demo site. Real audits take longer and report the actual pages found.</p>
       </section>"""
     body += section(
         "How it works",
@@ -1308,19 +1321,41 @@ def home_page():
         f'<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"><table class="w-full border-collapse text-left text-sm"><tbody>{rows}</tbody></table></div>'
         f'<p class="mt-3 text-sm text-slate-500 dark:text-slate-400"><a href="/commands/" class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300">See every command in detail</a></p>',
     )
+    bars = "".join(
+        f'<div class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"><span class="text-slate-500 dark:text-slate-400">{n}</span><span class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span class="score-bar block h-full rounded-full bg-blue-500" style="--w:{v}%"></span></span><span class="text-right font-mono text-slate-700 dark:text-slate-300">{v}</span></div>'
+        for n, v in [('Technical SEO', 68), ('Content quality', 74), ('On-page SEO', 81), ('Schema', 55), ('Performance', 62), ('AI search', 70), ('Images', 88)]
+    )
+    features = "".join(
+        f'<li class="flex gap-4"><span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600 dark:text-blue-300">{i}</span><div><h3 class="font-semibold text-slate-900 dark:text-white">{t}</h3><p class="mt-1 text-sm {P}">{d}</p></div></li>'
+        for i, (t, d) in enumerate([
+            ("Executive summary", "A 0 to 100 health score and the five issues that matter most, in plain English."),
+            ("Evidence for every issue", "Affected URLs, the values found and why each one matters."),
+            ("Prioritised action plan", "Fixes grouped Critical, High, Medium and Low, in four phases."),
+            ("Branded A4 PDF", "Charts, metric cards and a roadmap, ready to present."),
+        ], 1)
+    )
     body += section(
         "What your client receives",
-        '<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">'
-        + "".join(
-            f'<div class="{CARD}"><h3 class="font-semibold text-slate-900 dark:text-white">{t}</h3><p class="mt-1 text-sm {P}">{d}</p></div>'
-            for t, d in [
-                ("Executive summary", "A 0 to 100 health score and the five issues that matter most, in plain English."),
-                ("Evidence for every issue", "Affected URLs, the values found and why each one matters."),
-                ("Prioritised action plan", "Fixes grouped Critical, High, Medium and Low, in four phases."),
-                ("Branded A4 PDF", "Charts, metric cards and a roadmap, ready to present."),
-            ]
-        )
-        + "</div>",
+        f'''<div class="grid items-center gap-10 md:grid-cols-2">
+          <div class="report-card rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-[#040c1f] dark:shadow-blue-900/20">
+            <div class="flex items-start justify-between gap-4">
+              <div><p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">SEO audit</p><p class="mt-1 font-semibold text-slate-900 dark:text-white">demo-bakery.co.uk</p><p class="text-xs text-slate-500 dark:text-slate-400">Local service · Full audit · 48 pages</p></div>
+              <div class="relative h-24 w-24 shrink-0">
+                <svg viewBox="0 0 100 100" class="h-24 w-24 -rotate-90" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" class="stroke-slate-200 dark:stroke-slate-800"/><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-linecap="round" class="score-ring stroke-blue-500" pathLength="100" style="--score:72"/></svg>
+                <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="score-count text-2xl font-semibold text-slate-900 dark:text-white" data-target="72">72</span><span class="text-[10px] text-slate-500 dark:text-slate-400">/ 100</span></span>
+              </div>
+            </div>
+            <div class="mt-6 flex flex-col gap-2.5">{bars}</div>
+            <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">
+              <div class="rounded-lg bg-rose-500/10 py-2"><p class="font-semibold text-rose-600 dark:text-rose-300">3</p><p class="text-slate-500 dark:text-slate-400">Critical</p></div>
+              <div class="rounded-lg bg-amber-500/10 py-2"><p class="font-semibold text-amber-600 dark:text-amber-300">8</p><p class="text-slate-500 dark:text-slate-400">High</p></div>
+              <div class="rounded-lg bg-blue-500/10 py-2"><p class="font-semibold text-blue-600 dark:text-blue-300">12</p><p class="text-slate-500 dark:text-slate-400">Medium</p></div>
+              <div class="rounded-lg bg-slate-500/10 py-2"><p class="font-semibold text-slate-700 dark:text-slate-300">6</p><p class="text-slate-500 dark:text-slate-400">Low</p></div>
+            </div>
+            <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">Example report for a fictional site. Figures are illustrative.</p>
+          </div>
+          <ul class="flex flex-col gap-6">{features}</ul>
+        </div>''',
     )
     body += section("Pricing", pricing_cards())
     body += section(

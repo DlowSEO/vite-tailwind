@@ -17,7 +17,25 @@
     />
     <meta property="og:url" content="https://claudeseo.co.uk/thanks/" />
     <meta property="og:type" content="website" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <link rel="stylesheet" href="/style.css" />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/thanks/*" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
     <title>Thank you | SEO Agent</title>
   </head>
   <body
@@ -218,7 +236,7 @@
             reseller. Here is what to do next.
           </p>
         </section>
-        <section class="scroll-mt-10 pb-16">
+        <section class="reveal scroll-mt-10 pb-16">
           <h2
             class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
           >
@@ -304,7 +322,7 @@
             </li>
           </ol>
         </section>
-        <section class="scroll-mt-10 pb-16">
+        <section class="reveal scroll-mt-10 pb-16">
           <h2
             class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
           >

@@ -200,3 +200,190 @@ if (canvas) {
     else start();
   });
 }
+
+// ---- Motion and polish ------------------------------------------------
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
+if (reduceMotion) document.documentElement.classList.add("no-motion");
+
+// Reveal sections and animate the report card as they scroll into view.
+const revealTargets = document.querySelectorAll(".reveal, .report-card");
+if ("IntersectionObserver" in window && !reduceMotion) {
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+        if (entry.target.classList.contains("report-card"))
+          countUp(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+  );
+  revealTargets.forEach((el) => io.observe(el));
+} else {
+  revealTargets.forEach((el) => el.classList.add("in"));
+}
+
+function countUp(card) {
+  const el = card.querySelector(".score-count");
+  if (!el) return;
+  const target = Number(el.dataset.target || 0);
+  const start = performance.now();
+  const duration = 1400;
+  const frame = (now) => {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = String(Math.round(target * eased));
+    if (t < 1) requestAnimationFrame(frame);
+  };
+  el.textContent = "0";
+  requestAnimationFrame(frame);
+}
+
+// Terminal demo: an illustrative /seo audit run, played when it comes into view.
+const terminal = document.getElementById("terminal-demo");
+if (terminal) {
+  const SPIN = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+  const agents = [
+    ["seo-technical", "9 findings"],
+    ["seo-content", "6 findings"],
+    ["seo-performance", "4 findings"],
+    ["seo-visual", "3 findings"],
+    ["seo-geo", "5 findings"],
+    ["seo-local", "4 findings"],
+  ];
+  const command = "/seo audit https://demo-bakery.co.uk --mode full";
+  let timers = [];
+  let running = false;
+
+  const wait = (ms) =>
+    new Promise((resolve) => timers.push(setTimeout(resolve, ms)));
+  const line = (html = "") => {
+    const div = document.createElement("div");
+    div.className = "t-line";
+    div.innerHTML = html;
+    terminal.appendChild(div);
+    return div;
+  };
+  const pad = (text, n) => text + " ".repeat(Math.max(1, n - text.length));
+
+  function finalState() {
+    terminal.innerHTML = "";
+    line(`<span class="t-accent">&gt;</span> ${command}`);
+    line(
+      '<span class="t-dim">  Rendering homepage</span> <span class="t-ok">done</span>',
+    );
+    line('<span class="t-dim">  Business type:</span> local service');
+    line('<span class="t-dim">  Crawled</span> 48 pages');
+    agents.forEach(([name, result]) =>
+      line(
+        `  <span class="t-ok">✓</span> ${pad(name, 17)}<span class="t-dim">${result}</span>`,
+      ),
+    );
+    line("");
+    line('  Health score <span class="t-score">72/100</span>');
+    line(
+      '  <span class="t-ok">✓</span> FULL-AUDIT-REPORT.md  <span class="t-ok">✓</span> ACTION-PLAN.md  <span class="t-ok">✓</span> PDF report',
+    );
+  }
+
+  async function play() {
+    if (running) return;
+    running = true;
+    terminal.innerHTML = "";
+    const prompt = line(
+      '<span class="t-accent">&gt;</span> <span class="t-typed"></span><span class="t-caret"></span>',
+    );
+    const typed = prompt.querySelector(".t-typed");
+    for (const ch of command) {
+      typed.textContent += ch;
+      await wait(28 + Math.random() * 40);
+    }
+    await wait(350);
+    prompt.querySelector(".t-caret").remove();
+    const render = line('<span class="t-dim">  Rendering homepage</span>');
+    await wait(500);
+    render.innerHTML += ' <span class="t-ok">done</span>';
+    await wait(250);
+    line('<span class="t-dim">  Business type:</span> local service');
+    const crawl = line(
+      '<span class="t-dim">  Crawling</span> <span class="t-n">0</span> pages',
+    );
+    const n = crawl.querySelector(".t-n");
+    for (let i = 1; i <= 48; i += 1) {
+      n.textContent = String(i);
+      await wait(22);
+    }
+    crawl.innerHTML = '<span class="t-dim">  Crawled</span> 48 pages';
+    await wait(250);
+    const rows = agents.map(([name]) =>
+      line(
+        `  <span class="t-accent t-spin">${SPIN[0]}</span> ${pad(name, 17)}<span class="t-dim">running</span>`,
+      ),
+    );
+    let frame = 0;
+    const spinner = setInterval(() => {
+      frame = (frame + 1) % SPIN.length;
+      terminal
+        .querySelectorAll(".t-spin")
+        .forEach((el) => (el.textContent = SPIN[frame]));
+    }, 80);
+    timers.push(spinner);
+    const order = [2, 0, 3, 5, 1, 4];
+    for (const idx of order) {
+      await wait(380 + Math.random() * 420);
+      const [name, result] = agents[idx];
+      rows[idx].innerHTML =
+        `  <span class="t-ok">✓</span> ${pad(name, 17)}<span class="t-dim">${result}</span>`;
+    }
+    clearInterval(spinner);
+    await wait(300);
+    line("");
+    const score = line('  Health score <span class="t-score">0/100</span>');
+    const s = score.querySelector(".t-score");
+    for (let v = 0; v <= 72; v += 2) {
+      s.textContent = `${v}/100`;
+      await wait(16);
+    }
+    s.textContent = "72/100";
+    await wait(300);
+    line(
+      '  <span class="t-ok">✓</span> FULL-AUDIT-REPORT.md  <span class="t-ok">✓</span> ACTION-PLAN.md  <span class="t-ok">✓</span> PDF report',
+    );
+    running = false;
+  }
+
+  function reset() {
+    timers.forEach((t) => {
+      clearTimeout(t);
+      clearInterval(t);
+    });
+    timers = [];
+    running = false;
+  }
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    finalState();
+  } else {
+    finalState();
+    const tio = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          tio.disconnect();
+          play();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    tio.observe(terminal);
+  }
+
+  document.querySelector(".terminal-replay")?.addEventListener("click", () => {
+    reset();
+    if (reduceMotion) finalState();
+    else play();
+  });
+}
