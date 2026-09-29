@@ -8,9 +8,8 @@ SRC = sys.argv[1]
 SITE = "https://claudeseo.co.uk"
 BRAND = "SEO Agent"
 PRICE = "£50"
-# Set these before launch (see the paywall plan):
-CHECKOUT_URL = "https://buy.polar.sh/REPLACE-WITH-POLAR-CHECKOUT-LINK"
-SUPPORT_EMAIL = "support@claudeseo.co.uk"
+CHECKOUT_URL = "https://buy.polar.sh/polar_cl_qcL72PBFuDVPWsmHSPnYMhOlt9ReVeisiUBfL277yFD"
+SUPPORT_EMAIL = "dan@claudeseo.co.uk"
 LITE_REPO = "https://github.com/DlowSEO/seo-agent-lite"
 LITE_SLUG = "DlowSEO/seo-agent-lite"
 PRO_SLUG = "DlowSEO/seo-agent-pro"
@@ -766,44 +765,56 @@ def render_option(o):
 
 
 def install_options_for(product):
-    """Install options for 'pro' or 'lite'."""
-    slug = PRO_SLUG if product == "pro" else LITE_SLUG
+    """Install options for 'pro' (zip download) or 'lite' (public GitHub)."""
+    if product == "pro":
+        key_line = " At the end it asks for the licence key from your purchase email; you can also enter it later with " + c("/seo setup") + "."
+        return [
+            {
+                "id": "unix", "n": 1, "title": "Install on macOS and Linux", "rec": True,
+                "plats": [("macOS", ICON_APPLE), ("Linux", ICON_LINUX)],
+                "body": lambda: f'<p class="mb-4 {P}">Download {c("seo-agent-pro.zip")} from your purchase email and unzip it (a Mac does this for you in Downloads). Then run these in your normal terminal (Terminal on a Mac):</p>'
+                + code("cd ~/Downloads/seo-agent-pro\nbash install.sh")
+                + f'<p class="mt-3 text-sm {P}">The installer copies SEO Agent into Claude Code\'s folders using {c("bash")}, which is built into macOS and Linux, so you can delete the download afterwards. It does not need Homebrew.{key_line}</p>',
+            },
+            {
+                "id": "windows", "n": 2, "title": "Install on Windows", "rec": False,
+                "plats": [("Windows PowerShell", ICON_WIN)],
+                "body": lambda: f'<p class="mb-4 {P}">Download {c("seo-agent-pro.zip")} from your purchase email, right-click it and choose Extract All. Then run these in PowerShell:</p>'
+                + code("cd $HOME\\Downloads\\seo-agent-pro\npowershell -ExecutionPolicy Bypass -File install.ps1")
+                + f'<p class="mt-3 text-sm {P}">Have a look through {c("install.ps1")} before running it if you like.{key_line}</p>',
+            },
+            {
+                "id": "plugin", "n": 3, "title": "Plugin install from the folder", "rec": False,
+                "plats": [("Inside Claude Code", ICON_CLAUDE), ("macOS", ICON_APPLE), ("Linux", ICON_LINUX), ("Windows", ICON_WIN)],
+                "body": lambda: f'<p class="mb-4 {P}">Prefer Claude Code\'s plugin manager? Move the unzipped {c("seo-agent-pro")} folder somewhere permanent, such as your home folder, then type these into Claude Code, using the folder\'s full path:</p>'
+                + code(f"/plugin marketplace add /Users/yourname/seo-agent-pro\n/plugin install seo-agent-pro@{PRO_SLUG.lower().replace('/', '-')}\n/seo setup")
+                + f'<p class="mt-3 text-sm {P}">Claude Code reads the plugin from that folder, so keep it where it is. {c("/seo setup")} creates the Python environment and asks for your licence key.</p>',
+            },
+        ]
+    slug = LITE_SLUG
     name = slug.split("/")[1]
     plugin_id = f"{name}@{slug.lower().replace('/', '-')}"
-    key_line = f" The first time it runs, {c('/seo setup')} asks for the licence key from your purchase email." if product == "pro" else ""
-    access = (
-        f'<p class="mb-4 {P}">Accept the GitHub invite from your purchase email first, and make sure {c("git")} is signed in to the same GitHub account. Then type these into Claude Code itself, not your normal terminal:</p>'
-        if product == "pro"
-        else f'<p class="mb-4 {P}">The quickest route, for Claude Code 1.0.33 and later. Type these into Claude Code itself, not your normal terminal:</p>'
-    )
-    zip_block = ""
-    if product == "pro":
-        zip_block = (
-            f'<p class="mt-5 mb-4 text-sm {P}">Downloaded the zip instead of using GitHub? Unzip it, then run the installer from the unzipped folder:</p>'
-            + code(f"cd ~/Downloads/{name}\nbash install.sh")
-        )
     return [
         {
             "id": "plugin", "n": 1, "title": "Plugin install", "rec": True,
             "plats": [("Inside Claude Code", ICON_CLAUDE), ("macOS", ICON_APPLE), ("Linux", ICON_LINUX), ("Windows", ICON_WIN)],
-            "body": lambda: access
+            "body": lambda: f'<p class="mb-4 {P}">The quickest route, for Claude Code 1.0.33 and later. Type these into Claude Code itself, not your normal terminal:</p>'
             + code(f"/plugin marketplace add {slug}\n/plugin install {plugin_id}\n/seo setup")
-            + f'<p class="mt-3 text-sm {P}">Installing the plugin does not run any package managers. {c("/seo setup")} is a one time step that creates the Python environment and browser in Claude\'s plugin data folder.{key_line}</p>',
+            + f'<p class="mt-3 text-sm {P}">Installing the plugin does not run any package managers. {c("/seo setup")} is a one time step that creates the Python environment and browser in Claude\'s plugin data folder.</p>',
         },
         {
             "id": "unix", "n": 2, "title": "Manual install on macOS and Linux", "rec": False,
             "plats": [("macOS", ICON_APPLE), ("Linux", ICON_LINUX)],
             "body": lambda: f'<p class="mb-4 {P}">Run these in your normal terminal (Terminal on a Mac):</p>'
             + code(f"git clone --depth 1 https://github.com/{slug}.git\nbash {name}/install.sh")
-            + f'<p class="mt-3 text-sm {P}">The first line downloads a copy of {BRAND} into a folder called {c(name)}. The second runs the installer script inside that folder using {c("bash")}, which is built into macOS and Linux. Neither line needs Homebrew.{key_line.replace(c("/seo setup"), "the installer")}</p>'
-            + zip_block,
+            + f'<p class="mt-3 text-sm {P}">The first line downloads a copy of {BRAND} Lite into a folder called {c(name)}. The second runs the installer script inside that folder using {c("bash")}, which is built into macOS and Linux. Neither line needs Homebrew.</p>',
         },
         {
             "id": "windows", "n": 3, "title": "Manual install on Windows", "rec": False,
             "plats": [("Windows PowerShell", ICON_WIN)],
             "body": lambda: f'<p class="mb-4 {P}">Run these in PowerShell:</p>'
             + code(f"git clone --depth 1 https://github.com/{slug}.git\npowershell -ExecutionPolicy Bypass -File {name}\\install.ps1")
-            + f'<p class="mt-3 text-sm {P}">The Windows installer uses a local copy rather than piping a remote script, because Claude Code\'s own safety checks flag that pattern. Have a look through {c("install.ps1")} before running it.{key_line.replace(c("/seo setup"), "the installer")}</p>',
+            + f'<p class="mt-3 text-sm {P}">The Windows installer uses a local copy rather than piping a remote script, because Claude Code\'s own safety checks flag that pattern. Have a look through {c("install.ps1")} before running it.</p>',
         },
     ]
 
@@ -818,12 +829,13 @@ def install_options(product):
     return intro + "".join(render_option(o) for o in opts)
 
 
-def requirements(extra_row=None):
+def requirements(extra_row=None, git=True):
     rows = [
         ["Claude Code", "Anthropic's command line tool, installed and signed in", "claude --version"],
         ["Python 3.10+", "Runs the analysis scripts in an isolated environment", "python3 --version"],
-        ["Git", "Used to download and update the files", "git --version"],
     ]
+    if git:
+        rows.append(["Git", "Used to download and update the files", "git --version"])
     if extra_row:
         rows.append(extra_row)
     return section(
@@ -849,9 +861,9 @@ def install_page():
     )
     body += section(
         "Before you start",
-        f'<div class="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6"><p class="{P}">Your purchase email from Polar, our reseller, contains three things: your receipt, your <strong class="text-slate-900 dark:text-white">licence key</strong>, and either a <strong class="text-slate-900 dark:text-white">GitHub invite</strong> or a <strong class="text-slate-900 dark:text-white">zip download</strong>. Accept the invite or download the zip, and keep the key handy.</p><p class="mt-3 text-sm {P}">Cannot find the email? Check your spam folder, or contact <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a>.</p></div>',
+        f'<div class="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6"><p class="{P}">Your purchase email from Polar, our reseller, contains your receipt, your <strong class="text-slate-900 dark:text-white">licence key</strong> and a link to download <strong class="text-slate-900 dark:text-white">seo-agent-pro.zip</strong>. Download and unzip it, and keep the key handy.</p><p class="mt-3 text-sm {P}">Cannot find the email? Check your spam folder, or contact <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a>.</p></div>',
     )
-    body += requirements(["Licence key", "Unlocks Pro on up to 3 of your computers", "In your purchase email"])
+    body += requirements(["Licence key", "Unlocks Pro on up to 3 of your computers", "In your purchase email"], git=False)
     body += f'<section id="homebrew" class="scroll-mt-10 pb-16">{homebrew_box()}</section>'
     body += install_options("pro")
     body += section(
@@ -883,7 +895,7 @@ def install_page():
         faq_list(
             [
                 ("My licence key is not accepted", f"Copy the key again from your purchase email, with no spaces at either end. Each key works on up to 3 computers; if you have replaced a computer, email {SUPPORT_EMAIL} and the old activation can be cleared."),
-                ("The plugin cannot find the Pro repository", f"Accept the GitHub invite first, then check that {c('git')} is signed in to the same GitHub account. If you would rather not use GitHub, download the zip from your purchase email and use Option 2 or 3."),
+                ("I cannot find the download link", f"It is in your purchase email from Polar, and on your Polar purchase page, which the email links to. Email {SUPPORT_EMAIL} if you cannot find either."),
                 ("/seo is not recognised", f"For plugin installs, check {c('/plugin list')} and reinstall if needed. For manual installs, confirm {c('~/.claude/skills/seo/SKILL.md')} exists, restart Claude Code and re-run the installer."),
                 ("ModuleNotFoundError or other Python errors", f"Run {c('/seo setup')} again. Avoid installing individual packages by hand; SEO Agent uses its own isolated environment."),
                 ("Python not found on Windows", "Install Python from python.org with \"Add to PATH\" ticked, then run install.ps1 again. The installer tries py -3, python3 and python in turn."),
@@ -893,9 +905,9 @@ def install_page():
     )
     body += section(
         "Update or uninstall",
-        f'<p class="mb-4 {P}">Updates are included for all 3.x versions. Plugin installs update from inside Claude Code with {c("/plugin")}. To remove a plugin install:</p>'
+        f'<p class="mb-4 {P}">Updates are included for all 3.x versions. To update, download the latest zip from your Polar purchase page and run the installer again; your licence stays active. To remove a plugin install:</p>'
         + code(f"/plugin uninstall seo-agent-pro@{PRO_SLUG.lower().replace('/', '-')}\n/plugin marketplace remove {PRO_SLUG}")
-        + f'<p class="mt-4 mb-4 {P}">Manual installs: run the uninstaller from your copy of the files. To update, uninstall and then install the latest version.</p>'
+        + f'<p class="mt-4 mb-4 {P}">Manual installs: run the uninstaller from the unzipped folder.</p>'
         + code("bash seo-agent-pro/uninstall.sh"),
     )
     body += section(
@@ -995,7 +1007,7 @@ def pricing_page():
         steps(
             [
                 ("Checkout", "Pay securely on Polar's checkout page. Card details never touch this website."),
-                ("Check your email", "Polar sends your receipt, licence key and a GitHub invite or zip download."),
+                ("Check your email", "Polar sends your receipt, your licence key and a link to download the files."),
                 ("Install", f'Follow the <a href="/install/" class="{LINK}">Pro install guide</a>. It takes a few minutes.'),
                 ("Activate", f"Paste your licence key when {c('/seo setup')} asks for it. That is it."),
             ]
@@ -1081,7 +1093,7 @@ def thanks_page():
         steps(
             [
                 ("Check your email", f"Look for the email from Polar. It holds your receipt, your licence key and access to the files. Check spam if it has not arrived within a few minutes."),
-                ("Get the files", "Accept the GitHub invite, or download the zip if you prefer not to use GitHub."),
+                ("Get the files", "Download seo-agent-pro.zip from the email and unzip it."),
                 ("Install Pro", f'Follow the <a href="/install/" class="{LINK}">Pro install guide</a> for your computer.'),
                 ("Activate your licence", f"Paste your key when {c('/seo setup')} asks for it, then run your first audit."),
             ]
@@ -1190,7 +1202,6 @@ def privacy_page():
             ("When you buy", [
                 "Polar, our reseller and merchant of record, collects your name, email address, billing country and payment details to process your order and meet its tax obligations. Polar handles your payment details; we never see your full card number.",
                 "Polar shares with us your name, email address, country and order details. We use them to deliver your licence and files, provide support, handle refunds and keep the records the law requires.",
-                "If you choose GitHub delivery, your GitHub username is used to send the repository invite.",
             ]),
             ("When you use SEO Agent", [
                 "SEO Agent runs on your own computer. Audit results are saved to your computer and are not sent to us.",
@@ -1226,7 +1237,7 @@ FAQS = [
         ("How many computers can I use it on?", "Up to 3 computers that you use yourself."),
         ("Do you charge VAT?", f"The price includes any VAT. Polar, our reseller and merchant of record, handles payment and tax and sends your receipt."),
         ("What is the refund policy?", f'A full refund within 14 days, no questions asked. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
-        ("Do I need a GitHub account?", "No. You can use the GitHub invite for easy updates, or download a zip instead."),
+        ("Do I need a GitHub account?", "No. Pro is delivered as a zip download from your purchase email, and updates are downloaded the same way."),
     ]),
     ("Audits and scoring", [
         ("How long does an audit take?", "It depends on the size and speed of the site. A Snapshot audit of a small site is usually quick. A Full audit can crawl up to 500 pages with a one second delay between requests, so large sites take longer."),
@@ -1236,7 +1247,7 @@ FAQS = [
         ("Does it change my website?", "No. It reads the public site and writes files to your own computer only."),
     ]),
     ("Setup and data", [
-        ("What do I need to install it?", f"Claude Code, Python 3.10 or later and Git. The full steps are on the <a href=\"/install/\" class=\"{LINK}\">install page</a> for Pro and the <a href=\"/download/\" class=\"{LINK}\">download page</a> for Lite."),
+        ("What do I need to install it?", f"Claude Code and Python 3.10 or later, plus Git for Lite. The full steps are on the <a href=\"/install/\" class=\"{LINK}\">install page</a> for Pro and the <a href=\"/download/\" class=\"{LINK}\">download page</a> for Lite."),
         ("Does it work on Windows?", "Yes. There is a PowerShell installer alongside the macOS and Linux script, and the plugin install works on every platform Claude Code supports."),
         ("Do I need API keys?", "No, the core commands work without any. Free Google, Moz and Bing Webmaster keys add real search data, field Core Web Vitals and richer backlink data in Pro."),
         ("Where does my data go?", f'Audit files are saved on your computer. Requests go to the site being audited and to any services you connect. See the <a href="/privacy/" class="{LINK}">privacy policy</a>.'),
