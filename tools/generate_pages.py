@@ -70,7 +70,7 @@ def header(active):
           <a href="/pricing/" class="{cls('/pricing/')}"{cur("/pricing/")}>Pricing</a>
           <a href="/install/" class="{cls('/install/')}"{cur("/install/")}>Install</a>
           <a href="/faq/" class="{cls('/faq/')}"{cur("/faq/")}>FAQ</a>
-          <a href="/pricing/" class="rounded-lg border border-blue-500/30 bg-blue-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-md shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]">Get Pro, {PRICE}</a>
+          <a href="/pricing/" class="rounded-lg border border-blue-500/30 bg-blue-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-md shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]">Get Pro</a>
         </nav>
       </header>"""
 
@@ -262,7 +262,7 @@ def faq_list(items):
 def cta():
     return f"""
       <section class="mb-20 rounded-2xl border border-slate-200 p-8 text-center dark:border-slate-800 dark:bg-slate-900/40">
-        <h2 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Client-ready audits for a one-time {PRICE}</h2>
+        <h2 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Client-ready audits for a one-time payment</h2>
         <p class="mx-auto mt-3 max-w-xl {P}">SEO Agent Pro unlocks all eight commands, full audits and branded PDF reports. No subscription, and a 14-day refund if it is not for you.</p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
           <a href="/pricing/" {BTN}>Get SEO Agent Pro</a>
@@ -618,7 +618,7 @@ BY_SLUG = {x["slug"]: x for x in COMMANDS}
 def command_page(cmd):
     body = hero(cmd["cmd"], cmd["h1"], cmd["lead"], tier_tag(cmd))
     body += section("Usage", code(cmd["usage"]))
-    note = cmd.get("lite") or f"This command is part of SEO Agent Pro, a one-time {PRICE}. <a href=\"/pricing/\" class=\"{LINK}\">Compare Lite and Pro</a>."
+    note = cmd.get("lite") or f"This command is part of SEO Agent Pro, a one-time purchase. <a href=\"/pricing/\" class=\"{LINK}\">Compare Lite and Pro</a>."
     if cmd.get("lite"):
         note += f' <a href="/pricing/" class="{LINK}">Compare Lite and Pro</a>.'
     body += f'<div class="-mt-8 mb-16 rounded-xl border border-blue-500/20 bg-blue-500/5 px-5 py-4 text-sm {P}">{note}</div>'
@@ -958,7 +958,12 @@ def tick_list(items, accent=False):
     return f'<ul class="flex flex-col gap-2.5 text-sm {P}">{lis}</ul>'
 
 
-def pricing_cards(buy_href="/pricing/#buy"):
+def pricing_cards(buy_href="/pricing/#buy", show_price=False):
+    pro_price = (
+        f'<span class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">{PRICE}</span><span class="text-sm {P}">one-time, VAT included</span>'
+        if show_price
+        else f'<span class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">One-time</span><span class="text-sm {P}">no subscription</span>'
+    )
     return f"""<div class="grid gap-6 md:grid-cols-2">
       <div class="flex flex-col rounded-2xl border border-slate-200 p-7 dark:border-slate-800">
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">SEO Agent Lite</h3>
@@ -971,9 +976,9 @@ def pricing_cards(buy_href="/pricing/#buy"):
         <span class="absolute -top-3 left-7 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-medium text-white">Most popular</span>
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">SEO Agent Pro</h3>
         <p class="mt-1 text-sm {P}">Client-ready audits for any size of site.</p>
-        <p class="mt-5 flex items-baseline gap-2"><span class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">{PRICE}</span><span class="text-sm {P}">one-time, VAT included</span></p>
+        <p class="mt-5 flex items-baseline gap-2">{pro_price}</p>
         <div class="mt-6 flex-1">{tick_list(PRO_FEATURES, accent=True)}</div>
-        <a href="{buy_href}" {BTN.replace('px-5', 'px-5 text-center mt-8')}>Get Pro, {PRICE}</a>
+        <a href="{buy_href}" {BTN.replace('px-5', 'px-5 text-center mt-8')}>{'Buy SEO Agent Pro' if show_price else 'See Pro pricing'}</a>
         <p class="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">14-day refund, no questions asked</p>
       </div>
     </div>"""
@@ -985,7 +990,7 @@ def pricing_page():
         f"Simple pricing: free Lite, or Pro for {PRICE}",
         "Pay once and keep it. Pro includes every command, full audits, client-ready PDF reports and all 3.x updates.",
     )
-    body += f'<section id="buy" class="scroll-mt-10 pb-16">{pricing_cards(CHECKOUT_URL)}</section>'
+    body += f'<section id="buy" class="scroll-mt-10 pb-16">{pricing_cards(CHECKOUT_URL, show_price=True)}</section>'
     body += section(
         "Compare Lite and Pro",
         table(
@@ -1058,7 +1063,7 @@ def download_page():
         "What Lite includes",
         '<div class="grid gap-6 md:grid-cols-2">'
         + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Included</h3>{tick_list(LITE_FEATURES)}</div>'
-        + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Pro only</h3>{tick_list(["Full audits of up to 500 pages", "Client-ready PDF reports", "Content, local, AI search, backlinks, strategy and Google commands", "Focus modes for technical, schema, sitemap, images and hreflang"], accent=True)}<a href="/pricing/" class="mt-5 inline-block text-sm {LINK}">See Pro, {PRICE} one-time</a></div>'
+        + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Pro only</h3>{tick_list(["Full audits of up to 500 pages", "Client-ready PDF reports", "Content, local, AI search, backlinks, strategy and Google commands", "Focus modes for technical, schema, sitemap, images and hreflang"], accent=True)}<a href="/pricing/" class="mt-5 inline-block text-sm {LINK}">See Pro pricing</a></div>'
         + "</div>",
     )
     body += requirements()
@@ -1138,7 +1143,7 @@ def terms_page():
             ("Who we are", [f"SEO Agent is made by {SELLER} (\"we\", \"us\"). Contact: <a href=\"mailto:{SUPPORT_EMAIL}\" class=\"{LINK}\">{SUPPORT_EMAIL}</a>."]),
             ("How you buy", [
                 "Orders are processed by Polar, our online reseller and merchant of record. Polar takes payment, charges any sales tax or VAT and issues your receipt. Polar's own terms also apply to the purchase.",
-                f"The price is shown at checkout and includes any VAT. It is a one-time payment of {PRICE} or the local equivalent, not a subscription.",
+                f"The price is shown on the pricing page and at checkout, and includes any VAT. It is a one-time payment in pounds sterling or the local equivalent, not a subscription.",
             ]),
             ("Your licence", [
                 "When you buy SEO Agent Pro, we grant you a personal, non-exclusive, non-transferable licence to install and use it, on up to 3 computers that you use yourself.",
@@ -1225,7 +1230,7 @@ def privacy_page():
 FAQS = [
     ("General", [
         ("What is SEO Agent?", "SEO Agent adds eight SEO commands to Claude Code. They run specialist agents that crawl a site, diagnose technical, content and AI search issues, and return a health score with a prioritised action plan and a client-ready report."),
-        ("How much does it cost?", f'Lite is free. Pro is a one-time {PRICE}, with no subscription, and includes all 3.x updates. See <a href="/pricing/" class="{LINK}">pricing</a>.'),
+        ("How much does it cost?", f'Lite is free. Pro is a one-time payment, with no subscription, and includes all 3.x updates. See <a href="/pricing/" class="{LINK}">pricing</a>.'),
         ("What is the difference between Lite and Pro?", f'Lite runs Snapshot audits of up to 10 pages and single-page analysis. Pro unlocks all eight commands, full audits of up to 500 pages, every specialist and branded PDF reports. The <a href="/pricing/" class="{LINK}">pricing page</a> compares them side by side.'),
         ("How is SEO Agent different from other Claude SEO tools?", "There are a few SEO toolkits for Claude Code, and most produce raw output that needs tidying before anyone else sees it. SEO Agent is built by an SEO with more than 12 years in the industry, and its audits are designed to be client-ready from the start: evidence for every finding, a clear health score, a prioritised action plan and a branded PDF report. It also keeps the whole job to 8 commands rather than a long menu of overlapping skills."),
         ("Are the audits ready to send to clients?", "Yes, that is what they are built for. Each Pro report opens with an executive summary and health score, every issue is backed by the URLs and values found, and fixes are grouped by priority so a client can see what matters first. The PDF adds charts and a roadmap for presenting."),
@@ -1234,7 +1239,7 @@ FAQS = [
         ("Is SEO Agent made by Anthropic?", "No. SEO Agent is an independent product that runs inside Claude Code. It is not affiliated with or endorsed by Anthropic."),
     ]),
     ("Buying and licence", [
-        ("Is it a subscription?", f"No. Pro is a one-time {PRICE}. You keep the version you bought, and all 3.x updates are included."),
+        ("Is it a subscription?", f"No. Pro is a one-time payment. You keep the version you bought, and all 3.x updates are included."),
         ("Can I use it for client work?", "Yes. Your Pro licence covers audits and reports you produce for clients, and the reports are yours."),
         ("How many computers can I use it on?", "Up to 3 computers that you use yourself."),
         ("Do you charge VAT?", f"The price includes any VAT. Polar, our reseller and merchant of record, handles payment and tax and sends your receipt."),
@@ -1286,11 +1291,11 @@ def home_page():
     body = f"""
       <section class="relative isolate flex flex-col items-center gap-6 overflow-hidden py-20 text-center sm:py-28">
         <canvas id="snake-canvas" class="pointer-events-none absolute inset-0 -z-10 h-full w-full" aria-hidden="true"></canvas>
-        <span class="rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-400">One-time {PRICE} &middot; Runs locally &middot; Client-ready audits</span>
+        <span class="rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-400">One-time payment &middot; Runs locally &middot; Client-ready audits</span>
         <h1 class="max-w-2xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white">Your SEO team, in the terminal</h1>
         <p class="max-w-xl text-lg text-slate-600 dark:text-slate-400">SEO Agent turns Claude Code into a full SEO department. Eight commands run specialist agents that crawl a site, diagnose technical, content and AI search issues, then hand you a health score, a prioritised action plan and a report ready to send to a client.</p>
         <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <a href="/pricing/" {BTN}>Get Pro, {PRICE}</a>
+          <a href="/pricing/" {BTN}>Get Pro</a>
           <a href="/download/" {BTN2}>Try Lite free</a>
         </div>
       </section>
@@ -1366,7 +1371,7 @@ def home_page():
     return page(
         "/",
         "SEO Agent: client-ready SEO audits for Claude Code",
-        f"SEO Agent turns Claude Code into an SEO department: 8 commands, parallel specialist agents, a health score, a prioritised action plan and client-ready PDF reports. Free Lite, or Pro for a one-time {PRICE}.",
+        f"SEO Agent turns Claude Code into an SEO department: 8 commands, parallel specialist agents, a health score, a prioritised action plan and client-ready PDF reports. Free Lite, or Pro for a one-time payment.",
         "/",
         [],
         body,
