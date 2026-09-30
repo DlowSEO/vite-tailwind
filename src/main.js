@@ -387,3 +387,103 @@ if (terminal) {
     else play();
   });
 }
+
+// PDF preview: scales an A4 page to fit, cycles pages while in view, and
+// replays each page's charts when it becomes active.
+const pdfFrame = document.querySelector(".pdf-frame");
+if (pdfFrame) {
+  const scaler = pdfFrame.querySelector(".pdf-scaler");
+  const pages = [...pdfFrame.querySelectorAll(".pdf-page")];
+  const tabs = [...document.querySelectorAll(".pdf-tab")];
+  const DWELL = 5500;
+  let current = 0;
+  let timer = null;
+  let inView = false;
+  let paused = false;
+
+  const fit = () =>
+    scaler.style.setProperty("--s", String(pdfFrame.clientWidth / 600));
+  fit();
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(pdfFrame);
+  else window.addEventListener("resize", fit);
+
+  const countIn = (page) => {
+    page.querySelectorAll(".pdf-count").forEach((el) => {
+      const target = Number(el.dataset.target || 0);
+      if (reduceMotion) {
+        el.textContent = String(target);
+        return;
+      }
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / 1300);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  };
+
+  const schedule = () => {
+    clearTimeout(timer);
+    tabs.forEach((t) => t.classList.remove("is-timing"));
+    if (!inView || paused || reduceMotion) return;
+    const tab = tabs[current];
+    void tab.offsetWidth;
+    tab.classList.add("is-timing");
+    timer = setTimeout(() => show((current + 1) % pages.length), DWELL);
+  };
+
+  function show(i) {
+    const prev = pages[current];
+    if (i !== current) {
+      prev.classList.remove("is-active", "play");
+      prev.classList.add("is-leaving");
+      setTimeout(() => prev.classList.remove("is-leaving"), 700);
+    }
+    current = i;
+    const page = pages[i];
+    page.classList.remove("play");
+    page.classList.add("is-active");
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => page.classList.add("play")),
+    );
+    countIn(page);
+    tabs.forEach((t, n) => t.classList.toggle("is-active", n === i));
+    schedule();
+  }
+
+  tabs.forEach((tab) =>
+    tab.addEventListener("click", () => {
+      paused = false;
+      show(Number(tab.dataset.go));
+    }),
+  );
+  const stage = document.querySelector(".pdf-stage");
+  stage?.addEventListener("mouseenter", () => {
+    paused = true;
+    schedule();
+  });
+  stage?.addEventListener("mouseleave", () => {
+    paused = false;
+    schedule();
+  });
+  stage?.addEventListener("click", () => show((current + 1) % pages.length));
+
+  pages[0].classList.add("is-active");
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const was = inView;
+          inView = entry.isIntersecting;
+          if (inView && !was) show(current);
+          if (!inView) schedule();
+        });
+      },
+      { threshold: 0.3 },
+    ).observe(pdfFrame);
+  } else {
+    show(0);
+  }
+}

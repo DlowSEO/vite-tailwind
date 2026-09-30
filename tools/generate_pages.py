@@ -1326,42 +1326,185 @@ def home_page():
         f'<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"><table class="w-full border-collapse text-left text-sm"><tbody>{rows}</tbody></table></div>'
         f'<p class="mt-3 text-sm text-slate-500 dark:text-slate-400"><a href="/commands/" class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300">See every command in detail</a></p>',
     )
+    # ---- Real test audit (site name hidden) -------------------------------
+    AUDIT_CATS = [
+        ("Technical SEO", 45), ("Content quality", 58), ("On-page SEO", 60), ("Schema", 10),
+        ("Performance", 38), ("AI search", 48), ("Images", 55),
+    ]
+    AUDIT_SCORE = 48
+    SEV = [("Critical", 2, "rose"), ("High", 5, "amber"), ("Medium", 6, "blue"), ("Low", 2, "slate")]
+    REDACT = '<span class="redact" aria-label="site name hidden">clientwebsite.co.uk</span>'
+
+    def tone(v):
+        return "bad" if v < 40 else "warn" if v < 65 else "good"
+
     bars = "".join(
-        f'<div class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"><span class="text-slate-500 dark:text-slate-400">{n}</span><span class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span class="score-bar block h-full rounded-full bg-blue-500" style="--w:{v}%"></span></span><span class="text-right font-mono text-slate-700 dark:text-slate-300">{v}</span></div>'
-        for n, v in [('Technical SEO', 68), ('Content quality', 74), ('On-page SEO', 81), ('Schema', 55), ('Performance', 62), ('AI search', 70), ('Images', 88)]
+        f'<div class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"><span class="text-slate-500 dark:text-slate-400">{n}</span><span class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span class="score-bar tone-{tone(v)} block h-full rounded-full" style="--w:{v}%"></span></span><span class="text-right font-mono text-slate-700 dark:text-slate-300">{v}</span></div>'
+        for n, v in AUDIT_CATS
+    )
+    sev_tiles = "".join(
+        f'<div class="rounded-lg bg-{c}-500/10 py-2"><p class="font-semibold text-{c}-600 dark:text-{c}-300">{n}</p><p class="text-slate-500 dark:text-slate-400">{label}</p></div>'
+        for label, n, c in SEV
     )
     features = "".join(
         f'<li class="flex gap-4"><span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600 dark:text-blue-300">{i}</span><div><h3 class="font-semibold text-slate-900 dark:text-white">{t}</h3><p class="mt-1 text-sm {P}">{d}</p></div></li>'
         for i, (t, d) in enumerate([
-            ("Executive summary", "A 0 to 100 health score and the five issues that matter most, in plain English."),
-            ("Evidence for every issue", "Affected URLs, the values found and why each one matters."),
-            ("Prioritised action plan", "Fixes grouped Critical, High, Medium and Low, in four phases."),
-            ("Branded A4 PDF", "Charts, metric cards and a roadmap, ready to present."),
+            ("A score anyone gets", "One number out of 100, weighted across seven categories. Clients understand it in seconds."),
+            ("Evidence on every issue", "The URL, the value found and why it costs rankings. No guesswork. No filler."),
+            ("A plan, not a pile of problems", "Fixes ranked Critical to Low and grouped into four phases, so everyone knows what happens first."),
+            ("A PDF worth forwarding", "Colour-coded, charted and ready to present the moment the audit finishes."),
         ], 1)
     )
-    body += section(
-        "What your client receives",
-        f'''<div class="grid items-center gap-10 md:grid-cols-2">
+    body += f'''
+      <section class="reveal scroll-mt-10 pb-24">
+        <h2 class="{H2}">What you and your clients receive</h2>
+        <p class="max-w-2xl text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">Proof, not opinions.</p>
+        <p class="mt-4 max-w-2xl text-lg {P}">Every finding arrives with the URL, the evidence and the fix. Below is a real test audit of a UK events company. Their name is hidden. The problems are real.</p>
+        <div class="mt-10 grid items-center gap-10 md:grid-cols-2">
           <div class="report-card rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-[#040c1f] dark:shadow-blue-900/20">
             <div class="flex items-start justify-between gap-4">
-              <div><p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">SEO audit</p><p class="mt-1 font-semibold text-slate-900 dark:text-white">demo-bakery.co.uk</p><p class="text-xs text-slate-500 dark:text-slate-400">Local service · Full audit · 48 pages</p></div>
+              <div><p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">SEO audit</p><p class="mt-1 font-semibold text-slate-900 dark:text-white">{REDACT}</p><p class="text-xs text-slate-500 dark:text-slate-400">Events company · Full audit · 40 pages checked</p></div>
               <div class="relative h-24 w-24 shrink-0">
-                <svg viewBox="0 0 100 100" class="h-24 w-24 -rotate-90" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" class="stroke-slate-200 dark:stroke-slate-800"/><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-linecap="round" class="score-ring stroke-blue-500" pathLength="100" style="--score:72"/></svg>
-                <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="score-count text-2xl font-semibold text-slate-900 dark:text-white" data-target="72">72</span><span class="text-[10px] text-slate-500 dark:text-slate-400">/ 100</span></span>
+                <svg viewBox="0 0 100 100" class="h-24 w-24 -rotate-90" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" class="stroke-slate-200 dark:stroke-slate-800"/><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-linecap="round" class="score-ring stroke-amber-500" pathLength="100" style="--score:{AUDIT_SCORE}"/></svg>
+                <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="score-count text-2xl font-semibold text-slate-900 dark:text-white" data-target="{AUDIT_SCORE}">{AUDIT_SCORE}</span><span class="text-[10px] text-slate-500 dark:text-slate-400">/ 100</span></span>
               </div>
             </div>
             <div class="mt-6 flex flex-col gap-2.5">{bars}</div>
-            <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">
-              <div class="rounded-lg bg-rose-500/10 py-2"><p class="font-semibold text-rose-600 dark:text-rose-300">3</p><p class="text-slate-500 dark:text-slate-400">Critical</p></div>
-              <div class="rounded-lg bg-amber-500/10 py-2"><p class="font-semibold text-amber-600 dark:text-amber-300">8</p><p class="text-slate-500 dark:text-slate-400">High</p></div>
-              <div class="rounded-lg bg-blue-500/10 py-2"><p class="font-semibold text-blue-600 dark:text-blue-300">12</p><p class="text-slate-500 dark:text-slate-400">Medium</p></div>
-              <div class="rounded-lg bg-slate-500/10 py-2"><p class="font-semibold text-slate-700 dark:text-slate-300">6</p><p class="text-slate-500 dark:text-slate-400">Low</p></div>
-            </div>
-            <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">Example report for a fictional site. Figures are illustrative.</p>
+            <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">{sev_tiles}</div>
+            <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">Test audit of a live site, September 2026. Site name hidden.</p>
           </div>
           <ul class="flex flex-col gap-6">{features}</ul>
-        </div>''',
+        </div>
+      </section>'''
+
+    # ---- PDF preview ---------------------------------------------------------
+    def pdf_head(title, n):
+        return f'<div class="pdf-runner"><span class="pdf-brand"><i></i>SEO Agent Pro</span><span>{title}</span><span>{n} / 4</span></div>'
+
+    ring = lambda size, stroke: f'<svg viewBox="0 0 100 100" class="pdf-ring" style="width:{size}px;height:{size}px" aria-hidden="true"><defs><linearGradient id="pdfg{size}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(148,163,184,.25)" stroke-width="{stroke}"/><circle cx="50" cy="50" r="42" fill="none" stroke="url(#pdfg{size})" stroke-width="{stroke}" stroke-linecap="round" pathLength="100" class="pdf-arc" style="--score:{AUDIT_SCORE}"/></svg>'
+
+    cover = f'''<div class="pdf-page" data-page="0">
+          <div class="pdf-cover-band"><div class="pdf-mesh"></div>
+            <p class="pdf-kicker">SEO audit report</p>
+            <p class="pdf-cover-title">{REDACT}</p>
+            <p class="pdf-cover-sub">Full audit · 30 September 2026</p>
+          </div>
+          <div class="pdf-cover-body">
+            <div class="pdf-cover-score">{ring(150, 10)}<div class="pdf-ring-label"><b class="pdf-count" data-target="{AUDIT_SCORE}">{AUDIT_SCORE}</b><span>Health score</span></div></div>
+            <div class="pdf-cover-stats">
+              <div><b class="pdf-count" data-target="15">15</b><span>issues found</span></div>
+              <div><b class="pdf-count" data-target="2">2</b><span>critical</span></div>
+              <div><b class="pdf-count" data-target="40">40</b><span>pages checked</span></div>
+            </div>
+            <p class="pdf-cover-verdict">Strong content foundations, held back by crawl and duplication problems. Fix the two critical issues first: both are quick wins.</p>
+            <p class="pdf-label" style="margin-top:22px">Category scores</p>
+            <div class="pdf-chips">{"".join(f'<span class="pdf-chip chip-{tone(v)}"><b>{v}</b>{n}</span>' for n, v in AUDIT_CATS)}</div>
+          </div>
+          <div class="pdf-foot"><span>Prepared with SEO Agent Pro</span><span>Confidential</span></div>
+        </div>'''
+
+    cat_rows = "".join(
+        f'<div class="pdf-cat"><span>{n}</span><span class="pdf-track"><i class="pdf-fill tone-{tone(v)}" style="--w:{v}%"></i></span><b>{v}</b></div>'
+        for n, v in AUDIT_CATS
     )
+    total = sum(n for _, n, _ in SEV)
+    acc = 0
+    stops = []
+    colours = {"rose": "#f43f5e", "amber": "#f59e0b", "blue": "#3b82f6", "slate": "#94a3b8"}
+    for _, n, col in SEV:
+        start = acc / total * 100
+        acc += n
+        stops.append(f"{colours[col]} {start:.1f}% {acc / total * 100:.1f}%")
+    legend = "".join(f'<li><i style="background:{colours[c]}"></i>{label}<b>{n}</b></li>' for label, n, c in SEV)
+    summary = f'''<div class="pdf-page" data-page="1">
+          {pdf_head("Executive summary", 2)}
+          <p class="pdf-h">Executive summary</p>
+          <p class="pdf-lead">The site is crawlable and content-rich, but duplicate signals and missing technical basics are capping its visibility.</p>
+          <div class="pdf-two">
+            <div class="pdf-panel"><p class="pdf-label">Scores by category</p>{cat_rows}</div>
+            <div class="pdf-panel pdf-center"><p class="pdf-label">Issues by severity</p><div class="pdf-donut-wrap"><div class="pdf-donut" style="--donut:conic-gradient({', '.join(stops)})"></div><span class="pdf-donut-label"><b class="pdf-count" data-target="{total}">{total}</b>issues</span></div><ul class="pdf-legend">{legend}</ul></div>
+          </div>
+          <p class="pdf-label" style="margin-top:18px">Top priorities</p>
+          <ol class="pdf-top">
+            <li><em class="sev sev-critical">Critical</em>robots.txt returns the homepage, not crawl rules</li>
+            <li><em class="sev sev-critical">Critical</em>No canonical tags on any page checked</li>
+            <li><em class="sev sev-high">High</em>Internal links and redirects mix http and https</li>
+          </ol>
+          <div class="pdf-strip"><div><b>246</b>URLs in sitemap</div><div><b>40</b>pages checked</div><div><b>7</b>categories scored</div><div><b>0</b>pages with schema</div></div>
+          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 2</span></div>
+        </div>'''
+
+    findings_data = [
+        ("critical", "robots.txt serves the homepage", "GET /robots.txt → 200 · text/html", "Search engines receive a web page instead of crawl rules, so there is no pointer to the 246-URL sitemap.", "Serve a plain-text robots.txt that references /sitemap.xml."),
+        ("critical", "No canonical tags", "0 of 40 pages · rel=\"canonical\" missing", "With www, non-www, http and https versions in play, Google has to guess which URL to rank.", "Add a self-referencing canonical to every template."),
+        ("high", "Mixed http and https signals", "href=\"http://…/use-of-cookies\" · no HSTS header", "Links and first visits start on insecure URLs, wasting redirects and diluting signals.", "Point every internal link at https://www and enable HSTS."),
+        ("high", "One title shared by 9 pages", "\"Gallery | Corporate Events…\" ×9", "Nine gallery pages compete for the same search, so none of them wins it.", "Write a unique title and description for each gallery."),
+    ]
+    finding_cards = "".join(
+        f'''<div class="pdf-finding"><div class="pdf-finding-top"><em class="sev sev-{s}">{s.title()}</em><b>{t}</b></div><code>{e(ev)}</code><p><span>Impact</span>{imp}</p><p><span>Fix</span>{fix}</p></div>'''
+        for s, t, ev, imp, fix in findings_data
+    )
+    findings = f'''<div class="pdf-page" data-page="2">
+          {pdf_head("Findings", 3)}
+          <p class="pdf-h">Findings with evidence</p>
+          <p class="pdf-lead">Every issue shows what was found, where, and exactly what to change.</p>
+          <div class="pdf-findings">{finding_cards}</div>
+          <p class="pdf-label" style="margin-top:16px">Also found</p>
+          <div class="pdf-more">
+            <div><em class="sev sev-medium">Medium</em><span>28 homepage images with no width or height</span><code>CLS risk</code></div>
+            <div><em class="sev sev-medium">Medium</em><span>Social share image URL is missing https://</span><code>og:image</code></div>
+          </div>
+          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 3</span></div>
+        </div>'''
+
+    phases = [
+        ("Week 1", "Critical fixes", 18, ["Fix robots.txt", "Add canonical tags", "Force https://www"], "rose"),
+        ("Weeks 2 to 3", "High impact", 38, ["Unique gallery titles", "LocalBusiness schema", "Defer 8 blocking scripts"], "amber"),
+        ("Month 2", "Content and speed", 62, ["Compress 2.8 MB of images", "Expand 11 thin pages"], "blue"),
+        ("Ongoing", "Monitor", 100, ["Re-audit monthly", "Track Core Web Vitals"], "emerald"),
+    ]
+    phase_rows = "".join(
+        f'''<div class="pdf-phase"><div class="pdf-phase-when"><b>{w}</b><span>{name}</span></div><div class="pdf-phase-main"><span class="pdf-track pdf-track-lg"><i class="pdf-fill phase-{col}" style="--w:{pct}%"></i></span><ul>{"".join(f"<li>{it}</li>" for it in items)}</ul></div></div>'''
+        for w, name, pct, items, col in phases
+    )
+    plan = f'''<div class="pdf-page" data-page="3">
+          {pdf_head("Action plan", 4)}
+          <p class="pdf-h">Action plan</p>
+          <p class="pdf-lead">Fifteen fixes in four phases, ordered by impact and effort.</p>
+          <div class="pdf-phases">{phase_rows}</div>
+          <div class="pdf-callout"><b>Quick win.</b> The two critical fixes are small jobs, and they unblock most of this plan.</div>
+          <div class="pdf-strip"><div><b>15</b>fixes in total</div><div><b>3</b>this week</div><div><b>4</b>phases</div><div><b>1</b>re-audit a month</div></div>
+          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 4</span></div>
+        </div>'''
+
+    thumbs = "".join(
+        f'<button type="button" class="pdf-tab{" is-active" if i == 0 else ""}" data-go="{i}"><span class="pdf-tab-n">0{i + 1}</span><span class="pdf-tab-t">{t}</span><span class="pdf-tab-d">{d}</span><i class="pdf-tab-bar"></i></button>'
+        for i, (t, d) in enumerate([
+            ("Cover", "Score, headline numbers and the verdict in one line."),
+            ("Summary", "Category scores and severity at a glance."),
+            ("Findings", "Evidence, impact and the fix for every issue."),
+            ("Action plan", "Four phases, ready to quote from."),
+        ])
+    )
+    body += f'''
+      <section class="reveal scroll-mt-10 pb-20" id="pdf-preview">
+        <h2 class="{H2}">The PDF report</h2>
+        <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+          <div class="pdf-stage" aria-label="Preview of an SEO Agent Pro PDF report">
+            <div class="pdf-sheet pdf-sheet-back2" aria-hidden="true"></div>
+            <div class="pdf-sheet pdf-sheet-back1" aria-hidden="true"></div>
+            <div class="pdf-frame"><div class="pdf-scaler">{cover}{summary}{findings}{plan}</div></div>
+          </div>
+          <div>
+            <p class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">The report that wins the meeting.</p>
+            <p class="mt-4 text-lg {P}">Pro turns every audit into a colour-coded PDF with charts, evidence and a four-phase plan. Send it as it is, or walk the client through it page by page.</p>
+            <div class="mt-8 flex flex-col gap-2">{thumbs}</div>
+            <div class="mt-8 flex flex-wrap gap-3"><a href="/pricing/" {BTN}>Get Pro</a><a href="/commands/audit/" {BTN2}>See how audits work</a></div>
+            <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">Colour PDF reports are included in SEO Agent Pro.</p>
+          </div>
+        </div>
+      </section>'''
+
     body += section("Pricing", pricing_cards())
     body += section(
         "Built by an SEO, for client work",
