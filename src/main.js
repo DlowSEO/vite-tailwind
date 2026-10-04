@@ -1,3 +1,21 @@
+// Privacy-friendly event tracking (Umami). Safe no-op if the script is blocked.
+const track = (name, data) => {
+  try {
+    window.umami?.track(name, data);
+  } catch {
+    /* analytics must never break the page */
+  }
+};
+document.addEventListener("click", (event) => {
+  const link = event.target.closest?.("a[href]");
+  if (!link) return;
+  const href = link.getAttribute("href");
+  if (href.startsWith("https://buy.polar.sh")) track("checkout-click");
+  else if (href.includes("seo-agent-lite")) track("lite-github-click");
+  else if (href === "/pricing/" && /get pro/i.test(link.textContent))
+    track("get-pro-click", { page: location.pathname });
+});
+
 // Close the Commands dropdown on outside click or Escape.
 const menus = document.querySelectorAll("details.nav-menu");
 document.addEventListener("click", (event) => {
@@ -32,6 +50,7 @@ document.querySelectorAll("pre > code").forEach((code) => {
       document.execCommand("copy");
       area.remove();
     }
+    track("copy-command");
     button.textContent = "Copied";
     setTimeout(() => (button.textContent = "Copy"), 1600);
   });

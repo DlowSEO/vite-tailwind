@@ -162,6 +162,7 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
     <script>document.documentElement.classList.add("js")</script>
     <link rel="stylesheet" href="/style.css" />
     <script type="speculationrules">{{"prerender":[{{"where":{{"and":[{{"href_matches":"/*"}},{{"not":{{"href_matches":"/thanks/*"}}}}]}},"eagerness":"moderate"}}]}}</script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="bea2206c-f922-4e5a-a74a-1ec89a546785"></script>
     <title>{e(title)}</title>
     {ld}
   </head>
@@ -1203,7 +1204,7 @@ def privacy_page():
         [
             ("Who is responsible", [f"The data controller is {SELLER}. Contact: <a href=\"mailto:{SUPPORT_EMAIL}\" class=\"{LINK}\">{SUPPORT_EMAIL}</a>."]),
             ("This website", [
-                "This website does not use cookies for analytics or advertising and does not track you across other sites.",
+                "This website uses Umami, a privacy-focused analytics service, to count visits, see which pages and links are used and understand where visitors come from. It does not use cookies, does not collect personal data, does not build profiles of individual visitors and does not track you across other sites.",
                 "Our hosting provider, IONOS, keeps standard server logs, such as IP addresses and the pages requested, to run and protect the service.",
             ]),
             ("When you buy", [
