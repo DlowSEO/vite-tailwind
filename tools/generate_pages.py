@@ -162,6 +162,7 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
     <script>document.documentElement.classList.add("js")</script>
     <link rel="stylesheet" href="/style.css" />
     <script type="speculationrules">{{"prerender":[{{"where":{{"and":[{{"href_matches":"/*"}},{{"not":{{"href_matches":"/thanks/*"}}}}]}},"eagerness":"moderate"}}]}}</script>
+    <meta name="google-site-verification" content="P4cbHF4VZsLHwY0dEidj9pTNeCHEstbpvItpHZT1vc0" />
     <script defer src="https://cloud.umami.is/script.js" data-website-id="bea2206c-f922-4e5a-a74a-1ec89a546785"></script>
     <title>{e(title)}</title>
     {ld}
