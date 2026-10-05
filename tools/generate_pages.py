@@ -14,7 +14,7 @@ LITE_REPO = "https://github.com/DlowSEO/seo-agent-lite"
 LITE_SLUG = "DlowSEO/seo-agent-lite"
 PRO_SLUG = "DlowSEO/seo-agent-pro"
 REPO = LITE_REPO
-UPDATED = "2026-09-26"
+UPDATED = "2026-10-05"
 
 e = html.escape
 
@@ -267,7 +267,7 @@ def cta():
     return f"""
       <section class="mb-20 rounded-2xl border border-slate-200 p-8 text-center dark:border-slate-800 dark:bg-slate-900/40">
         <h2 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Client-ready audits for a one-time payment</h2>
-        <p class="mx-auto mt-3 max-w-xl {P}">SEO Agent Pro unlocks all eight commands, full audits and branded PDF reports. No subscription, and a 14-day refund if it is not for you.</p>
+        <p class="mx-auto mt-3 max-w-xl {P}">SEO Agent Pro unlocks all eight commands, full audits and branded PDF reports for a single payment, with no subscription.</p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
           <a href="/pricing/" {BTN}>Get SEO Agent Pro</a>
           <a href="/download/" {BTN2}>Try Lite free</a>
@@ -983,7 +983,6 @@ def pricing_cards(buy_href="/pricing/#buy", show_price=False):
         <p class="mt-5 flex items-baseline gap-2">{pro_price}</p>
         <div class="mt-6 flex-1">{tick_list(PRO_FEATURES, accent=True)}</div>
         <a href="{buy_href}" {BTN.replace('px-5', 'px-5 text-center mt-8')}>{'Buy SEO Agent Pro' if show_price else 'See Pro pricing'}</a>
-        <p class="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">14-day refund, no questions asked</p>
       </div>
     </div>"""
 
@@ -1032,7 +1031,7 @@ def pricing_page():
                 ("Do you charge VAT?", f"The {PRICE} price includes any VAT. Our reseller, Polar, is the merchant of record: it handles payment, sales tax and your receipt. Prices may be shown in your local currency at checkout."),
                 ("Can I use it for client work?", "Yes. Pro is licensed to you for your own work, including audits and reports you deliver to clients. The reports you produce are yours."),
                 ("How many computers can I use?", "Up to 3 computers that you use yourself. If you replace one, get in touch and the old activation can be cleared."),
-                ("What if it is not for me?", f'Email {SUPPORT_EMAIL} within 14 days for a full refund. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
+                ("Can I get a refund?", f'Refunds are at our discretion. Pro is a digital product you can use as soon as you buy it, so please try SEO Agent Lite for free first. If Pro does not work as described and we cannot fix it, email {SUPPORT_EMAIL}. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
                 ("Do I need anything else?", "Claude Code with your own Anthropic account, which you pay for separately. Optional data sources, such as Google APIs or Moz, have their own terms."),
             ]
         ),
@@ -1167,7 +1166,10 @@ def terms_page():
                 "SEO Agent includes open-source components that are licensed under their own terms, including the MIT License. Those notices are included with the files and are not changed by this licence.",
                 "SEO Agent runs inside Claude Code, which needs your own account with Anthropic and is subject to Anthropic's terms and charges. Optional data sources you connect, such as Google APIs, Moz or Bing Webmaster Tools, are subject to their own terms. SEO Agent is not affiliated with or endorsed by Anthropic.",
             ]),
-            ("Refunds and cancellation", [f'You can ask for a full refund within 14 days of purchase. See the <a href="/refunds/" class="{LINK}">refund policy</a>. When a refund is made, the licence key is revoked.']),
+            ("Refunds and cancellation", [
+                "SEO Agent Pro is digital content that is supplied as soon as you buy it. By buying, you ask for it to be supplied straight away and you agree that you lose your right to cancel once your licence key and download are made available.",
+                f'Refunds are otherwise at our discretion. See the <a href="/refunds/" class="{LINK}">refund policy</a>. When a refund is made, the licence key is revoked. Your statutory rights, including if Pro is faulty or not as described, are not affected.',
+            ]),
             ("No guarantees of results", [
                 "SEO Agent identifies issues and recommends improvements. It cannot guarantee rankings, traffic, indexing or AI citations, which depend on search engines and many other factors. Check important findings before acting on them.",
                 "The software is provided as it is. We do not promise that it will be error free or work with every website.",
@@ -1187,15 +1189,19 @@ def terms_page():
 def refunds_page():
     return legal_page(
         "/refunds/", "Refund policy", "Refund policy",
-        "If SEO Agent Pro is not right for you, ask within 14 days for a full refund.",
+        "Refunds for SEO Agent Pro are at our discretion. Your statutory rights are not affected.",
         [
-            ("14-day refund", [
-                f"Email <a href=\"mailto:{SUPPORT_EMAIL}\" class=\"{LINK}\">{SUPPORT_EMAIL}</a> within 14 days of your purchase with the email address you used at checkout. You do not need to give a reason.",
-                "The refund goes back to your original payment method through Polar, our reseller. Your bank may take a few working days to show it.",
+            ("Try before you buy", [
+                "SEO Agent Pro is a digital product that you can download and use as soon as you buy it. Please try SEO Agent Lite for free first to check that it suits you and works with your setup.",
             ]),
+            ("Refunds are discretionary", [
+                "When you buy, you ask for Pro to be supplied straight away and you agree that you lose your right to cancel once your licence key and download are made available. We do not offer refunds because you have changed your mind or no longer need Pro.",
+                f"We may give a refund in some cases, for example if you were charged twice by mistake. Email <a href=\"mailto:{SUPPORT_EMAIL}\" class=\"{LINK}\">{SUPPORT_EMAIL}</a> with the email address you used at checkout and explain what happened.",
+            ]),
+            ("If Pro is faulty", ["If Pro does not work as described, get in touch and we will try to fix it. If we cannot fix it, we will offer a repair, replacement or refund as consumer law requires."]),
+            ("How refunds are paid", ["Any refund goes back to your original payment method through Polar, our reseller. Your bank may take a few working days to show it."]),
             ("What happens to your licence", ["When a refund is made, your licence key is revoked and Pro stops working at its next licence check. Please delete your copy of the Pro files."]),
-            ("After 14 days", ["We may still help if something has gone wrong, for example if Pro does not work as described and we cannot fix it. Get in touch and explain what happened."]),
-            ("Your legal rights", ["This policy is in addition to your rights under consumer law, which it does not reduce."]),
+            ("Your legal rights", ["Nothing in this policy affects your statutory rights as a consumer."]),
         ],
     )
 
@@ -1247,7 +1253,7 @@ FAQS = [
         ("Can I use it for client work?", "Yes. Your Pro licence covers audits and reports you produce for clients, and the reports are yours."),
         ("How many computers can I use it on?", "Up to 3 computers that you use yourself."),
         ("Do you charge VAT?", f"The price includes any VAT. Polar, our reseller and merchant of record, handles payment and tax and sends your receipt."),
-        ("What is the refund policy?", f'A full refund within 14 days, no questions asked. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
+        ("What is the refund policy?", f'Refunds are at our discretion. Pro is a digital product you can use as soon as you buy it, so try Lite for free first to check it suits you. If Pro does not work as described and we cannot fix it, get in touch. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
         ("Do I need a GitHub account?", "No. Pro is delivered as a zip download from your purchase email, and updates are downloaded the same way."),
     ]),
     ("Audits and scoring", [
