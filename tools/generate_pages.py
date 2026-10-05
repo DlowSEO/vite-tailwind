@@ -67,6 +67,7 @@ def header(active):
               {items}
             </div>
           </details>
+          <a href="/integrations/" class="{cls('/integrations/')}"{cur("/integrations/")}>Integrations</a>
           <a href="/pricing/" class="{cls('/pricing/')}"{cur("/pricing/")}>Pricing</a>
           <a href="/install/" class="{cls('/install/')}"{cur("/install/")}>Install</a>
           <a href="/faq/" class="{cls('/faq/')}"{cur("/faq/")}>FAQ</a>
@@ -101,6 +102,7 @@ def footer():
               <li><a href="/download/" class="{fl}">Download Lite</a></li>
               <li><a href="/install/" class="{fl}">Install Pro</a></li>
               <li><a href="/commands/" class="{fl}">All commands</a></li>
+              <li><a href="/integrations/" class="{fl}">Integrations</a></li>
               <li><a href="/faq/" class="{fl}">FAQ</a></li>
               <li><a href="{LITE_REPO}" target="_blank" rel="noopener noreferrer" class="{fl}">Lite on GitHub</a></li>
             </ul>
@@ -1065,7 +1067,7 @@ def download_page():
         "What Lite includes",
         '<div class="grid gap-6 md:grid-cols-2">'
         + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Included</h3>{tick_list(LITE_FEATURES)}</div>'
-        + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Pro only</h3>{tick_list(["Full audits of up to 500 pages", "Client-ready PDF reports", "Content, local, AI search, backlinks, strategy and Google commands", "Focus modes for technical, schema, sitemap, images and hreflang"], accent=True)}<a href="/pricing/" class="mt-5 inline-block text-sm {LINK}">See Pro pricing</a></div>'
+        + f'<div class="{CARD}"><h3 class="mb-4 font-semibold text-slate-900 dark:text-white">Pro only</h3>{tick_list(["Full audits of up to 500 pages", "Client-ready PDF reports", "Content, local, AI search, backlinks, strategy and Google commands", "Focus modes for technical, schema, sitemap, images and hreflang", "Screaming Frog, Ahrefs, Semrush and Sitebulb integrations"], accent=True)}<a href="/pricing/" class="mt-5 inline-block text-sm {LINK}">See Pro pricing</a></div>'
         + "</div>",
     )
     body += requirements()
@@ -1328,6 +1330,12 @@ def home_page():
         f'<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"><table class="w-full border-collapse text-left text-sm"><tbody>{rows}</tbody></table></div>'
         f'<p class="mt-3 text-sm text-slate-500 dark:text-slate-400"><a href="/commands/" class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300">See every command in detail</a></p>',
     )
+    body += section(
+        "Works with your SEO stack",
+        f'<p class="mb-5 max-w-2xl {P}">Plug in the crawler and data tools your team already pays for. Crawl faster, use less of Claude\'s context and put trusted data in front of the client.</p>'
+        + integration_cards()
+        + f'<p class="mt-4 text-sm"><a href="/integrations/" class="{LINK}">See how the integrations work</a></p>',
+    )
     # ---- Real test audit (site name hidden) -------------------------------
     AUDIT_CATS = [
         ("Technical SEO", 45), ("Content quality", 58), ("On-page SEO", 60), ("Schema", 10),
@@ -1523,11 +1531,120 @@ def home_page():
     )
 
 
+INTEGRATIONS = [
+    {
+        "name": "Screaming Frog", "badge": "Built in", "kind": "Crawling",
+        "short": "SEO Agent runs the crawl on your own machine, then reads a compact summary of the results instead of fetching every page.",
+        "points": [
+            "One command starts a headless crawl and exports the data.",
+            "Counts and example URLs for titles, descriptions, headings, thin content, slow pages, orphan pages and indexability.",
+            "Cuts the amount Claude has to read on larger sites, so audits finish faster and use less context.",
+        ],
+        "needs": "Your own Screaming Frog installation and licence.",
+    },
+    {
+        "name": "Ahrefs", "badge": "Official MCP", "kind": "Backlinks and keywords",
+        "short": "Connect Ahrefs through its official MCP server and bring link and keyword data straight into backlink and strategy work.",
+        "points": [
+            "Referring domains, anchors and competitor link gaps.",
+            "Keyword and ranking data for content and strategy plans.",
+            "Uses your Ahrefs plan's monthly API units.",
+        ],
+        "needs": "An Ahrefs plan with API access (Lite and above).",
+    },
+    {
+        "name": "Semrush", "badge": "Official MCP", "kind": "Backlinks and keywords",
+        "short": "Connect Semrush through its remote MCP server for domain, keyword and backlink data alongside your audit.",
+        "points": [
+            "Domain analytics and competitor research.",
+            "Keyword research and backlink data.",
+            "Uses the API units on your Semrush plan.",
+        ],
+        "needs": "A Semrush plan that includes API units.",
+    },
+    {
+        "name": "Sitebulb", "badge": "MCP or export", "kind": "Crawling",
+        "short": "Bring Sitebulb audit data into SEO Agent through Sitebulb's MCP connection or an export, and turn it into a client-ready report.",
+        "points": [
+            "Analyse your Sitebulb exports with the same scoring and action plans.",
+            "Useful when you already crawl in Sitebulb and want the report written for you.",
+        ],
+        "needs": "Your own Sitebulb licence.",
+    },
+]
+BADGE = "rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-300"
+
+
+def integration_cards(detail=False):
+    out = []
+    for x in INTEGRATIONS:
+        pts = ul(x["points"]) if detail else ""
+        needs = f'<p class="mt-4 text-xs text-slate-500 dark:text-slate-400">Needs: {e(x["needs"])}</p>' if detail else ""
+        out.append(
+            f'<div class="{CARD}"><div class="flex flex-wrap items-center justify-between gap-2"><h3 class="text-lg font-semibold text-slate-900 dark:text-white">{e(x["name"])}</h3><span class="{BADGE}">{e(x["badge"])}</span></div>'
+            f'<p class="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{e(x["kind"])}</p><p class="mt-3 text-sm {P}">{e(x["short"])}</p>{pts}{needs}</div>'
+        )
+    return f'<div class="grid gap-4 sm:grid-cols-2">{"".join(out)}</div>'
+
+
+def integrations_page():
+    body = hero(
+        "Integrations",
+        "Works with the SEO tools you already pay for",
+        "Plug your crawler and your data tools into SEO Agent Pro. Crawl faster, use less of Claude's context and fill your client reports with the data you trust.",
+        tier_tag({"lite": False}),
+    )
+    body += section("Supported tools", integration_cards(detail=True))
+    body += section(
+        "Why connect a crawler",
+        ul(
+            [
+                "<strong>Faster audits.</strong> A desktop crawler is built to fetch thousands of URLs. SEO Agent reads its results instead of fetching every page itself.",
+                "<strong>Lower token use.</strong> Claude reads counts and examples, not raw HTML, so large sites fit comfortably.",
+                "<strong>Data you trust.</strong> Findings are based on the same crawl data your team already uses and understands.",
+            ]
+        ),
+    )
+    body += section(
+        "How it works",
+        steps(
+            [
+                ("Install the tool", "Use your existing Screaming Frog, Ahrefs, Semrush or Sitebulb account. SEO Agent does not resell or bundle them."),
+                ("Run an audit", f"Type {c('/seo audit https://client-site.com')}. If a supported crawler is installed, SEO Agent offers to use it."),
+                ("Get the report", "Findings, scores and the action plan are built from the connected data and delivered as a client-ready PDF."),
+                ("Keep control", "Everything runs on your computer with your own accounts and licences."),
+            ]
+        ),
+    )
+    body += section(
+        "Questions",
+        faq_list(
+            [
+                ("Do I need these tools to use SEO Agent?", "No. SEO Agent crawls and audits on its own. Integrations are optional and available in Pro."),
+                ("Are the tools included in the price?", "No. You use your own accounts and licences, so you stay in control of those costs."),
+                ("Can you add another tool?", f'Probably. Email <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a> with the tool you use and what you would want from it.'),
+            ]
+        ),
+    )
+    body += '<p class="pb-10 text-xs text-slate-400 dark:text-slate-500">Screaming Frog, Ahrefs, Semrush and Sitebulb are trademarks of their respective owners. SEO Agent is an independent product and is not affiliated with or endorsed by them.</p>'
+    body += cta()
+    return page(
+        "/integrations/",
+        "Integrations: Screaming Frog, Ahrefs, Semrush and Sitebulb | SEO Agent",
+        "Connect Screaming Frog, Ahrefs, Semrush and Sitebulb to SEO Agent Pro to crawl faster, use less context and build client-ready reports from the data you trust.",
+        "/integrations/",
+        [("/", "Home"), ("/integrations/", "Integrations")],
+        body,
+    )
+
+
+
 paths = []
 paths.append(home_page())
 paths.append(pricing_page())
 paths.append(download_page())
 paths.append(commands_hub())
+paths.append(integrations_page())
 for cmd in COMMANDS:
     paths.append(command_page(cmd))
 paths.append(install_page())
