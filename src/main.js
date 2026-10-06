@@ -12,6 +12,8 @@ document.addEventListener("click", (event) => {
   const href = link.getAttribute("href");
   if (href.startsWith("https://buy.polar.sh")) track("checkout-click");
   else if (href.includes("seo-agent-lite")) track("lite-github-click");
+  else if (href === "/audit-request/")
+    track("audit-request-click", { page: location.pathname });
   else if (href === "/pricing/" && /get pro/i.test(link.textContent))
     track("get-pro-click", { page: location.pathname });
 });
@@ -505,4 +507,84 @@ if (pdfFrame) {
   } else {
     show(0);
   }
+}
+
+// WhatsApp buttons (the floating one and any element with data-wa). The number
+// is stored reversed and in pieces so it is not sitting in the page for
+// scrapers; it is only put together on click.
+document.addEventListener("click", (event) => {
+  const trigger = event.target.closest?.("#wa-chat, [data-wa]");
+  if (!trigger) return;
+  const number = ["02446", "5048", "744"].join("").split("").reverse().join("");
+  let message = "Hi Dan, I have a question about SEO Agent.";
+  if (trigger.dataset.wa === "audit") {
+    const site = document.getElementById("af-website")?.value.trim();
+    message = `Hi Dan, I would like an SEO audit${site ? ` of ${site}` : " of my website"}.`;
+  }
+  track("whatsapp-click", { page: location.pathname });
+  window.open(
+    `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
+    "_blank",
+    "noopener",
+  );
+});
+
+// Audit request form. Posts to the form service without leaving the page;
+// without JavaScript the form still submits normally.
+const auditForm = document.getElementById("audit-form");
+if (auditForm) {
+  const button = document.getElementById("audit-submit");
+  const errorBox = document.getElementById("audit-error");
+  const success = document.getElementById("audit-success");
+  const idleLabel = button.textContent;
+  const websiteInput = document.getElementById("af-website");
+
+  auditForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    errorBox.hidden = true;
+    websiteInput.setCustomValidity("");
+
+    const data = Object.fromEntries(new FormData(auditForm));
+    if (data.botcheck) return;
+
+    let site = String(data.website || "").trim();
+    if (site && !/^https?:\/\//i.test(site)) site = `https://${site}`;
+    let host = "";
+    try {
+      host = new URL(site).hostname;
+      if (!host.includes(".")) throw new Error("no dot");
+    } catch {
+      websiteInput.setCustomValidity("Please enter a valid website address.");
+      websiteInput.reportValidity();
+      return;
+    }
+    data.website = site;
+    data.subject = `SEO audit request: ${host}`;
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+    try {
+      const response = await fetch(auditForm.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error("rejected");
+      track("audit-request");
+      auditForm.hidden = true;
+      success.hidden = false;
+      success.focus();
+    } catch {
+      errorBox.hidden = false;
+      button.disabled = false;
+      button.textContent = idleLabel;
+    }
+  });
+  websiteInput.addEventListener("input", () =>
+    websiteInput.setCustomValidity(""),
+  );
 }

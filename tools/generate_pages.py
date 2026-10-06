@@ -29,6 +29,15 @@ GITHUB_SVG = (
     '<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>'
 )
 
+WHATSAPP_SVG = '<svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'
+
+# Floating WhatsApp button. The number is assembled in main.js on click, so it never appears in the HTML.
+WHATSAPP_BTN = (
+    '<button type="button" id="wa-chat" aria-label="Message us on WhatsApp" title="Message us on WhatsApp" '
+    'class="fixed right-5 bottom-5 z-50 hidden h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition hover:scale-105 hover:bg-[#1ebe5b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] [.js_&]:flex">'
+    f'{WHATSAPP_SVG}</button>'
+)
+
 NAVLINK = "text-sm font-medium transition"
 BTN = 'class="rounded-lg border border-blue-500/30 bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]"'
 BTN2 = 'class="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500"'
@@ -71,6 +80,7 @@ def header(active):
           <a href="/pricing/" class="{cls('/pricing/')}"{cur("/pricing/")}>Pricing</a>
           <a href="/install/" class="{cls('/install/')}"{cur("/install/")}>Install</a>
           <a href="/faq/" class="{cls('/faq/')}"{cur("/faq/")}>FAQ</a>
+          <a href="/audit-request/" class="{cls('/audit-request/')}"{cur("/audit-request/")}>Request an audit</a>
           <a href="/pricing/" class="rounded-lg border border-blue-500/30 bg-blue-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-md shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]">Get Pro</a>
         </nav>
       </header>"""
@@ -104,6 +114,7 @@ def footer():
               <li><a href="/commands/" class="{fl}">All commands</a></li>
               <li><a href="/integrations/" class="{fl}">Integrations</a></li>
               <li><a href="/faq/" class="{fl}">FAQ</a></li>
+              <li><a href="/audit-request/" class="{fl}">Request an audit</a></li>
               <li><a href="{LITE_REPO}" target="_blank" rel="noopener noreferrer" class="{fl}">Lite on GitHub</a></li>
             </ul>
           </div>
@@ -179,6 +190,7 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
       </main>
       {footer()}
     </div>
+    {WHATSAPP_BTN}
     <script type="module" src="/main.js"></script>
   </body>
 </html>
@@ -263,7 +275,12 @@ def faq_list(items):
     return f'<div class="flex flex-col gap-3">{"".join(out)}</div>'
 
 
-def cta():
+def cta(audit_line=True):
+    extra = (
+        f'<p class="mt-5 text-sm {P}">Would rather not run it yourself? <a href="/audit-request/" class="{LINK}">Request an audit</a> and Dan will run it for you.</p>'
+        if audit_line
+        else ""
+    )
     return f"""
       <section class="mb-20 rounded-2xl border border-slate-200 p-8 text-center dark:border-slate-800 dark:bg-slate-900/40">
         <h2 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Client-ready audits for a one-time payment</h2>
@@ -272,6 +289,7 @@ def cta():
           <a href="/pricing/" {BTN}>Get SEO Agent Pro</a>
           <a href="/download/" {BTN2}>Try Lite free</a>
         </div>
+        {extra}
       </section>"""
 
 
@@ -1225,6 +1243,13 @@ def privacy_page():
                 "When it runs, it makes requests to the websites you ask it to audit and to any services you connect yourself, such as Google APIs, Moz or Bing Webmaster Tools. Claude Code sends your prompts and the content it works with to Anthropic under your own Anthropic account.",
                 "SEO Agent Pro checks your licence with Polar when you activate it and from time to time afterwards. The check sends your licence key and a label for your computer; it does not send audit data.",
             ]),
+            ("If you request an audit", [
+                "If you send an audit request, we receive your name, email address, website address and any message you add. We use them only to run the audit and reply to you. The form is delivered by Web3Forms, which passes your submission to us by email and acts as our processor.",
+                "We keep audit requests and the results we send for as long as they are useful for replying to you, and delete them on request.",
+            ]),
+            ("If you contact us on WhatsApp", [
+                "If you message us on WhatsApp, we receive your phone number, your WhatsApp profile name and your messages, and use them only to reply to you. WhatsApp is run by Meta and handles your messages under its own terms and privacy policy.",
+            ]),
             ("Legal basis and retention", [
                 "We process purchase data to perform our contract with you and to meet legal obligations, such as keeping tax and accounting records. We keep these records for as long as the law requires, usually six years, and support emails for as long as they are useful for helping you.",
             ]),
@@ -1233,6 +1258,116 @@ def privacy_page():
                 "If you are unhappy with how we handle your data, you can complain to the Information Commissioner's Office at ico.org.uk.",
             ]),
         ],
+    )
+
+
+
+# ---------------------------------------------------------------- audit request
+# The site is static, so the form posts to Web3Forms, which emails each
+# submission to the address the access key was registered with. Create a free
+# key at web3forms.com and put it in AUDIT_FORM_KEY (or the AUDIT_FORM_KEY env
+# var). Access keys are designed to be public.
+AUDIT_FORM_ENDPOINT = "https://api.web3forms.com/submit"
+AUDIT_FORM_KEY = os.environ.get("AUDIT_FORM_KEY", "692c70f3-b95d-40ab-9354-cf5e1774ecd6")
+if AUDIT_FORM_KEY.startswith("REPLACE"):
+    print("WARNING: AUDIT_FORM_KEY is not set, so the audit request form will not deliver yet.", file=sys.stderr)
+
+LABEL = "mb-1.5 block text-sm font-medium text-slate-900 dark:text-white"
+INPUT = (
+    "w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 "
+    "placeholder:text-slate-400 focus:border-blue-500 focus:outline-2 focus:outline-offset-1 focus:outline-blue-500 "
+    "dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
+)
+WA_BTN_CLS = (
+    "hidden cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium "
+    "text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 "
+    "dark:hover:border-slate-500 [.js_&]:inline-flex"
+)
+
+
+def audit_request_page():
+    body = hero(
+        "Audit request",
+        "Request an SEO audit of your website",
+        "Send your website address and Dan will run a full SEO Agent audit himself, then email you the results: a health score, the issues found with the evidence, and a prioritised action plan.",
+    )
+    form = f"""
+        <div class="grid gap-8 lg:grid-cols-5">
+          <div class="lg:col-span-3">
+            <div id="audit-success" tabindex="-1" hidden class="{CARD} border-emerald-500/40 bg-emerald-500/5 dark:border-emerald-400/30">
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Thank you, your request is in</h3>
+              <p class="mt-2 {P}">Dan will run the audit and email the results to the address you gave. If you do not hear back in a few working days, check your spam folder or email <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a>.</p>
+            </div>
+            <form id="audit-form" action="{AUDIT_FORM_ENDPOINT}" method="POST" class="{CARD} flex flex-col gap-5">
+              <input type="hidden" name="access_key" value="{e(AUDIT_FORM_KEY)}" />
+              <input type="hidden" name="from_name" value="SEO Agent website" />
+              <input type="hidden" name="subject" value="SEO audit request" />
+              <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+              <div>
+                <label for="af-name" class="{LABEL}">Name</label>
+                <input id="af-name" name="name" type="text" required autocomplete="name" class="{INPUT}" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="af-website" class="{LABEL}">Website to audit</label>
+                <input id="af-website" name="website" type="text" inputmode="url" required autocomplete="url" class="{INPUT}" placeholder="example.com" />
+              </div>
+              <div>
+                <label for="af-email" class="{LABEL}">Email address</label>
+                <input id="af-email" name="email" type="email" required autocomplete="email" class="{INPUT}" placeholder="you@example.com" />
+              </div>
+              <div>
+                <label for="af-message" class="{LABEL}">Anything Dan should know <span class="font-normal text-slate-500 dark:text-slate-400">(optional)</span></label>
+                <textarea id="af-message" name="message" rows="4" class="{INPUT}" placeholder="Your goals, competitors, pages you are worried about, or what you have already tried."></textarea>
+              </div>
+              <p id="audit-error" role="alert" hidden class="rounded-lg border border-red-500/40 bg-red-500/5 p-3 text-sm text-red-700 dark:text-red-300">Sorry, that did not send. Please email <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a> with your website address, or message Dan on WhatsApp.</p>
+              <div class="flex flex-wrap items-center gap-3">
+                <button type="submit" id="audit-submit" {BTN}>Request my audit</button>
+                <button type="button" data-wa="audit" class="{WA_BTN_CLS}">{WHATSAPP_SVG.replace('h-7 w-7', 'h-4 w-4')}Message on WhatsApp instead</button>
+              </div>
+              <p class="text-xs {P}">We use your details only to run the audit and reply to you. See the <a href="/privacy/" class="{LINK}">privacy policy</a>.</p>
+            </form>
+          </div>
+          <aside class="{CARD} h-fit lg:col-span-2">
+            <h3 class="font-semibold text-slate-900 dark:text-white">What the audit covers</h3>
+            <div class="mt-4">{ul([
+                "Technical SEO: crawlability, indexing, speed and security",
+                "Content quality and on-page SEO",
+                "Structured data and AI search readiness",
+                "A health score out of 100 with every issue ranked Critical to Low",
+                "A phased action plan, with the URLs and values behind each finding",
+            ])}</div>
+          </aside>
+        </div>"""
+    body += section("Send your details", form, sid="request")
+    body += section(
+        "What happens next",
+        steps(
+            [
+                ("You send the form", "It takes a minute. Only the website address is essential."),
+                ("Dan runs the audit", "He runs a full SEO Agent audit on your site and checks the findings."),
+                ("You get the results by email", "A client-ready report with your health score, the issues found and a prioritised plan."),
+                ("Talk it through", "If you want help fixing anything, reply to the email. There is no obligation."),
+            ]
+        ),
+    )
+    body += section(
+        "Questions",
+        faq_list(
+            [
+                ("Is there a charge?", "Audit requests are free and carry no obligation."),
+                ("How long does it take?", "Usually a few working days, depending on the size of the site and how busy Dan is."),
+                ("Can I run audits myself?", f'Yes. <a href="/download/" class="{LINK}">SEO Agent Lite</a> is free for small sites, and <a href="/pricing/" class="{LINK}">Pro</a> is a one-time payment for full audits and branded PDF reports.'),
+            ]
+        ),
+    )
+    body += cta(audit_line=False)
+    return page(
+        "/audit-request/",
+        "Request an SEO audit | SEO Agent",
+        "Send your website address and get a full SEO audit by email: health score, issues with evidence and a prioritised action plan.",
+        "/audit-request/",
+        [("/", "Home"), ("/audit-request/", "Request an audit")],
+        body,
     )
 
 
@@ -1246,6 +1381,7 @@ FAQS = [
         ("Are the audits ready to send to clients?", "Yes, that is what they are built for. Each Pro report opens with an executive summary and health score, every issue is backed by the URLs and values found, and fixes are grouped by priority so a client can see what matters first. The PDF adds charts and a roadmap for presenting."),
         ("Who built SEO Agent?", f'Dan Lowry, an SEO with more than 12 years of experience. The commands, scoring and report structure reflect how audits are actually used with clients. You can find Dan on <a href="https://linkedin.com/in/dan-lowry-seo" target="_blank" rel="noopener noreferrer" class="{LINK}">LinkedIn</a>.'),
         ("Does it replace tools like Ahrefs or Semrush?", "Not entirely. Paid platforms hold large keyword and link databases built over years. SEO Agent is strongest at auditing and diagnosing a site you can crawl, explaining the problems in plain language and turning them into an action plan. Many people use both."),
+        ("Can you run an audit for me?", f'Yes. Send your website address through the <a href="/audit-request/" class="{LINK}">audit request form</a> and Dan will run the audit himself and email you the results.'),
         ("Is SEO Agent made by Anthropic?", "No. SEO Agent is an independent product that runs inside Claude Code. It is not affiliated with or endorsed by Anthropic."),
     ]),
     ("Buying and licence", [
@@ -1651,6 +1787,7 @@ paths.append(pricing_page())
 paths.append(download_page())
 paths.append(commands_hub())
 paths.append(integrations_page())
+paths.append(audit_request_page())
 for cmd in COMMANDS:
     paths.append(command_page(cmd))
 paths.append(install_page())
