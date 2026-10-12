@@ -161,7 +161,7 @@ def breadcrumbs(crumbs):
 
 
 OG_IMAGE_PATH = "/assets/og/seo-agent-cover.png"
-OG_IMAGE_ALT = "SEO Agent sample audit with a health score of 48 out of 100, category scores and issues by severity"
+OG_IMAGE_ALT = "SEO Agent Pro PDF report, executive summary page with category scores and issues by severity"
 
 
 def og_image_tags():
