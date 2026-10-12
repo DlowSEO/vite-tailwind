@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="SEO Agent crawls a site, checks technical, content and AI search issues, and returns a health score with a prioritised action plan. Lite is free. Pro is £50 once."
+    />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://claudeseo.co.uk/seo-audit-tool/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SEO Agent" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Technical SEO audit software for Claude Code | SEO Agent"
+    />
+    <meta
+      property="og:description"
+      content="SEO Agent crawls a site, checks technical, content and AI search issues, and returns a health score with a prioritised action plan. Lite is free. Pro is £50 once."
+    />
+    <meta property="og:url" content="https://claudeseo.co.uk/seo-audit-tool/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Technical SEO audit software for Claude Code | SEO Agent"
+    />
+    <meta
+      name="twitter:description"
+      content="SEO Agent crawls a site, checks technical, content and AI search issues, and returns a health score with a prioritised action plan. Lite is free. Pro is £50 once."
+    />
+    <meta
+      property="og:image"
+      content="https://claudeseo.co.uk/assets/og/seo-agent-cover.png"
+    />
+    <meta property="og:image:width" content="1012" />
+    <meta property="og:image:height" content="824" />
+    <meta
+      property="og:image:alt"
+      content="SEO Agent Pro PDF report, executive summary page with category scores and issues by severity"
+    />
+    <meta
+      name="twitter:image"
+      content="https://claudeseo.co.uk/assets/og/seo-agent-cover.png"
+    />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "and": [
+                { "href_matches": "/*" },
+                { "not": { "href_matches": "/thanks/*" } }
+              ]
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+    <meta
+      name="google-site-verification"
+      content="P4cbHF4VZsLHwY0dEidj9pTNeCHEstbpvItpHZT1vc0"
+    />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="bea2206c-f922-4e5a-a74a-1ec89a546785"
+    ></script>
+    <title>Technical SEO audit software for Claude Code | SEO Agent</title>
+  </head>
+  <body
+    class="min-h-screen bg-white font-inter text-base font-normal text-slate-800 dark:bg-slate-950 dark:text-slate-200"
+  >
+    <div
+      id="cursor-glow"
+      class="pointer-events-none fixed inset-0 -z-10"
+      aria-hidden="true"
+    ></div>
+    <div class="mx-auto flex max-w-5xl flex-col px-6">
+      <header
+        class="relative z-20 flex flex-wrap items-center justify-between gap-4 py-6"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
+        >
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-sm text-white dark:bg-white dark:text-slate-900"
+            >⌁</span
+          >
+          <span
+            >SEO Agent
+            <span
+              class="hidden text-xs font-normal text-slate-500 sm:inline dark:text-slate-400"
+              >for Claude Code</span
+            ></span
+          >
+        </a>
+        <nav
+          class="flex flex-wrap items-center gap-x-5 gap-y-3"
+          aria-label="Main"
+        >
+          <details class="nav-menu relative">
+            <summary
+              class="flex cursor-pointer list-none items-center gap-1 text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >
+              Commands
+              <svg
+                class="h-3 w-3 transition"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M3 4.5 6 7.5 9 4.5" />
+              </svg>
+            </summary>
+            <div
+              class="absolute left-0 z-30 mt-3 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-900/10 sm:right-0 sm:left-auto dark:border-slate-800 dark:bg-slate-900"
+            >
+              <a
+                href="/commands/"
+                class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800"
+                >All commands</a
+              >
+              <div
+                class="my-1 border-t border-slate-200 dark:border-slate-800"
+              ></div>
+              <a
+                href="/commands/audit/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo audit &lt;url&gt;<span
+                    class="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-emerald-700 dark:text-emerald-300"
+                    >Lite + Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Full site audit</span
+                ></a
+              ><a
+                href="/commands/analyse/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo analyse &lt;url&gt;<span
+                    class="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-emerald-700 dark:text-emerald-300"
+                    >Lite + Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Page and technical analysis</span
+                ></a
+              ><a
+                href="/commands/content/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo content &lt;url&gt;<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Content quality and briefs</span
+                ></a
+              ><a
+                href="/commands/local/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo local &lt;url&gt;<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Local SEO and maps</span
+                ></a
+              ><a
+                href="/commands/geo/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo geo &lt;url&gt;<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >AI search readiness</span
+                ></a
+              ><a
+                href="/commands/backlinks/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo backlinks &lt;url&gt;<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Backlink analysis</span
+                ></a
+              ><a
+                href="/commands/strategy/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo strategy [mode]<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >SEO strategy and planning</span
+                ></a
+              ><a
+                href="/commands/google/"
+                class="block rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ><span
+                  class="flex items-center justify-between gap-2 font-mono text-xs text-slate-900 dark:text-white"
+                  >/seo google [cmd]<span
+                    class="rounded-full border border-blue-500/30 bg-blue-500/10 px-1.5 py-0 font-sans text-[10px] font-medium text-blue-700 dark:text-blue-300"
+                    >Pro</span
+                  ></span
+                ><span class="block text-xs text-slate-500 dark:text-slate-400"
+                  >Google SEO APIs</span
+                ></a
+              >
+            </div>
+          </details>
+          <a
+            href="/integrations/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Integrations</a
+          >
+          <a
+            href="/white-label/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >White-label</a
+          >
+          <a
+            href="/pricing/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Pricing</a
+          >
+          <a
+            href="/install/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Install</a
+          >
+          <a
+            href="/faq/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >FAQ</a
+          >
+          <a
+            href="/audit-request/"
+            class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >Request an audit</a
+          >
+          <a
+            href="/pricing/"
+            class="rounded-lg border border-blue-500/30 bg-blue-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-md shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]"
+            >Get Pro</a
+          >
+        </nav>
+      </header>
+      <main>
+        <section class="flex flex-col gap-5 py-14 sm:py-20">
+          <h1
+            class="max-w-3xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white"
+          >
+            Technical SEO audit software that runs in Claude Code
+          </h1>
+          <p class="max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+            SEO Agent crawls a site, checks technical, content and AI search
+            issues, and returns a health score with a prioritised action plan.
+            Lite is free. Pro adds full audits of up to 500 pages and
+            white-label PDF reports for a one-time £50.
+          </p>
+        </section>
+        <section class="reveal scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            How it works
+          </h2>
+          <ol class="grid gap-4 sm:grid-cols-2">
+            <li
+              class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+                >1</span
+              ><span class="text-slate-900 dark:text-white"
+                >Install SEO Agent in Claude Code</span
+              >
+            </li>
+            <li
+              class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+                >2</span
+              ><span class="text-slate-900 dark:text-white"
+                >Run
+                <code
+                  class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.85em] text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+                  >/seo audit https://your-site.com</code
+                ></span
+              >
+            </li>
+            <li
+              class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+                >3</span
+              ><span class="text-slate-900 dark:text-white"
+                >Review findings with the URLs and values found</span
+              >
+            </li>
+            <li
+              class="flex items-center gap-4 rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+                >4</span
+              ><span class="text-slate-900 dark:text-white"
+                >Send the PDF report in your own branding</span
+              >
+            </li>
+          </ol>
+        </section>
+        <section class="reveal scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            Sample audit
+          </h2>
+          <div class="max-w-xl">
+            <div
+              class="report-card rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-[#040c1f] dark:shadow-blue-900/20"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p
+                    class="text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+                  >
+                    SEO audit
+                  </p>
+                  <p class="mt-1 font-semibold text-slate-900 dark:text-white">
+                    <span class="redact" aria-label="site name hidden"
+                      >clientwebsite.co.uk</span
+                    >
+                  </p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">
+                    Events company · Full audit · 40 pages checked
+                  </p>
+                </div>
+                <div class="relative h-24 w-24 shrink-0">
+                  <svg
+                    viewBox="0 0 100 100"
+                    class="h-24 w-24 -rotate-90"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="42"
+                      fill="none"
+                      stroke-width="9"
+                      class="stroke-slate-200 dark:stroke-slate-800"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="42"
+                      fill="none"
+                      stroke-width="9"
+                      stroke-linecap="round"
+                      class="score-ring stroke-amber-500"
+                      pathLength="100"
+                      style="--score: 48"
+                    />
+                  </svg>
+                  <span
+                    class="absolute inset-0 flex flex-col items-center justify-center"
+                    ><span
+                      class="score-count text-2xl font-semibold text-slate-900 dark:text-white"
+                      data-target="48"
+                      >48</span
+                    ><span
+                      class="text-[10px] text-slate-500 dark:text-slate-400"
+                      >/ 100</span
+                    ></span
+                  >
+                </div>
+              </div>
+              <div class="mt-6 flex flex-col gap-2.5">
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400"
+                    >Technical SEO</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-warn block h-full rounded-full"
+                      style="--w: 45%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >45</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400"
+                    >Content quality</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-warn block h-full rounded-full"
+                      style="--w: 58%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >58</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400"
+                    >On-page SEO</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-warn block h-full rounded-full"
+                      style="--w: 60%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >60</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400">Schema</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-bad block h-full rounded-full"
+                      style="--w: 10%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >10</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400"
+                    >Performance</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-bad block h-full rounded-full"
+                      style="--w: 38%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >38</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400"
+                    >AI search</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-warn block h-full rounded-full"
+                      style="--w: 48%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >48</span
+                  >
+                </div>
+                <div
+                  class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"
+                >
+                  <span class="text-slate-500 dark:text-slate-400">Images</span
+                  ><span
+                    class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+                    ><span
+                      class="score-bar tone-warn block h-full rounded-full"
+                      style="--w: 55%"
+                    ></span></span
+                  ><span
+                    class="text-right font-mono text-slate-700 dark:text-slate-300"
+                    >55</span
+                  >
+                </div>
+              </div>
+              <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">
+                <div class="rounded-lg bg-rose-500/10 py-2">
+                  <p class="font-semibold text-rose-600 dark:text-rose-300">
+                    2
+                  </p>
+                  <p class="text-slate-500 dark:text-slate-400">Critical</p>
+                </div>
+                <div class="rounded-lg bg-amber-500/10 py-2">
+                  <p class="font-semibold text-amber-600 dark:text-amber-300">
+                    5
+                  </p>
+                  <p class="text-slate-500 dark:text-slate-400">High</p>
+                </div>
+                <div class="rounded-lg bg-blue-500/10 py-2">
+                  <p class="font-semibold text-blue-600 dark:text-blue-300">
+                    6
+                  </p>
+                  <p class="text-slate-500 dark:text-slate-400">Medium</p>
+                </div>
+                <div class="rounded-lg bg-slate-500/10 py-2">
+                  <p class="font-semibold text-slate-600 dark:text-slate-300">
+                    2
+                  </p>
+                  <p class="text-slate-500 dark:text-slate-400">Low</p>
+                </div>
+              </div>
+              <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">
+                Test audit of a live site, September 2026. Site name hidden.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="reveal scroll-mt-10 pb-16">
+          <h2
+            class="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
+          >
+            Plans
+          </h2>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div
+              class="flex flex-col rounded-2xl border border-slate-200 p-7 dark:border-slate-800"
+            >
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                SEO Agent Lite
+              </h3>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                Try the approach on a small site.
+              </p>
+              <p
+                class="mt-5 text-4xl font-semibold tracking-tight text-slate-900 dark:text-white"
+              >
+                Free
+              </p>
+              <div class="mt-6 flex-1">
+                <ul
+                  class="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-slate-400"
+                >
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Snapshot audits of up to 10 pages</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span
+                      >Single-page analysis with
+                      <code
+                        class="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[0.85em] text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+                        >/seo analyse</code
+                      ></span
+                    >
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Health score and top findings</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Markdown summary report</span>
+                  </li>
+                </ul>
+              </div>
+              <a
+                href="/download/"
+                class="mt-8 rounded-lg border border-slate-200 px-5 py-2.5 text-center text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500"
+                >Download Lite</a
+              >
+            </div>
+            <div
+              class="glow-border relative flex flex-col rounded-2xl border-2 border-blue-500/40 p-7 shadow-xl shadow-blue-600/10 dark:bg-[#040c1f]"
+            >
+              <span
+                class="absolute -top-3 left-7 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-medium text-white"
+                >Best for client work</span
+              >
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                SEO Agent Pro
+              </h3>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                Client-ready audits for any size of site.
+              </p>
+              <p class="mt-5 flex items-baseline gap-2">
+                <span
+                  class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                  >One-time</span
+                ><span class="text-sm text-slate-600 dark:text-slate-400"
+                  >no subscription</span
+                >
+              </p>
+              <div class="mt-6 flex-1">
+                <ul
+                  class="flex flex-col gap-2.5 text-sm text-slate-600 dark:text-slate-400"
+                >
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>All 8 commands and every mode</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Full audits of up to 500 pages</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Every specialist agent, run in parallel</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span
+                      >Client-ready A4 PDF reports in your own branding</span
+                    >
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span
+                      >White-label reports: your logo, colours and tone of voice
+                      on every export</span
+                    >
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span
+                      >Google, backlink, local, AI search and strategy
+                      tools</span
+                    >
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>All 3.x updates included</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Use it for client work</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Direct access to Dan, the creator</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="m3.5 8.5 3 3 6-7" /></svg
+                    ><span>Up to 3 of your computers</span>
+                  </li>
+                </ul>
+              </div>
+              <a
+                href="/pricing/#buy"
+                class="mt-8 rounded-lg border border-blue-500/30 bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 dark:border-blue-400/30 dark:bg-[#040c1f] dark:text-blue-50 dark:shadow-blue-500/20 dark:hover:bg-[#0a1530]"
+                >See Pro pricing</a
+              >
+            </div>
+          </div>
+        </section>
+        <section class="pb-20">
+          <div class="flex w-full max-w-2xl flex-col gap-3">
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Free to try. Pro is £50 once, VAT included, with no subscription.
+            </p>
+            <div class="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+              <div
+                class="rounded-xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70"
+              >
+                <p
+                  class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  100+
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Downloads
+                </p>
+              </div>
+              <div
+                class="rounded-xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70"
+              >
+                <p
+                  class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  8
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Commands
+                </p>
+              </div>
+              <div
+                class="rounded-xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70"
+              >
+                <p
+                  class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  500
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Pages per Pro audit
+                </p>
+              </div>
+              <div
+                class="rounded-xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70"
+              >
+                <p
+                  class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+                >
+                  £50
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Once, no subscription
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer
+        class="border-t border-slate-200 py-12 text-sm dark:border-slate-800"
+      >
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+          <div class="lg:col-span-1">
+            <a
+              href="/"
+              class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
+            >
+              <span
+                class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs text-white dark:bg-white dark:text-slate-900"
+                >⌁</span
+              >
+              SEO Agent
+            </a>
+            <p class="mt-3 text-slate-500 dark:text-slate-400">
+              Client-ready SEO audits for Claude Code. Built by Dan Lowry.
+            </p>
+            <a
+              href="https://linkedin.com/in/dan-lowry-seo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-3 inline-block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              >LinkedIn</a
+            >
+          </div>
+          <div class="lg:col-span-2">
+            <h2
+              class="mb-3 text-xs font-semibold tracking-wide text-slate-900 uppercase dark:text-white"
+            >
+              Commands
+            </h2>
+            <ul class="grid grid-cols-2 gap-x-6 gap-y-2">
+              <li>
+                <a
+                  href="/commands/audit/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Full site audit</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/analyse/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Page and technical analysis</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/content/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Content quality and briefs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/local/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Local SEO and maps</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/geo/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >AI search readiness</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/backlinks/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Backlink analysis</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/strategy/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >SEO strategy and planning</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/google/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Google SEO APIs</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h2
+              class="mb-3 text-xs font-semibold tracking-wide text-slate-900 uppercase dark:text-white"
+            >
+              Product
+            </h2>
+            <ul class="flex flex-col gap-2">
+              <li>
+                <a
+                  href="/pricing/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/download/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Download Lite</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/install/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Install Pro</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/commands/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >All commands</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/integrations/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Integrations</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/white-label/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >White-label reports</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/compare/other-claude-seo-agents/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Compare Claude SEO agents</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/compare/your-existing-seo-tools/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Compare with your SEO tools</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/faq/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >FAQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/audit-request/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Request an audit</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/DlowSEO/seo-agent-lite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Lite on GitHub</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h2
+              class="mb-3 text-xs font-semibold tracking-wide text-slate-900 uppercase dark:text-white"
+            >
+              Legal
+            </h2>
+            <ul class="flex flex-col gap-2">
+              <li>
+                <a
+                  href="/terms/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Terms and licence</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/refunds/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Refund policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/privacy/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >Privacy policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="mailto:dan@claudeseo.co.uk"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >dan@claudeseo.co.uk</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-10 text-xs text-slate-400 dark:text-slate-500">
+          SEO Agent is an independent product and is not affiliated with or
+          endorsed by Anthropic. Claude and Claude Code are trademarks of
+          Anthropic.
+        </p>
+      </footer>
+    </div>
+    <button
+      type="button"
+      id="wa-chat"
+      aria-label="Message us on WhatsApp"
+      title="Message us on WhatsApp"
+      class="fixed right-5 bottom-5 z-50 hidden h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition hover:scale-105 hover:bg-[#1ebe5b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] [.js_&]:flex"
+    >
+      <svg
+        class="h-7 w-7"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+        />
+      </svg>
+    </button>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
