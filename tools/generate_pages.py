@@ -180,7 +180,7 @@ def og_image_tags():
     <meta name="twitter:image" content="{url}" />"""
 
 
-def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
+def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None, canonical=True):
     """noindex=True writes "noindex"; a string (such as "noindex, follow") is used as the robots value."""
     ld, crumb_html = breadcrumbs(crumbs) if crumbs else ("", "")
     if extra_ld:
@@ -194,7 +194,7 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="{e(desc)}" />
-    {robots}<link rel="canonical" href="{SITE}{path}" />
+    {robots}{f'<link rel="canonical" href="{SITE}{path}" />' if canonical else ""}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SEO Agent" />
     <meta property="og:locale" content="en_GB" />
@@ -2168,6 +2168,27 @@ def seo_audit_tool_page():
     )
 
 
+# ---------------------------------------------------------------- 404
+def not_found_page():
+    # Served by Apache for any missing URL (see .htaccess below), so it keeps the normal nav and footer.
+    body = hero(
+        "404",
+        "Page not found",
+        "The page you were looking for does not exist or has moved. Try one of these instead.",
+    )
+    body += f"""
+      <div class="grid gap-4 pb-20 sm:grid-cols-2">{"".join(
+          f'<a href="{href}" class="{CARD} block transition hover:border-slate-400 dark:hover:border-slate-600"><h2 class="font-semibold text-slate-900 dark:text-white">{t}</h2><p class="mt-1 text-sm {P}">{d}</p></a>'
+          for href, t, d in [
+              ("/", "Home", "What SEO Agent does and a sample audit."),
+              ("/commands/", "Commands", "All eight commands in detail."),
+              ("/pricing/", "Pricing", "Free Lite, or Pro for a one-time payment."),
+              ("/faq/", "FAQ", "Answers to the questions people ask most."),
+          ]
+      )}</div>"""
+    page("/404/", "Page not found | SEO Agent", "The page you were looking for does not exist or has moved.", "/404/", [], body, noindex=True, canonical=False)
+
+
 paths = []
 paths.append(home_page())
 paths.append(pricing_page())
@@ -2186,6 +2207,7 @@ paths.append(terms_page())
 paths.append(refunds_page())
 paths.append(privacy_page())
 thanks_page()
+not_found_page()
 reddit_page()
 agencies_page()
 seo_audit_tool_page()
@@ -2197,6 +2219,8 @@ with open(os.path.join(SRC, "public", "sitemap.xml"), "w") as f:
     for p in paths:
         f.write(f"  <url><loc>{SITE}{p}</loc><lastmod>{UPDATED}</lastmod></url>\n")
     f.write("</urlset>\n")
+with open(os.path.join(SRC, "public", ".htaccess"), "w") as f:
+    f.write("ErrorDocument 404 /404/index.html\n")
 with open(os.path.join(SRC, "public", "robots.txt"), "w") as f:
     f.write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
 
