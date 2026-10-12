@@ -1555,6 +1555,74 @@ def sample_audit_card():
           </div>'''
 
 
+# ---------------------------------------------------------------- white-label cover gallery
+# The same audit cover restyled for made-up brands, to show how far a brand profile can take a report.
+# Agency names and logos are fake and blurred. Layout and palette come from the wl-* classes in style.css.
+WL_MARKS = {
+    "seo": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="var(--wl-accent)"/><path d="m8 9 3 3-3 3m5 0h4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    "crest": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 21 6v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4Z" fill="var(--wl-accent)"/><path d="M12 7v10M7 12h10" stroke="var(--wl-on-accent)" stroke-width="1.6"/></svg>',
+    "dot": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--wl-accent)" stroke-width="3"/><circle cx="12" cy="12" r="4" fill="var(--wl-ink)"/></svg>',
+    "diamond": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 23 12 12 23 1 12Z" fill="var(--wl-accent)"/><path d="M12 6 18 12 12 18 6 12Z" fill="var(--wl-bg)"/></svg>',
+    "bars": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="10" width="5" height="12" rx="2" fill="var(--wl-accent)"/><rect x="9.5" y="5" width="5" height="17" rx="2" fill="var(--wl-accent2)"/><rect x="17" y="2" width="5" height="20" rx="2" fill="var(--wl-ink)"/></svg>',
+    "bloom": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="var(--wl-accent)" opacity=".85"/><circle cx="16" cy="8" r="6" fill="var(--wl-accent2)" opacity=".85"/><circle cx="12" cy="16" r="6" fill="var(--wl-ring)" opacity=".85"/></svg>',
+}
+
+WL_COVERS = [
+    {"name": "No brand set", "note": "The clean default design", "layout": "band", "mark": "seo", "wordmark": "SEO Agent",
+     "vars": {"bg": "#ffffff", "ink": "#0b1220", "muted": "#64748b", "line": "#e2e8f0", "accent": "#0f766e", "accent2": "#14b8a6", "on-accent": "#ffffff", "ring": "#0f766e", "track": "#e2e8f0", "deco": "linear-gradient(135deg, #0b1220, #0f766e)", "font": "var(--font-inter)"}},
+    {"name": "Boutique", "note": "Serif type and a side panel", "layout": "side", "mark": "crest",
+     "vars": {"bg": "#fbf7f0", "ink": "#4a1426", "muted": "#8a6f62", "line": "#e8dccb", "accent": "#c8a253", "accent2": "#7a1f3d", "on-accent": "#7a1f3d", "ring": "#c8a253", "track": "rgb(255 255 255 / 0.18)", "deco": "#7a1f3d", "font": "Georgia, 'Times New Roman', serif"}},
+    {"name": "Studio", "note": "Minimal, mono and one sharp accent", "layout": "mini", "mark": "dot",
+     "vars": {"bg": "#ffffff", "ink": "#111111", "muted": "#6b6b6b", "line": "#111111", "accent": "#2b59ff", "accent2": "#2b59ff", "on-accent": "#ffffff", "ring": "#2b59ff", "track": "#ececec", "deco": "#2b59ff", "font": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace"}},
+    {"name": "Executive", "note": "Dark cover with gold detail", "layout": "dark", "mark": "diamond",
+     "vars": {"bg": "#0e1726", "ink": "#f5f1e6", "muted": "#a9b1c2", "line": "rgb(212 175 55 / 0.35)", "accent": "#d4af37", "accent2": "#d4af37", "on-accent": "#0e1726", "ring": "#d4af37", "track": "rgb(255 255 255 / 0.12)", "deco": "radial-gradient(70% 45% at 50% 0%, rgb(212 175 55 / 0.22), transparent 70%)", "font": "var(--font-inter)"}},
+    {"name": "Bold", "note": "Big shapes and warm colours", "layout": "bold", "mark": "bars",
+     "vars": {"bg": "#fff4ec", "ink": "#1d1d1f", "muted": "#6e5b52", "line": "#f3d3c2", "accent": "#ff5a36", "accent2": "#ffc53d", "on-accent": "#ffffff", "ring": "#ffffff", "track": "rgb(255 255 255 / 0.3)", "deco": "#ff5a36", "font": "'Arial Black', 'Helvetica Neue', Arial, sans-serif"}},
+    {"name": "Soft", "note": "Pastel gradient and rounded cards", "layout": "soft", "mark": "bloom",
+     "vars": {"bg": "linear-gradient(160deg, #ede9fe, #e0f2fe 55%, #dcfce7)", "ink": "#312e81", "muted": "#6366a0", "line": "#e4e2f5", "accent": "#8b5cf6", "accent2": "#38bdf8", "on-accent": "#ffffff", "ring": "#10b981", "track": "#e9e7f7", "deco": "#ffffff", "font": "'Trebuchet MS', 'Avenir Next', var(--font-inter)"}},
+]
+
+
+def wl_cover(cv, n):
+    style = ";".join(f"--wl-{k}:{v}" for k, v in cv["vars"].items())
+    swatches = [cv["vars"][k] for k in ("accent2", "accent", "ink")]
+    if cv.get("wordmark"):
+        # No brand set: the small SEO Agent wordmark the default design uses, left readable.
+        word, logo_label, by = cv["wordmark"], f'{cv["wordmark"]} wordmark', ""
+        word_html = f"<span>{e(word)}</span>"
+    else:
+        logo_label = "Made-up agency logo, blurred"
+        word_html = '<span class="wl-blur" aria-hidden="true">Agency name</span>'
+        by = '<span>Prepared by <span class="wl-blur" aria-hidden="true">Agency name</span></span>'
+    ring = (
+        '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--wl-track)" stroke-width="9"/>'
+        f'<circle cx="50" cy="50" r="42" fill="none" stroke="var(--wl-ring)" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="{AUDIT_SCORE} 100" transform="rotate(-90 50 50)"/></svg>'
+    )
+    return f"""<figure class="wl-slide" role="group" aria-roledescription="slide" aria-label="{n} of {len(WL_COVERS)}: {e(cv['name'])}">
+            <div class="wl-sheet"><div class="wl-cover wl-{cv['layout']}" style="{style}">
+              <div class="wl-deco" aria-hidden="true"></div><div class="wl-deco2" aria-hidden="true"></div>
+              <div class="wl-logo" role="img" aria-label="{e(logo_label)}">{WL_MARKS[cv['mark']]}{word_html}</div>
+              <div class="wl-title"><p class="wl-kicker">SEO audit report</p><p class="wl-site"><span class="wl-blur" aria-label="site name hidden">clientwebsite.co.uk</span></p><p class="wl-date">Full audit · 30 September 2026</p></div>
+              <div class="wl-score">{ring}<p><b>{AUDIT_SCORE}</b><span>Health score</span></p></div>
+              <div class="wl-stats"><div><b>15</b><span>issues found</span></div><div><b>2</b><span>critical</span></div><div><b>40</b><span>pages checked</span></div></div>
+              <div class="wl-foot">{by}<span>Confidential</span></div>
+            </div></div>
+            <figcaption class="mt-3 flex items-center justify-between gap-3 text-sm"><span><span class="block font-medium text-slate-900 dark:text-white">{e(cv['name'])}</span><span class="block text-xs text-slate-500 dark:text-slate-400">{e(cv['note'])}</span></span><span class="flex shrink-0 gap-1" aria-hidden="true">{"".join(f'<i class="h-3.5 w-3.5 rounded-full ring-1 ring-slate-900/10 dark:ring-white/20" style="background:{sw}"></i>' for sw in swatches)}</span></figcaption>
+          </figure>"""
+
+
+def brand_gallery():
+    slides = "".join(wl_cover(cv, n) for n, cv in enumerate(WL_COVERS, 1))
+    arrow = lambda d, label, path: f'<button type="button" class="wl-nav flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-400 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500" data-dir="{d}" aria-label="{label}"><svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="{path}"/></svg></button>'
+    return f"""<div class="wl-gallery" aria-roledescription="carousel" aria-label="Example report covers in different brands">
+          <div class="wl-track" tabindex="0">{slides}</div>
+          <div class="mt-2 flex items-center justify-between gap-4">
+            <p class="text-xs text-slate-500 dark:text-slate-400">Illustrative covers from one audit, for made-up agencies. Names and logos are blurred.</p>
+            <div class="flex shrink-0 gap-2">{arrow(-1, "Previous cover", "M10 3 5 8l5 5")}{arrow(1, "Next cover", "m6 3 5 5-5 5")}</div>
+          </div>
+        </div>"""
+
+
 # ---------------------------------------------------------------- home
 def home_page():
     rows = "".join(
@@ -1782,7 +1850,8 @@ def home_page():
             "A separate profile for each client or brand, if you work for several",
             "A clean default design if you do not set one",
         ])}</div>
-        <div class="mt-6"><a href="/white-label/" {BTN2}>See white-label reports</a></div>
+        <div class="mt-10">{brand_gallery()}</div>
+        <div class="mt-8"><a href="/white-label/" {BTN2}>See white-label reports</a></div>
       </section>'''
 
     body += section("Pricing", pricing_cards())
@@ -1923,6 +1992,7 @@ def white_label_page():
         "Tell SEO Agent your logo, colours and tone of voice once. Every audit report and PDF you export after that follows them, so what reaches the client looks and sounds like you.",
         tier_tag({"lite": False}),
     )
+    body += section("One audit, six brands", brand_gallery())
     body += section(
         "How it works",
         steps(

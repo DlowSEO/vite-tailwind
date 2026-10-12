@@ -1047,3 +1047,531 @@ header {
   background: #f1f5f9;
   color: #475569;
 }
+
+/* ---- White-label cover gallery ------------------------------------------------
+   One audit cover restyled per brand. Everything inside a cover is sized in cqw,
+   so it scales with the card from phones to desktop. Palettes come from the
+   --wl-* custom properties set on each cover. */
+.wl-track {
+  display: flex;
+  gap: 1.25rem;
+  margin-inline: -1.5rem;
+  padding: 0.5rem 1.5rem 1.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.5rem;
+  scrollbar-width: none;
+}
+
+.wl-track::-webkit-scrollbar {
+  display: none;
+}
+
+.wl-track:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.wl-slide {
+  flex: 0 0 min(72vw, 17.5rem);
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.wl-sheet {
+  container-type: inline-size;
+}
+
+.wl-cover {
+  position: relative;
+  aspect-ratio: 600 / 848;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--wl-bg);
+  color: var(--wl-ink);
+  font-family: var(--wl-font);
+  line-height: 1.3;
+  box-shadow:
+    0 24px 50px -24px rgb(2 6 23 / 0.45),
+    0 0 0 1px rgb(15 23 42 / 0.08);
+}
+
+.wl-cover > * {
+  position: absolute;
+}
+
+.wl-deco,
+.wl-deco2 {
+  display: none;
+  pointer-events: none;
+}
+
+.wl-blur {
+  filter: blur(0.32em);
+  user-select: none;
+}
+
+.wl-logo {
+  top: 7cqw;
+  left: 7cqw;
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  font-size: 3cqw;
+  font-weight: 700;
+}
+
+.wl-logo svg {
+  width: 6.5cqw;
+  height: 6.5cqw;
+  flex-shrink: 0;
+}
+
+.wl-logo:has(.wl-blur) svg {
+  filter: blur(0.25cqw);
+}
+
+.wl-title {
+  top: 22cqw;
+  right: 7cqw;
+  left: 7cqw;
+}
+
+.wl-kicker {
+  font-size: 2.1cqw;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.wl-site {
+  margin-top: 2cqw;
+  font-size: 6.6cqw;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.wl-date {
+  margin-top: 1.5cqw;
+  font-size: 2.3cqw;
+  opacity: 0.75;
+}
+
+.wl-score {
+  top: 50cqw;
+  left: 7cqw;
+  width: 30cqw;
+  aspect-ratio: 1;
+}
+
+.wl-score svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wl-score p {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wl-score b {
+  font-size: 9cqw;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.wl-score span {
+  margin-top: 0.8cqw;
+  color: var(--wl-muted);
+  font-size: 1.7cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wl-stats {
+  top: 92cqw;
+  right: 7cqw;
+  left: 7cqw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4cqw;
+}
+
+.wl-stats div {
+  padding: 2.6cqw;
+  border: 0.3cqw solid var(--wl-line);
+  border-radius: 2cqw;
+}
+
+.wl-stats b {
+  display: block;
+  font-size: 5cqw;
+  letter-spacing: -0.02em;
+}
+
+.wl-stats div:nth-child(2) b {
+  color: #e11d48;
+}
+
+.wl-stats span {
+  color: var(--wl-muted);
+  font-size: 1.9cqw;
+}
+
+.wl-foot {
+  right: 7cqw;
+  bottom: 5cqw;
+  left: 7cqw;
+  display: flex;
+  justify-content: space-between;
+  gap: 2cqw;
+  color: var(--wl-muted);
+  font-size: 1.7cqw;
+}
+
+/* Default: dark band across the top, score badge overlapping it. */
+.wl-band .wl-deco {
+  display: block;
+  inset: 0 0 auto;
+  height: 64cqw;
+  background: var(--wl-deco);
+}
+
+.wl-band .wl-logo,
+.wl-band .wl-title {
+  color: #fff;
+}
+
+.wl-band .wl-score {
+  top: 46cqw;
+  width: 34cqw;
+  padding: 2.2cqw;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3cqw 6cqw -3cqw rgb(15 23 42 / 0.5);
+}
+
+/* Boutique: full-height colour panel on the left, serif type. */
+.wl-side .wl-deco {
+  display: block;
+  inset: 0 auto 0 0;
+  width: 36cqw;
+  background: var(--wl-deco);
+}
+
+.wl-side .wl-deco2 {
+  display: block;
+  inset: 0 auto 0 36cqw;
+  width: 0.8cqw;
+  background: var(--wl-accent);
+}
+
+.wl-side .wl-logo {
+  left: 5cqw;
+  width: 26cqw;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fbf7f0;
+}
+
+.wl-side .wl-logo svg {
+  width: 9cqw;
+  height: 9cqw;
+}
+
+.wl-side .wl-title {
+  top: 18cqw;
+  right: 6cqw;
+  left: 42cqw;
+}
+
+.wl-side .wl-kicker {
+  color: var(--wl-accent2);
+}
+
+.wl-side .wl-site {
+  font-size: 6cqw;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.wl-side .wl-score {
+  top: 84cqw;
+  left: 4cqw;
+  width: 28cqw;
+}
+
+.wl-side .wl-score b {
+  color: #fbf7f0;
+}
+
+.wl-side .wl-score span {
+  color: rgb(251 247 240 / 0.7);
+}
+
+.wl-side .wl-stats {
+  top: 62cqw;
+  right: 6cqw;
+  left: 42cqw;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.wl-side .wl-stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 2.5cqw;
+  padding: 2.4cqw 0;
+  border: 0;
+  border-bottom: 0.25cqw solid var(--wl-line);
+  border-radius: 0;
+}
+
+.wl-side .wl-stats b {
+  min-width: 7cqw;
+  font-weight: 400;
+}
+
+.wl-side .wl-foot {
+  left: 42cqw;
+}
+
+/* Studio: white page, heavy rule, one accent colour, mono type. */
+.wl-mini .wl-logo {
+  right: 7cqw;
+  left: auto;
+}
+
+.wl-mini .wl-deco {
+  display: block;
+  top: 17cqw;
+  right: 7cqw;
+  left: 7cqw;
+  height: 0.5cqw;
+  background: var(--wl-ink);
+}
+
+.wl-mini .wl-deco2 {
+  display: block;
+  top: 16.4cqw;
+  left: 7cqw;
+  width: 16cqw;
+  height: 1.7cqw;
+  background: var(--wl-accent);
+}
+
+.wl-mini .wl-title {
+  top: 27cqw;
+}
+
+.wl-mini .wl-kicker {
+  color: var(--wl-accent);
+  opacity: 1;
+}
+
+.wl-mini .wl-site {
+  font-size: 7.4cqw;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.wl-mini .wl-score {
+  top: 64cqw;
+  right: 7cqw;
+  left: auto;
+  width: 28cqw;
+}
+
+.wl-mini .wl-stats {
+  top: 64cqw;
+  right: 42cqw;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.wl-mini .wl-stats div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 2.2cqw 0;
+  border: 0;
+  border-top: 0.3cqw solid var(--wl-line);
+  border-radius: 0;
+}
+
+.wl-mini .wl-stats div:nth-child(2) b {
+  color: var(--wl-accent);
+}
+
+/* Executive: dark page, centred layout, gold keyline. */
+.wl-dark .wl-deco {
+  display: block;
+  inset: 0;
+  background: var(--wl-deco);
+}
+
+.wl-dark .wl-deco2 {
+  display: block;
+  inset: 3cqw;
+  border: 0.3cqw solid var(--wl-line);
+  border-radius: 1.5cqw;
+}
+
+.wl-dark .wl-logo {
+  top: 11cqw;
+  right: 0;
+  left: 0;
+  justify-content: center;
+}
+
+.wl-dark .wl-title {
+  top: 25cqw;
+  text-align: center;
+}
+
+.wl-dark .wl-kicker {
+  color: var(--wl-accent);
+}
+
+.wl-dark .wl-score {
+  top: 54cqw;
+  left: 33cqw;
+  width: 34cqw;
+}
+
+.wl-dark .wl-stats {
+  top: 99cqw;
+  right: 11cqw;
+  left: 11cqw;
+  text-align: center;
+}
+
+.wl-dark .wl-stats div:nth-child(2) b {
+  color: #fb7185;
+}
+
+.wl-dark .wl-foot {
+  bottom: 8cqw;
+  justify-content: center;
+  gap: 5cqw;
+}
+
+/* Bold: oversized circles, heavy type, score inside the shape. */
+.wl-bold .wl-deco {
+  display: block;
+  top: -38cqw;
+  right: -34cqw;
+  width: 100cqw;
+  height: 100cqw;
+  border-radius: 50%;
+  background: var(--wl-deco);
+}
+
+.wl-bold .wl-deco2 {
+  display: block;
+  top: 42cqw;
+  left: -10cqw;
+  width: 28cqw;
+  height: 28cqw;
+  border-radius: 50%;
+  background: var(--wl-accent2);
+}
+
+.wl-bold .wl-score {
+  top: 12cqw;
+  right: 10cqw;
+  left: auto;
+  width: 32cqw;
+}
+
+.wl-bold .wl-score b {
+  color: #fff;
+}
+
+.wl-bold .wl-score span {
+  color: rgb(255 255 255 / 0.85);
+}
+
+.wl-bold .wl-title {
+  top: 74cqw;
+}
+
+.wl-bold .wl-kicker {
+  color: var(--wl-accent);
+  opacity: 1;
+}
+
+.wl-bold .wl-site {
+  font-size: 8.4cqw;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.wl-bold .wl-stats {
+  top: 104cqw;
+}
+
+.wl-bold .wl-stats div {
+  border: 0;
+  border-radius: 3cqw;
+  background: #fff;
+}
+
+/* Soft: pastel gradient page with a floating rounded card. */
+.wl-soft .wl-deco {
+  display: block;
+  top: 48cqw;
+  right: 6cqw;
+  left: 6cqw;
+  height: 74cqw;
+  border-radius: 5cqw;
+  background: var(--wl-deco);
+  box-shadow: 0 3cqw 6cqw -3cqw rgb(49 46 129 / 0.3);
+}
+
+.wl-soft .wl-deco2 {
+  display: block;
+  top: -12cqw;
+  right: -10cqw;
+  width: 44cqw;
+  height: 44cqw;
+  border-radius: 50%;
+  background: rgb(139 92 246 / 0.22);
+  filter: blur(3cqw);
+}
+
+.wl-soft .wl-title {
+  top: 20cqw;
+}
+
+.wl-soft .wl-kicker {
+  color: var(--wl-accent);
+}
+
+.wl-soft .wl-score {
+  top: 54cqw;
+  left: 35cqw;
+  width: 30cqw;
+}
+
+.wl-soft .wl-stats {
+  top: 92cqw;
+  right: 11cqw;
+  left: 11cqw;
+  text-align: center;
+}
+
+.wl-soft .wl-stats div {
+  border: 0;
+  border-radius: 3cqw;
+  background: #f5f3ff;
+}

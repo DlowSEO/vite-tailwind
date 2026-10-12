@@ -588,3 +588,75 @@ if (auditForm) {
     websiteInput.setCustomValidity(""),
   );
 }
+
+// White-label cover gallery: native swipe and scroll-snap, plus previous and
+// next buttons that step one cover at a time and disable at either end.
+document.querySelectorAll(".wl-gallery").forEach((gallery) => {
+  const track = gallery.querySelector(".wl-track");
+  const slides = [...track.querySelectorAll(".wl-slide")];
+  const [prev, next] = gallery.querySelectorAll(".wl-nav");
+  const max = () => track.scrollWidth - track.clientWidth;
+  const offset = (i) =>
+    Math.min(max(), slides[i].offsetLeft - slides[0].offsetLeft);
+  let index = 0;
+  let moving = null;
+
+  // The cover nearest the current scroll position, once a scroll settles.
+  const sync = () => {
+    const x = track.scrollLeft;
+    index = slides.reduce(
+      (best, _, i) =>
+        Math.abs(offset(i) - x) < Math.abs(offset(best) - x) ? i : best,
+      0,
+    );
+    prev.disabled = x <= 2;
+    next.disabled = x >= max() - 2;
+  };
+
+  const go = (dir) => {
+    // Step from where the user is now, or from the pending target while a
+    // button scroll is still running, so quick repeat clicks add up.
+    if (!moving) sync();
+    index = Math.max(0, Math.min(slides.length - 1, index + dir));
+    while (index > 0 && offset(index) === offset(index - 1) && dir > 0) {
+      index -= 1;
+    }
+    const left = offset(index);
+    prev.disabled = left <= 2;
+    next.disabled = left >= max() - 2;
+    clearTimeout(moving);
+    moving = setTimeout(() => {
+      moving = null;
+      sync();
+    }, 700);
+    track.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
+  };
+
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  track.addEventListener(
+    "scroll",
+    () => {
+      if (!moving) sync();
+    },
+    { passive: true },
+  );
+  // A swipe, drag or wheel takes over from any button-driven scroll.
+  ["pointerdown", "touchstart", "wheel"].forEach((type) =>
+    track.addEventListener(
+      type,
+      () => {
+        clearTimeout(moving);
+        moving = null;
+      },
+      { passive: true },
+    ),
+  );
+  track.addEventListener("scrollend", () => {
+    clearTimeout(moving);
+    moving = null;
+    sync();
+  });
+  window.addEventListener("resize", sync);
+  sync();
+});
