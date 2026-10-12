@@ -77,6 +77,7 @@ def header(active):
             </div>
           </details>
           <a href="/integrations/" class="{cls('/integrations/')}"{cur("/integrations/")}>Integrations</a>
+          <a href="/white-label/" class="{cls('/white-label/')}"{cur("/white-label/")}>White-label</a>
           <a href="/pricing/" class="{cls('/pricing/')}"{cur("/pricing/")}>Pricing</a>
           <a href="/install/" class="{cls('/install/')}"{cur("/install/")}>Install</a>
           <a href="/faq/" class="{cls('/faq/')}"{cur("/faq/")}>FAQ</a>
@@ -113,6 +114,9 @@ def footer():
               <li><a href="/install/" class="{fl}">Install Pro</a></li>
               <li><a href="/commands/" class="{fl}">All commands</a></li>
               <li><a href="/integrations/" class="{fl}">Integrations</a></li>
+              <li><a href="/white-label/" class="{fl}">White-label reports</a></li>
+              <li><a href="/compare/other-claude-seo-agents/" class="{fl}">Compare Claude SEO agents</a></li>
+              <li><a href="/compare/your-existing-seo-tools/" class="{fl}">Compare with your SEO tools</a></li>
               <li><a href="/faq/" class="{fl}">FAQ</a></li>
               <li><a href="/audit-request/" class="{fl}">Request an audit</a></li>
               <li><a href="{LITE_REPO}" target="_blank" rel="noopener noreferrer" class="{fl}">Lite on GitHub</a></li>
@@ -155,11 +159,30 @@ def breadcrumbs(crumbs):
     )
 
 
+OG_IMAGE_PATH = "/assets/og/seo-agent-cover.png"
+OG_IMAGE_ALT = "SEO Agent running an audit in Claude Code, with the text Client-ready SEO audits for Claude Code"
+
+
+def og_image_tags():
+    # Only reference the cover image once it exists in src/public, so no page shares a broken image.
+    if not os.path.exists(os.path.join(SRC, "public", OG_IMAGE_PATH.lstrip("/"))):
+        return ""
+    url = SITE + OG_IMAGE_PATH
+    return f"""
+    <meta property="og:image" content="{url}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="{e(OG_IMAGE_ALT)}" />
+    <meta name="twitter:image" content="{url}" />"""
+
+
 def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
+    """noindex=True writes "noindex"; a string (such as "noindex, follow") is used as the robots value."""
     ld, crumb_html = breadcrumbs(crumbs) if crumbs else ("", "")
     if extra_ld:
         ld += f'<script type="application/ld+json">{json.dumps(extra_ld)}</script>'
-    robots = '<meta name="robots" content="noindex" />\n    ' if noindex else ""
+    robots_value = noindex if isinstance(noindex, str) else "noindex"
+    robots = f'<meta name="robots" content="{robots_value}" />\n    ' if noindex else ""
     doc = f"""<!doctype html>
 <html lang="en-GB">
   <head>
@@ -168,10 +191,15 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="{e(desc)}" />
     {robots}<link rel="canonical" href="{SITE}{path}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SEO Agent" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content="{e(title)}" />
     <meta property="og:description" content="{e(desc)}" />
     <meta property="og:url" content="{SITE}{path}" />
-    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{e(title)}" />
+    <meta name="twitter:description" content="{e(desc)}" />{og_image_tags()}
     <script>document.documentElement.classList.add("js")</script>
     <link rel="stylesheet" href="/style.css" />
     <script type="speculationrules">{{"prerender":[{{"where":{{"and":[{{"href_matches":"/*"}},{{"not":{{"href_matches":"/thanks/*"}}}}]}},"eagerness":"moderate"}}]}}</script>
@@ -203,9 +231,14 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None):
 
 
 def hero(eyebrow, h1, lead, tag=""):
+    chips = (
+        f'<div class="flex flex-wrap items-center gap-2"><span class="w-fit rounded-full border border-slate-200 px-3 py-1 font-mono text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">{e(eyebrow)}</span>{tag}</div>'
+        if eyebrow
+        else ""
+    )
     return f"""
       <section class="flex flex-col gap-5 py-14 sm:py-20">
-        <div class="flex flex-wrap items-center gap-2"><span class="w-fit rounded-full border border-slate-200 px-3 py-1 font-mono text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">{e(eyebrow)}</span>{tag}</div>
+        {chips}
         <h1 class="max-w-3xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white">{e(h1)}</h1>
         <p class="max-w-2xl text-lg {P}">{lead}</p>
       </section>"""
@@ -963,12 +996,48 @@ PRO_FEATURES = [
     "All 8 commands and every mode",
     "Full audits of up to 500 pages",
     "Every specialist agent, run in parallel",
-    "Client-ready branded A4 PDF reports",
+    "Client-ready A4 PDF reports in your own branding",
+    "White-label reports: your logo, colours and tone of voice on every export",
     "Google, backlink, local, AI search and strategy tools",
     "All 3.x updates included",
     "Use it for client work",
+    "Direct access to Dan, the creator",
     "Up to 3 of your computers",
 ]
+
+
+SOFTWARE_LD = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SEO Agent",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "url": f"{SITE}/",
+    "description": "SEO audit commands for Claude Code, with a health score, prioritised action plan and white-label PDF reports.",
+    "offers": [
+        {"@type": "Offer", "name": "SEO Agent Lite", "price": "0", "priceCurrency": "GBP"},
+        {"@type": "Offer", "name": "SEO Agent Pro", "price": "50", "priceCurrency": "GBP"},
+    ],
+}
+
+PROOF_FIGURES = [
+    ("100+", "Downloads"),
+    ("8", "Commands"),
+    ("500", "Pages per Pro audit"),
+    (PRICE, "Once, no subscription"),
+]
+
+
+def proof_strip(centered=True):
+    align = "mx-auto text-center" if centered else ""
+    tiles = "".join(
+        f'<div class="rounded-xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70"><p class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">{e(n)}</p><p class="text-xs text-slate-500 dark:text-slate-400">{e(label)}</p></div>'
+        for n, label in PROOF_FIGURES
+    )
+    return f"""<div class="{align} flex w-full max-w-2xl flex-col gap-3">
+          <p class="text-sm {P}">Free to try. Pro is {PRICE} once, VAT included, with no subscription.</p>
+          <div class="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">{tiles}</div>
+        </div>"""
 
 
 def tick_list(items, accent=False):
@@ -995,7 +1064,7 @@ def pricing_cards(buy_href="/pricing/#buy", show_price=False):
         <a href="/download/" {BTN2.replace('px-5', 'px-5 text-center mt-8')}>Download Lite</a>
       </div>
       <div class="glow-border relative flex flex-col rounded-2xl border-2 border-blue-500/40 p-7 shadow-xl shadow-blue-600/10 dark:bg-[#040c1f]">
-        <span class="absolute -top-3 left-7 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-medium text-white">Most popular</span>
+        <span class="absolute -top-3 left-7 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-medium text-white">Best for client work</span>
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">SEO Agent Pro</h3>
         <p class="mt-1 text-sm {P}">Client-ready audits for any size of site.</p>
         <p class="mt-5 flex items-baseline gap-2">{pro_price}</p>
@@ -1005,13 +1074,23 @@ def pricing_cards(buy_href="/pricing/#buy", show_price=False):
     </div>"""
 
 
+FAQ_WHY_PRO = (
+    "Why pay for Pro when free Claude Code SEO agents exist?",
+    "Free agents are a good option if you want the widest range of commands and are happy to tidy the output yourself. Pro is built for handing audits to other people. Every finding names the URLs and values found, the report is a PDF in your own branding, and the licence covers client work. If you are not sure, run Lite on the same site as your current tool and compare the results.",
+)
+FAQ_OWN_BRANDING = (
+    "Can I put my own branding on the reports?",
+    f'Yes. Set your logo, colours and tone of voice once and every report you export follows them, with no SEO Agent credit line. Several brands are supported, one folder each. See <a href="/white-label/" class="{LINK}">white-label reports</a>.',
+)
+
+
 def pricing_page():
     body = hero(
         "One-time payment · No subscription",
         f"Simple pricing: free Lite, or Pro for {PRICE}",
         "Pay once and keep it. Pro includes every command, full audits, client-ready PDF reports and all 3.x updates.",
     )
-    body += f'<section id="buy" class="scroll-mt-10 pb-16">{pricing_cards(CHECKOUT_URL, show_price=True)}</section>'
+    body += f'<section id="buy" class="scroll-mt-10 pb-16"><p class="mb-8 {P}">Downloaded 100+ times. Pro is a one-time {PRICE}, VAT included.</p>{pricing_cards(CHECKOUT_URL, show_price=True)}</section>'
     body += section(
         "Compare Lite and Pro",
         table(
@@ -1019,10 +1098,12 @@ def pricing_page():
                 ["Commands", f"{c('/seo audit')} (Snapshot) and {c('/seo analyse')}", "All 8 commands, every mode and flag"],
                 ["Audit size", "Up to 10 pages", "Up to 500 pages"],
                 ["Findings", "Top findings", "Complete findings with evidence"],
-                ["Reports", "Markdown summary", "Full report, action plan and branded A4 PDF"],
+                ["Reports", "Markdown summary", "Full report, action plan and A4 PDF"],
+                ["White-label", "Not included", "Your logo, colours and tone of voice on every PDF"],
                 ["Specialists", "Core checks", "Technical, content, performance, visual, AI search, local, Google and backlinks"],
                 ["Updates", "Occasional", "All 3.x updates"],
-                ["Client work", "Personal evaluation", "Yes"],
+                ["Support", "Bug reports by email", "Direct access to the author"],
+                ["Client work", "Allowed under the MIT licence, limited to Snapshot audits", "Yes, with full audits and PDF reports"],
                 ["Computers", "Any", "Up to 3"],
                 ["Price", "Free", f"{PRICE} one-time"],
             ],
@@ -1051,17 +1132,12 @@ def pricing_page():
                 ("How many computers can I use?", "Up to 3 computers that you use yourself. If you replace one, get in touch and the old activation can be cleared."),
                 ("Can I get a refund?", f'Refunds are at our discretion. Pro is a digital product you can use as soon as you buy it, so please try SEO Agent Lite for free first. If Pro does not work as described and we cannot fix it, email {SUPPORT_EMAIL}. See the <a href="/refunds/" class="{LINK}">refund policy</a>.'),
                 ("Do I need anything else?", "Claude Code with your own Anthropic account, which you pay for separately. Optional data sources, such as Google APIs or Moz, have their own terms."),
+                FAQ_WHY_PRO,
+                FAQ_OWN_BRANDING,
             ]
         ),
     )
-    ld = {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "SEO Agent Pro",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "macOS, Linux, Windows",
-        "offers": {"@type": "Offer", "price": "50.00", "priceCurrency": "GBP", "url": f"{SITE}/pricing/"},
-    }
+    ld = SOFTWARE_LD
     return page(
         "/pricing/",
         f"Pricing: SEO Agent Pro for a one-time {PRICE} | SEO Agent",
@@ -1383,6 +1459,12 @@ FAQS = [
         ("Does it replace tools like Ahrefs or Semrush?", "Not entirely. Paid platforms hold large keyword and link databases built over years. SEO Agent is strongest at auditing and diagnosing a site you can crawl, explaining the problems in plain language and turning them into an action plan. Many people use both."),
         ("Can you run an audit for me?", f'Yes. Send your website address through the <a href="/audit-request/" class="{LINK}">audit request form</a> and Dan will run the audit himself and email you the results.'),
         ("Is SEO Agent made by Anthropic?", "No. SEO Agent is an independent product that runs inside Claude Code. It is not affiliated with or endorsed by Anthropic."),
+        FAQ_WHY_PRO,
+    ]),
+    ("White-label reports", [
+        FAQ_OWN_BRANDING,
+        ("Can I use SEO Agent reports under my own brand?", f'Yes. Pro lets you set your logo, colours and tone of voice once, and every report follows them. See <a href="/white-label/" class="{LINK}">white-label reports</a>.'),
+        ("Do reports show the SEO Agent name?", "No. Pro reports carry no SEO Agent credit line."),
     ]),
     ("Buying and licence", [
         ("Is it a subscription?", f"No. Pro is a one-time payment. You keep the version you bought, and all 3.x updates are included."),
@@ -1428,6 +1510,47 @@ def faq_page():
     )
 
 
+# ---------------------------------------------------------------- sample audit (site name hidden)
+AUDIT_CATS = [
+    ("Technical SEO", 45), ("Content quality", 58), ("On-page SEO", 60), ("Schema", 10),
+    ("Performance", 38), ("AI search", 48), ("Images", 55),
+]
+AUDIT_SCORE = 48
+SEV = [("Critical", 2, "rose"), ("High", 5, "amber"), ("Medium", 6, "blue"), ("Low", 2, "slate")]
+REDACT = '<span class="redact" aria-label="site name hidden">clientwebsite.co.uk</span>'
+
+
+def tone(v):
+    return "bad" if v < 40 else "warn" if v < 65 else "good"
+
+
+# Fictional agency shown on the homepage PDF mock-up, to show white-labelling at work.
+SAMPLE_AGENCY = "Example Agency"
+
+
+def sample_audit_card():
+    bars = "".join(
+        f'<div class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"><span class="text-slate-500 dark:text-slate-400">{n}</span><span class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span class="score-bar tone-{tone(v)} block h-full rounded-full" style="--w:{v}%"></span></span><span class="text-right font-mono text-slate-700 dark:text-slate-300">{v}</span></div>'
+        for n, v in AUDIT_CATS
+    )
+    sev_tiles = "".join(
+        f'<div class="rounded-lg bg-{c}-500/10 py-2"><p class="font-semibold text-{c}-600 dark:text-{c}-300">{n}</p><p class="text-slate-500 dark:text-slate-400">{label}</p></div>'
+        for label, n, c in SEV
+    )
+    return f'''<div class="report-card rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-[#040c1f] dark:shadow-blue-900/20">
+            <div class="flex items-start justify-between gap-4">
+              <div><p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">SEO audit</p><p class="mt-1 font-semibold text-slate-900 dark:text-white">{REDACT}</p><p class="text-xs text-slate-500 dark:text-slate-400">Events company · Full audit · 40 pages checked</p></div>
+              <div class="relative h-24 w-24 shrink-0">
+                <svg viewBox="0 0 100 100" class="h-24 w-24 -rotate-90" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" class="stroke-slate-200 dark:stroke-slate-800"/><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-linecap="round" class="score-ring stroke-amber-500" pathLength="100" style="--score:{AUDIT_SCORE}"/></svg>
+                <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="score-count text-2xl font-semibold text-slate-900 dark:text-white" data-target="{AUDIT_SCORE}">{AUDIT_SCORE}</span><span class="text-[10px] text-slate-500 dark:text-slate-400">/ 100</span></span>
+              </div>
+            </div>
+            <div class="mt-6 flex flex-col gap-2.5">{bars}</div>
+            <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">{sev_tiles}</div>
+            <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">Test audit of a live site, September 2026. Site name hidden.</p>
+          </div>'''
+
+
 # ---------------------------------------------------------------- home
 def home_page():
     rows = "".join(
@@ -1444,6 +1567,7 @@ def home_page():
           <a href="/pricing/" {BTN}>Get Pro</a>
           <a href="/download/" {BTN2}>Try Lite free</a>
         </div>
+        {proof_strip()}
       </section>
       <section class="reveal -mt-6 pb-20" aria-label="Example audit run">
         <div class="terminal mx-auto max-w-3xl overflow-hidden rounded-2xl border border-slate-800 bg-[#030712] text-left shadow-2xl shadow-blue-900/30">
@@ -1463,7 +1587,7 @@ def home_page():
                 ("Install", f'Add SEO Agent to Claude Code in a few minutes. <a href="/install/" class="{LINK}">Install guide</a>.'),
                 ("Run an audit", f"Type {c('/seo audit https://client-site.com')}. Specialist agents crawl and check the site in parallel."),
                 ("Review the findings", "Every issue comes with the affected URLs and the values found, ranked Critical to Low."),
-                ("Send the report", "Hand the client a branded PDF with a health score, action plan and roadmap."),
+                ("Send the report", "Hand the client a PDF in your own branding, with a health score, action plan and roadmap."),
             ]
         ),
     )
@@ -1472,31 +1596,29 @@ def home_page():
         f'<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"><table class="w-full border-collapse text-left text-sm"><tbody>{rows}</tbody></table></div>'
         f'<p class="mt-3 text-sm text-slate-500 dark:text-slate-400"><a href="/commands/" class="font-medium text-slate-700 underline underline-offset-2 dark:text-slate-300">See every command in detail</a></p>',
     )
+    why_pro = "".join(
+        f'<div class="{CARD}"><h3 class="font-semibold text-slate-900 dark:text-white">{t}</h3><p class="mt-1 text-sm {P}">{d}</p></div>'
+        for t, d in [
+            ("Evidence on every finding", "Each issue names the affected URLs and the value found on the page. Anything that would apply to any site is cut before the report is written."),
+            ("A report you can send", "A clean A4 PDF with the health score, charts and an action plan in four phases."),
+            ("Your brand on every report", "Set your logo, colours and tone of voice once and every export follows them. White-label reports are included in Pro."),
+            ("Licensed for client work", "Your Pro licence covers audits and reports you deliver to clients. The reports are yours."),
+            ("Eight commands, not a long menu", "Audit, content, local, AI search, backlinks, strategy and Google data, so there is less to learn before you get a result."),
+        ]
+    )
+    body += f'''
+      <section class="reveal scroll-mt-10 pb-20" id="why-pro">
+        <h2 class="max-w-2xl text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">Free tools find problems. Pro puts them in front of the client.</h2>
+        <p class="mt-4 max-w-2xl text-lg {P}">Free Claude Code SEO agents are a good way to learn what is possible, and Lite is free for the same reason. Pro is for people who hand audits to clients or a boss, where the output has to read well without a clean-up session first.</p>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">{why_pro}</div>
+        <p class="mt-8 {P}">Try Lite first. If 10 pages covers what you do, you may not need Pro.</p>
+        <div class="mt-5 flex flex-wrap gap-3"><a href="/download/" {BTN}>Try Lite free</a><a href="/pricing/" {BTN2}>See Pro pricing</a></div>
+      </section>'''
     body += section(
         "Works with your SEO stack",
         f'<p class="mb-5 max-w-2xl {P}">Plug in the crawler and data tools your team already pays for. Crawl faster, use less of Claude\'s context and put trusted data in front of the client.</p>'
         + integration_cards()
         + f'<p class="mt-4 text-sm"><a href="/integrations/" class="{LINK}">See how the integrations work</a></p>',
-    )
-    # ---- Real test audit (site name hidden) -------------------------------
-    AUDIT_CATS = [
-        ("Technical SEO", 45), ("Content quality", 58), ("On-page SEO", 60), ("Schema", 10),
-        ("Performance", 38), ("AI search", 48), ("Images", 55),
-    ]
-    AUDIT_SCORE = 48
-    SEV = [("Critical", 2, "rose"), ("High", 5, "amber"), ("Medium", 6, "blue"), ("Low", 2, "slate")]
-    REDACT = '<span class="redact" aria-label="site name hidden">clientwebsite.co.uk</span>'
-
-    def tone(v):
-        return "bad" if v < 40 else "warn" if v < 65 else "good"
-
-    bars = "".join(
-        f'<div class="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-xs"><span class="text-slate-500 dark:text-slate-400">{n}</span><span class="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span class="score-bar tone-{tone(v)} block h-full rounded-full" style="--w:{v}%"></span></span><span class="text-right font-mono text-slate-700 dark:text-slate-300">{v}</span></div>'
-        for n, v in AUDIT_CATS
-    )
-    sev_tiles = "".join(
-        f'<div class="rounded-lg bg-{c}-500/10 py-2"><p class="font-semibold text-{c}-600 dark:text-{c}-300">{n}</p><p class="text-slate-500 dark:text-slate-400">{label}</p></div>'
-        for label, n, c in SEV
     )
     features = "".join(
         f'<li class="flex gap-4"><span class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-600 dark:text-blue-300">{i}</span><div><h3 class="font-semibold text-slate-900 dark:text-white">{t}</h3><p class="mt-1 text-sm {P}">{d}</p></div></li>'
@@ -1504,7 +1626,7 @@ def home_page():
             ("A score anyone gets", "One number out of 100, weighted across seven categories. Clients understand it in seconds."),
             ("Evidence on every issue", "The URL, the value found and why it costs rankings. No guesswork. No filler."),
             ("A plan, not a pile of problems", "Fixes ranked Critical to Low and grouped into four phases, so everyone knows what happens first."),
-            ("A PDF worth forwarding", "Colour-coded, charted and ready to present the moment the audit finishes."),
+            ("A PDF in your branding", "Colour-coded, charted and ready to present the moment the audit finishes."),
         ], 1)
     )
     body += f'''
@@ -1513,25 +1635,14 @@ def home_page():
         <p class="max-w-2xl text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">Proof, not opinions.</p>
         <p class="mt-4 max-w-2xl text-lg {P}">Every finding arrives with the URL, the evidence and the fix. Below is a real test audit of a UK events company. Their name is hidden. The problems are real.</p>
         <div class="mt-10 grid items-center gap-10 md:grid-cols-2">
-          <div class="report-card rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-[#040c1f] dark:shadow-blue-900/20">
-            <div class="flex items-start justify-between gap-4">
-              <div><p class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">SEO audit</p><p class="mt-1 font-semibold text-slate-900 dark:text-white">{REDACT}</p><p class="text-xs text-slate-500 dark:text-slate-400">Events company · Full audit · 40 pages checked</p></div>
-              <div class="relative h-24 w-24 shrink-0">
-                <svg viewBox="0 0 100 100" class="h-24 w-24 -rotate-90" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" class="stroke-slate-200 dark:stroke-slate-800"/><circle cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-linecap="round" class="score-ring stroke-amber-500" pathLength="100" style="--score:{AUDIT_SCORE}"/></svg>
-                <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="score-count text-2xl font-semibold text-slate-900 dark:text-white" data-target="{AUDIT_SCORE}">{AUDIT_SCORE}</span><span class="text-[10px] text-slate-500 dark:text-slate-400">/ 100</span></span>
-              </div>
-            </div>
-            <div class="mt-6 flex flex-col gap-2.5">{bars}</div>
-            <div class="mt-6 grid grid-cols-4 gap-2 text-center text-xs">{sev_tiles}</div>
-            <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500">Test audit of a live site, September 2026. Site name hidden.</p>
-          </div>
+          {sample_audit_card()}
           <ul class="flex flex-col gap-6">{features}</ul>
         </div>
       </section>'''
 
     # ---- PDF preview ---------------------------------------------------------
     def pdf_head(title, n):
-        return f'<div class="pdf-runner"><span class="pdf-brand"><i></i>SEO Agent Pro</span><span>{title}</span><span>{n} / 4</span></div>'
+        return f'<div class="pdf-runner"><span class="pdf-brand"><i></i>{SAMPLE_AGENCY}</span><span>{title}</span><span>{n} / 4</span></div>'
 
     ring = lambda size, stroke: f'<svg viewBox="0 0 100 100" class="pdf-ring" style="width:{size}px;height:{size}px" aria-hidden="true"><defs><linearGradient id="pdfg{size}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(148,163,184,.25)" stroke-width="{stroke}"/><circle cx="50" cy="50" r="42" fill="none" stroke="url(#pdfg{size})" stroke-width="{stroke}" stroke-linecap="round" pathLength="100" class="pdf-arc" style="--score:{AUDIT_SCORE}"/></svg>'
 
@@ -1552,7 +1663,7 @@ def home_page():
             <p class="pdf-label" style="margin-top:22px">Category scores</p>
             <div class="pdf-chips">{"".join(f'<span class="pdf-chip chip-{tone(v)}"><b>{v}</b>{n}</span>' for n, v in AUDIT_CATS)}</div>
           </div>
-          <div class="pdf-foot"><span>Prepared with SEO Agent Pro</span><span>Confidential</span></div>
+          <div class="pdf-foot"><span>Prepared by {SAMPLE_AGENCY}</span><span>Confidential</span></div>
         </div>'''
 
     cat_rows = "".join(
@@ -1583,7 +1694,7 @@ def home_page():
             <li><em class="sev sev-high">High</em>Internal links and redirects mix http and https</li>
           </ol>
           <div class="pdf-strip"><div><b>246</b>URLs in sitemap</div><div><b>40</b>pages checked</div><div><b>7</b>categories scored</div><div><b>0</b>pages with schema</div></div>
-          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 2</span></div>
+          <div class="pdf-foot"><span>{SAMPLE_AGENCY}</span><span>Page 2</span></div>
         </div>'''
 
     findings_data = [
@@ -1606,7 +1717,7 @@ def home_page():
             <div><em class="sev sev-medium">Medium</em><span>28 homepage images with no width or height</span><code>CLS risk</code></div>
             <div><em class="sev sev-medium">Medium</em><span>Social share image URL is missing https://</span><code>og:image</code></div>
           </div>
-          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 3</span></div>
+          <div class="pdf-foot"><span>{SAMPLE_AGENCY}</span><span>Page 3</span></div>
         </div>'''
 
     phases = [
@@ -1626,7 +1737,7 @@ def home_page():
           <div class="pdf-phases">{phase_rows}</div>
           <div class="pdf-callout"><b>Quick win.</b> The two critical fixes are small jobs, and they unblock most of this plan.</div>
           <div class="pdf-strip"><div><b>15</b>fixes in total</div><div><b>3</b>this week</div><div><b>4</b>phases</div><div><b>1</b>re-audit a month</div></div>
-          <div class="pdf-foot"><span>SEO Agent Pro</span><span>Page 4</span></div>
+          <div class="pdf-foot"><span>{SAMPLE_AGENCY}</span><span>Page 4</span></div>
         </div>'''
 
     thumbs = "".join(
@@ -1642,14 +1753,14 @@ def home_page():
       <section class="reveal scroll-mt-10 pb-20" id="pdf-preview">
         <h2 class="{H2}">The PDF report</h2>
         <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
-          <div class="pdf-stage" aria-label="Preview of an SEO Agent Pro PDF report">
+          <div class="pdf-stage" aria-label="Preview of an SEO Agent Pro PDF report, white-labelled for a fictional agency">
             <div class="pdf-sheet pdf-sheet-back2" aria-hidden="true"></div>
             <div class="pdf-sheet pdf-sheet-back1" aria-hidden="true"></div>
             <div class="pdf-frame"><div class="pdf-scaler">{cover}{summary}{findings}{plan}</div></div>
           </div>
           <div>
             <p class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">The report that wins the meeting.</p>
-            <p class="mt-4 text-lg {P}">Pro turns every audit into a colour-coded PDF with charts, evidence and a four-phase plan. Send it as it is, or walk the client through it page by page.</p>
+            <p class="mt-4 text-lg {P}">Pro turns every audit into a colour-coded PDF in your own branding, with charts, evidence and a four-phase plan. Send it as it is, or walk the client through it page by page.</p>
             <div class="mt-8 flex flex-col gap-2">{thumbs}</div>
             <div class="mt-8 flex flex-wrap gap-3"><a href="/pricing/" {BTN}>Get Pro</a><a href="/commands/audit/" {BTN2}>See how audits work</a></div>
             <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">Colour PDF reports are included in SEO Agent Pro.</p>
@@ -1657,10 +1768,23 @@ def home_page():
         </div>
       </section>'''
 
+    body += f'''
+      <section class="reveal scroll-mt-10 pb-20" id="white-label">
+        <h2 class="max-w-2xl text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">Your brand on every report</h2>
+        <p class="mt-4 max-w-2xl text-lg {P}">Add your logo, colours and tone of voice once. Every audit PDF follows them from then on, with no SEO Agent branding on it.</p>
+        <div class="mt-6">{ul([
+            "Logo, colours and fonts across the whole report",
+            "A tone of voice that matches how your agency writes",
+            "A separate profile for each client or brand, if you work for several",
+            "A clean default design if you do not set one",
+        ])}</div>
+        <div class="mt-6"><a href="/white-label/" {BTN2}>See white-label reports</a></div>
+      </section>'''
+
     body += section("Pricing", pricing_cards())
     body += section(
-        "Built by an SEO, for client work",
-        f'<div class="{CARD} flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6"><span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-900 text-lg font-semibold text-white dark:bg-white dark:text-slate-900">DL</span><p class="{P}">SEO Agent is built by Dan Lowry, an SEO with more than 12 years in the industry. It reflects how audits are really used: to show a client what is wrong, why it matters and what to fix first. <a href="https://linkedin.com/in/dan-lowry-seo" target="_blank" rel="noopener noreferrer" class="{LINK}">Connect on LinkedIn</a>.</p></div>',
+        "Built by an SEO, for anyone to use",
+        f'<div class="{CARD} flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6"><span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-900 text-lg font-semibold text-white dark:bg-white dark:text-slate-900">DL</span><p class="{P}">SEO Agent is built by Dan Lowry, an SEO with more than 12 years in the industry. That experience is built into every command, so you do not need to be an SEO expert or know the technical side to use it. Run a command and you get a professional audit, with the expertise done for you. Pro buyers also get direct access to Dan. <a href="https://linkedin.com/in/dan-lowry-seo" target="_blank" rel="noopener noreferrer" class="{LINK}">Connect on LinkedIn</a>.</p></div>',
     )
     body += cta()
     return page(
@@ -1670,6 +1794,7 @@ def home_page():
         "/",
         [],
         body,
+        extra_ld=SOFTWARE_LD,
     )
 
 
@@ -1781,12 +1906,273 @@ def integrations_page():
 
 
 
+# ---------------------------------------------------------------- white-label
+def buttons(*links):
+    out = "".join(f'<a href="{href}" {BTN if i == 0 else BTN2}>{label}</a>' for i, (label, href) in enumerate(links))
+    return f'<div class="flex flex-wrap gap-3 pb-16">{out}</div>'
+
+
+def white_label_page():
+    body = hero(
+        "White-label",
+        "Audit reports that look like they came from your agency",
+        "Tell SEO Agent your logo, colours and tone of voice once. Every audit report and PDF you export after that follows them, so what reaches the client looks and sounds like you.",
+        tier_tag({"lite": False}),
+    )
+    body += section(
+        "How it works",
+        steps(
+            [
+                ("Add your brand", "Your agency name, logo, website and contact details."),
+                ("Choose your colours and fonts", "Enter your brand colours as hex codes. SEO Agent checks that text stays readable."),
+                ("Describe your tone of voice", "A few lines on how your reports should sound, whether you write in British or American English, and any phrases to use or avoid."),
+                ("Preview, then export", "See a sample report in your brand, then run audits as normal. Every report follows the same format from now on."),
+            ]
+        )
+        + f'<p class="mt-5 {P}">You do this once, in {c("/seo setup")}, and can change it whenever you like.</p>',
+    )
+    body += section(
+        "What follows your brand",
+        ul(
+            [
+                'The cover page, logo and "prepared by" line',
+                "Colours across charts, headings and score graphics",
+                "Fonts",
+                "The footer and contact details",
+                "The tone of the summary and recommendations",
+            ]
+        ),
+    )
+    body += section(
+        "What stays exactly the same",
+        f'<p class="max-w-2xl {P}">The findings, the evidence and the scores. Every issue still shows the URLs and values found, so the report stays accurate whatever it looks like.</p>',
+    )
+    body += section(
+        "No brand set yet?",
+        f'<p class="max-w-2xl {P}">Out of the box, reports use a clean, neutral design with the SEO Agent name, so they are ready to send from the first audit.</p>',
+    )
+    body += section(
+        "Built for agencies",
+        ul(
+            [
+                "Your own logo and colours, with no SEO Agent branding on the cover",
+                "No SEO Agent credit line on your reports",
+                "Separate brand profiles for separate clients or brands, one folder each",
+                "Licensed for client work, on up to three of your computers",
+                f"{PRICE} once, VAT included, with no seat fees",
+            ]
+        ),
+    )
+    body += buttons(("Get Pro", "/pricing/"), ("Try Lite free", "/download/"))
+    body += section(
+        "White-label questions",
+        faq_list(
+            [
+                ("Is white-labelling included in Pro?", f"Yes. It is part of the {PRICE} one-time price. Lite writes a plain Markdown summary and does not include it."),
+                ("Do Pro reports show the SEO Agent name?", "No. Pro reports carry no SEO Agent credit line. Once you set your brand, the reports carry only your branding."),
+                ("Where is my brand information stored?", "On your own computer. SEO Agent does not upload your logo or settings."),
+                ("Do I need design skills?", "No. You need your logo file and your brand colours as hex codes. Everything else has a sensible default."),
+                ("Will it change what the audit finds?", "No. Your brand changes how the report looks and sounds. The findings, evidence and scores are the same."),
+                ("Can I use more than one brand?", "Yes. Keep a brand profile in each client or brand folder and open Claude Code in that folder before you run an audit. SEO Agent uses the profile it finds there, and falls back to your default profile if the folder has none. You set up the folders yourself, and SEO Agent shows which profile it is using before each export."),
+                ("Can I change my brand later?", "Yes. Update it in settings and every report from then on uses the new version. Reports you have already exported are not changed."),
+            ]
+        ),
+    )
+    body += cta()
+    return page(
+        "/white-label/",
+        "White-label SEO audit reports for Claude Code | SEO Agent",
+        "Set your logo, colours and tone of voice once and every SEO Agent report follows your brand. White-label audit PDFs for agencies, in Pro.",
+        "/white-label/",
+        [("/", "Home"), ("/white-label/", "White-label")],
+        body,
+    )
+
+
+# ---------------------------------------------------------------- comparisons
+def compare_agents_page():
+    body = hero(
+        "Compare",
+        "SEO Agent or another Claude SEO agent?",
+        "Several SEO agents now run inside Claude Code, and some are free and very good. This page explains where SEO Agent fits so you can choose the right one.",
+    )
+    body += f"""
+      <div class="grid gap-6 pb-16 md:grid-cols-2">
+        <div class="{CARD}"><h2 class="mb-4 font-semibold text-slate-900 dark:text-white">Another agent is probably right if</h2>{ul([
+            "You want the widest range of commands and are happy to tidy the output yourself",
+            "You want to read and change the code",
+            "You only audit your own sites",
+        ])}</div>
+        <div class="{CARD}"><h2 class="mb-4 font-semibold text-slate-900 dark:text-white">SEO Agent is probably right if</h2>{ul([
+            "You deliver audits to clients or a boss and need a report that reads well straight away",
+            "You want reports to carry your own logo, colours and tone of voice without any manual design work",
+            "You want the URLs and values found behind every finding",
+            "You would rather learn eight commands than a long menu",
+            f"You are happy to pay {PRICE} once",
+        ])}</div>
+      </div>"""
+    body += section(
+        "Using more than one is fine",
+        f'<p class="max-w-2xl {P}">Lite is free, so run it next to whatever you use now and compare the output on the same site.</p>'
+        f'<p class="mt-4 max-w-2xl text-sm text-slate-500 dark:text-slate-400">We have not named other agents here. Features change quickly, so check each agent\'s own page for what it includes today.</p>',
+    )
+    body += cta()
+    return page(
+        "/compare/other-claude-seo-agents/",
+        "SEO Agent or another Claude SEO agent? | SEO Agent",
+        "Several SEO agents now run inside Claude Code, and some are free and very good. This page explains where SEO Agent fits so you can choose the right one.",
+        "/compare/other-claude-seo-agents/",
+        [("/", "Home"), ("/compare/other-claude-seo-agents/", "SEO Agent or another Claude SEO agent?")],
+        body,
+    )
+
+
+def compare_tools_page():
+    body = hero(
+        "Compare",
+        "SEO Agent and the tools you already use",
+        "SEO Agent is not trying to replace your crawler or your SEO platform. Crawlers and platforms hold detailed crawl data and large keyword and link databases. SEO Agent turns audit findings into a scored report and an action plan.",
+    )
+    body += section(
+        "Where each fits",
+        ul(
+            [
+                "Use your crawler when you need to explore crawl data in detail, filter it and export it.",
+                "Use your SEO platform when you need keyword and link databases.",
+                "Use SEO Agent when you need the findings explained, ranked and written up for someone else, in your own branding.",
+                "Use all three when you want the detail of a crawl, the data behind it and a report at the end.",
+            ]
+        )
+        + f'<p class="mt-6 max-w-2xl {P}">SEO Agent works with Screaming Frog, Ahrefs, Semrush and Sitebulb data, so the report sits on top of what you already pay for. The comparison is not like for like, which is the point: if you would otherwise write the report by hand, that is the step it removes.</p>'
+        + f'<p class="mt-4 text-sm"><a href="/integrations/" class="{LINK}">See how the integrations work</a></p>',
+    )
+    body += '<p class="pb-10 text-xs text-slate-400 dark:text-slate-500">Screaming Frog, Ahrefs, Semrush and Sitebulb are trademarks of their respective owners. SEO Agent is an independent product and is not affiliated with or endorsed by them.</p>'
+    body += cta()
+    return page(
+        "/compare/your-existing-seo-tools/",
+        "SEO Agent and the tools you already use | SEO Agent",
+        "SEO Agent is not trying to replace your crawler or your SEO platform. It turns audit findings into a scored report and an action plan, on top of the tools you already pay for.",
+        "/compare/your-existing-seo-tools/",
+        [("/", "Home"), ("/compare/your-existing-seo-tools/", "SEO Agent and the tools you already use")],
+        body,
+    )
+
+
+# ---------------------------------------------------------------- ad landing pages
+# Reached only from ads: noindex, follow; kept out of the sitemap, navigation, footer and internal links.
+AD_ROBOTS = "noindex, follow"
+
+
+def reddit_page():
+    body = hero(
+        None,
+        "Free SEO audits in Claude Code. Pay only if you need client reports.",
+        "You found this page from Reddit, so here is the short version.",
+    )
+    body += f'<div class="flex max-w-2xl flex-col gap-5 pb-10 {P}">' + "".join(
+        f'<p><strong class="text-slate-900 dark:text-white">{t}</strong> {d}</p>'
+        for t, d in [
+            ("What it is.", "SEO Agent adds eight SEO commands to Claude Code. They crawl a site, check the technical and on-page basics, and write up what they find with a health score and a prioritised plan."),
+            ("What is free.", f"Lite is MIT licensed and runs Snapshot audits of up to 10 pages, plus single-page analysis with {c('/seo analyse')}. Download it, try it on a site you know well and see whether the findings are right."),
+            ("What Pro adds.", f"All eight commands, audits of up to 500 pages, complete findings with evidence, PDF reports in your own branding and all 3.x updates. It costs {PRICE} once, VAT included, and installs on up to three of your computers."),
+            ("What it does not do.", "It does not replace the keyword and link databases in the big SEO platforms, though it can connect to them. The health score is a way to prioritise work, not a Google metric. It reads the public site and writes files on your computer, and it never changes your website."),
+            ("What you need.", "Claude Code with your own Anthropic account, Python 3.10 or later and Git for Lite."),
+        ]
+    ) + "</div>"
+    body += buttons(("Download Lite", "/download/"), ("See Pro pricing", "/pricing/"))
+    body += f'<p class="pb-20 {P}">Feedback is welcome. Email <a href="mailto:{SUPPORT_EMAIL}" class="{LINK}">{SUPPORT_EMAIL}</a> with anything Lite gets wrong.</p>'
+    return page(
+        "/reddit/",
+        "Free SEO audits in Claude Code | SEO Agent",
+        f"SEO Agent adds eight SEO commands to Claude Code. Lite is free and MIT licensed. Pro adds full audits and PDF reports in your own branding for {PRICE} once.",
+        "/reddit/",
+        [],
+        body,
+        noindex=AD_ROBOTS,
+    )
+
+
+def agencies_page():
+    body = hero(
+        None,
+        "SEO audits that carry your brand, run from your terminal",
+        "Raw audit output usually needs rewriting and re-formatting before a client sees it. SEO Agent produces a health score, evidence for every finding and a PDF report in your own branding, so more of your time goes on the fixes and less on formatting.",
+    )
+    body += section(
+        "For freelancers and small agencies",
+        ul(
+            [
+                "Run an audit with one command and review findings ranked from Critical to Low",
+                "Add your logo, colours and tone of voice once, and every report follows them",
+                "Send a PDF with an action plan in four phases",
+                "Use it on client work under your Pro licence, on up to three of your computers",
+                f"Pay {PRICE} once, VAT included, with no seat fees or renewals",
+            ]
+        ),
+    )
+    body += section(
+        "For teams that already use Screaming Frog, Ahrefs, Semrush or Sitebulb",
+        f'<p class="max-w-2xl {P}">SEO Agent works with their data, so the audit report sits on top of the tools you already pay for.</p>',
+    )
+    body += buttons(("Get Pro", "/pricing/"), ("Try Lite free", "/download/"))
+    body += f'<p class="pb-20 {P}">Would rather not run it yourself? <a href="/audit-request/" class="{LINK}">Request an audit</a> and we will run it for you.</p>'
+    return page(
+        "/agencies/",
+        "SEO audits that carry your brand | SEO Agent",
+        f"SEO Agent produces a health score, evidence for every finding and a PDF report in your own branding. For freelancers and small agencies, {PRICE} once.",
+        "/agencies/",
+        [],
+        body,
+        noindex=AD_ROBOTS,
+    )
+
+
+def seo_audit_tool_page():
+    body = hero(
+        None,
+        "Technical SEO audit software that runs in Claude Code",
+        f"SEO Agent crawls a site, checks technical, content and AI search issues, and returns a health score with a prioritised action plan. Lite is free. Pro adds full audits of up to 500 pages and white-label PDF reports for a one-time {PRICE}.",
+    )
+    body += section(
+        "How it works",
+        '<ol class="grid gap-4 sm:grid-cols-2">'
+        + "".join(
+            f'<li class="{CARD} flex items-center gap-4"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-white dark:text-slate-900">{n}</span><span class="text-slate-900 dark:text-white">{t}</span></li>'
+            for n, t in enumerate(
+                [
+                    "Install SEO Agent in Claude Code",
+                    f"Run {c('/seo audit https://your-site.com')}",
+                    "Review findings with the URLs and values found",
+                    "Send the PDF report in your own branding",
+                ],
+                1,
+            )
+        )
+        + "</ol>",
+    )
+    body += section("Sample audit", f'<div class="max-w-xl">{sample_audit_card()}</div>')
+    body += section("Plans", pricing_cards())
+    body += f'<section class="pb-20">{proof_strip(centered=False)}</section>'
+    return page(
+        "/seo-audit-tool/",
+        "Technical SEO audit software for Claude Code | SEO Agent",
+        f"SEO Agent crawls a site, checks technical, content and AI search issues, and returns a health score with a prioritised action plan. Lite is free. Pro is {PRICE} once.",
+        "/seo-audit-tool/",
+        [],
+        body,
+        noindex=AD_ROBOTS,
+    )
+
+
 paths = []
 paths.append(home_page())
 paths.append(pricing_page())
 paths.append(download_page())
 paths.append(commands_hub())
 paths.append(integrations_page())
+paths.append(white_label_page())
+paths.append(compare_agents_page())
+paths.append(compare_tools_page())
 paths.append(audit_request_page())
 for cmd in COMMANDS:
     paths.append(command_page(cmd))
@@ -1796,6 +2182,9 @@ paths.append(terms_page())
 paths.append(refunds_page())
 paths.append(privacy_page())
 thanks_page()
+reddit_page()
+agencies_page()
+seo_audit_tool_page()
 paths = [p for p in paths if p]
 
 os.makedirs(os.path.join(SRC, "public"), exist_ok=True)
