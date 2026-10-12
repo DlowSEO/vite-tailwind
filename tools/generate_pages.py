@@ -2,6 +2,7 @@
 import html
 import json
 import os
+import struct
 import sys
 
 SRC = sys.argv[1]
@@ -160,18 +161,21 @@ def breadcrumbs(crumbs):
 
 
 OG_IMAGE_PATH = "/assets/og/seo-agent-cover.png"
-OG_IMAGE_ALT = "SEO Agent running an audit in Claude Code, with the text Client-ready SEO audits for Claude Code"
+OG_IMAGE_ALT = "SEO Agent sample audit with a health score of 48 out of 100, category scores and issues by severity"
 
 
 def og_image_tags():
     # Only reference the cover image once it exists in src/public, so no page shares a broken image.
-    if not os.path.exists(os.path.join(SRC, "public", OG_IMAGE_PATH.lstrip("/"))):
+    img = os.path.join(SRC, "public", OG_IMAGE_PATH.lstrip("/"))
+    if not os.path.exists(img):
         return ""
+    with open(img, "rb") as f:
+        width, height = struct.unpack(">II", f.read(24)[16:24])  # PNG IHDR
     url = SITE + OG_IMAGE_PATH
     return f"""
     <meta property="og:image" content="{url}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="{width}" />
+    <meta property="og:image:height" content="{height}" />
     <meta property="og:image:alt" content="{e(OG_IMAGE_ALT)}" />
     <meta name="twitter:image" content="{url}" />"""
 
