@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals."
+      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals, page by page across a whole site."
     />
     <link rel="canonical" href="https://claudeseo.co.uk/commands/geo/" />
     <meta property="og:type" content="website" />
@@ -18,7 +18,7 @@
     />
     <meta
       property="og:description"
-      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals."
+      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals, page by page across a whole site."
     />
     <meta property="og:url" content="https://claudeseo.co.uk/commands/geo/" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -28,7 +28,7 @@
     />
     <meta
       name="twitter:description"
-      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals."
+      content="Check how ready a site is to be cited by Google AI Overviews, ChatGPT search and Perplexity. Scores citability, structure, AI crawler access and brand signals, page by page across a whole site."
     />
     <meta
       property="og:image"
@@ -337,7 +337,8 @@
             Generative engine optimisation checks for Google AI Overviews, AI
             Mode, ChatGPT search and Perplexity. It treats AI search as SEO
             fundamentals applied to new surfaces, which is Google's own
-            position.
+            position. Site mode scores every key page and tells you which to fix
+            first.
           </p>
         </section>
         <section class="reveal scroll-mt-10 pb-16">
@@ -349,7 +350,10 @@
           <pre
             class="overflow-x-auto rounded-xl bg-slate-900 p-5 text-sm text-slate-100 dark:bg-black"
           ><code>/seo geo https://example.com
-/seo geo https://example.com/guides/topic</code></pre>
+/seo geo https://example.com/guides/topic
+/seo geo https://example.com --site
+/seo geo https://example.com --site --pages 60
+/seo geo --sf-csv internal_all.csv</code></pre>
         </section>
         <div
           class="-mt-8 mb-16 rounded-xl border border-blue-500/20 bg-blue-500/5 px-5 py-4 text-sm text-slate-600 dark:text-slate-400"
@@ -393,6 +397,15 @@
               ><span
                 >You want to know whether AI crawlers can reach your content at
                 all.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              ></span
+              ><span
+                >You need to know which pages to improve first across a whole
+                site, not just one URL.</span
               >
             </li>
           </ul>
@@ -440,6 +453,25 @@
               ></span
               ><span>AI crawler access in robots.txt and llms.txt status</span>
             </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              ></span
+              ><span
+                >Site mode: the queries each page is likely to answer, its
+                strongest and weakest passages, and the questions it leaves
+                unanswered</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              ></span
+              ><span
+                >Server HTML only, the version AI crawlers read, since they do
+                not run JavaScript</span
+              >
+            </li>
           </ul>
         </section>
         <section class="reveal scroll-mt-10 pb-16">
@@ -481,7 +513,7 @@
                     Scores for each criterion with passage level evidence
                   </td>
                 </tr>
-                <tr>
+                <tr class="border-b border-slate-200 dark:border-slate-800">
                   <td
                     class="block px-5 pt-3 pb-0.5 font-mono break-words text-slate-900 sm:table-cell sm:py-3 sm:whitespace-nowrap dark:text-white"
                   >
@@ -491,6 +523,20 @@
                     class="block px-5 pt-0.5 pb-3 text-slate-600 sm:table-cell sm:py-3 dark:text-slate-400"
                   >
                     Suggested changes to make key passages easier to cite
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="block px-5 pt-3 pb-0.5 font-mono break-words text-slate-900 sm:table-cell sm:py-3 sm:whitespace-nowrap dark:text-white"
+                  >
+                    Page scores
+                  </td>
+                  <td
+                    class="block px-5 pt-0.5 pb-3 text-slate-600 sm:table-cell sm:py-3 dark:text-slate-400"
+                  >
+                    Site mode: a CSV and Excel file with one row per page,
+                    giving an estimated score, likely queries, priority and the
+                    top fix
                   </td>
                 </tr>
               </tbody>
@@ -520,6 +566,27 @@
               ><span
                 >Nobody can guarantee a citation. The aim is to remove the
                 reasons a page would be passed over.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              ></span
+              ><span
+                >Page scores are estimates from a single AI review plus
+                rule-based checks. Use them to decide what to fix first, not as
+                a measure of current AI visibility.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span
+                class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              ></span
+              ><span
+                >Site mode scores 25 pages by default, picking the most
+                important from your sitemap, and reviews each page once to keep
+                token use predictable. Screaming Frog is optional: pass its
+                export to score exactly the pages it crawled.</span
               >
             </li>
           </ul>
