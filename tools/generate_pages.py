@@ -2,6 +2,7 @@
 import html
 import json
 import os
+import re
 import struct
 import sys
 
@@ -46,6 +47,15 @@ NAV_IDLE = "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:t
 NAV_ON = "text-slate-900 dark:text-white"
 
 
+MARK_SVG = (
+    '<svg class="{cls} shrink-0" viewBox="0 0 64 64" aria-hidden="true">'
+    '<rect width="64" height="64" rx="16" fill="#1C1917"/>'
+    '<path d="M13 21 L24 32 L13 43" fill="none" stroke="#FF6A3D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<rect x="31" y="35" width="6" height="11" rx="1.5" fill="#fff"/><rect x="40" y="27" width="6" height="19" rx="1.5" fill="#fff"/>'
+    '<rect x="49" y="18" width="6" height="28" rx="1.5" fill="#fff"/></svg>'
+)
+
+
 def header(active):
     def cls(href):
         return f"{NAVLINK} {NAV_ON if active.startswith(href) else NAV_IDLE}"
@@ -62,7 +72,7 @@ def header(active):
     return f"""
       <header class="relative z-20 flex flex-wrap items-center justify-between gap-4 py-6">
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white">
-          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-sm text-white dark:bg-white dark:text-slate-900">⌁</span>
+          {MARK_SVG.format(cls="h-8 w-8 rounded-lg dark:ring-1 dark:ring-white/15")}
           <span>SEO Agent <span class="hidden text-xs font-normal text-slate-500 sm:inline dark:text-slate-400">for Claude Code</span></span>
         </a>
         <nav class="flex flex-wrap items-center gap-x-5 gap-y-3" aria-label="Main">
@@ -97,7 +107,7 @@ def footer():
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div class="lg:col-span-1">
             <a href="/" class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white">
-              <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs text-white dark:bg-white dark:text-slate-900">⌁</span>
+              {MARK_SVG.format(cls="h-7 w-7 rounded-lg dark:ring-1 dark:ring-white/15")}
               SEO Agent
             </a>
             <p class="mt-3 text-slate-500 dark:text-slate-400">Client-ready SEO audits for Claude Code. Built by Dan Lowry.</p>
@@ -114,6 +124,7 @@ def footer():
               <li><a href="/download/" class="{fl}">Download Lite</a></li>
               <li><a href="/install/" class="{fl}">Install Pro</a></li>
               <li><a href="/commands/" class="{fl}">All commands</a></li>
+              <li><a href="/scoring/" class="{fl}">How scoring works</a></li>
               <li><a href="/integrations/" class="{fl}">Integrations</a></li>
               <li><a href="/white-label/" class="{fl}">White-label reports</a></li>
               <li><a href="/compare/other-claude-seo-agents/" class="{fl}">Compare Claude SEO agents</a></li>
@@ -160,8 +171,17 @@ def breadcrumbs(crumbs):
     )
 
 
-OG_IMAGE_PATH = "/assets/og/seo-agent-cover.png"
-OG_IMAGE_ALT = "SEO Agent Pro PDF report, executive summary page with category scores and issues by severity"
+OG_IMAGE_PATH = "/assets/og/seo-agent-og.png"
+OG_IMAGE_ALT = "SEO Agent logo: SEO and AI search audits in Claude Code"
+
+
+ORG_LD = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SEO Agent",
+    "url": f"{SITE}/",
+    "logo": f"{SITE}/assets/brand/seo-agent-logo-512.png",
+}
 
 
 def og_image_tags():
@@ -185,13 +205,19 @@ def page(path, title, desc, active, crumbs, body, noindex=False, extra_ld=None, 
     ld, crumb_html = breadcrumbs(crumbs) if crumbs else ("", "")
     if extra_ld:
         ld += f'<script type="application/ld+json">{json.dumps(extra_ld)}</script>'
+    if path == "/":
+        ld += f'<script type="application/ld+json">{json.dumps(ORG_LD)}</script>'
     robots_value = noindex if isinstance(noindex, str) else "noindex"
     robots = f'<meta name="robots" content="{robots_value}" />\n    ' if noindex else ""
     doc = f"""<!doctype html>
 <html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1C1917" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="{e(desc)}" />
     {robots}{f'<link rel="canonical" href="{SITE}{path}" />' if canonical else ""}
@@ -390,7 +416,7 @@ COMMANDS = [
                 head=["Category", "Weight"],
                 mono_first=False,
             )
-            + f'<p class="mt-3 text-sm {P}">The score is a way to prioritise work, not a prediction of how Google will rank the site.</p>',
+            + f'<p class="mt-3 text-sm {P}">The score is a way to prioritise work, not a prediction of how Google will rank the site. <a href="/scoring/" class="{LINK}">See how scoring works</a>.</p>',
         ),
         "outputs": [
             ["FULL-AUDIT-REPORT.md", "Executive summary, health score and findings by category"],
@@ -551,6 +577,7 @@ COMMANDS = [
         ],
         "notes": [
             "Where community advice contradicts Google's published guidance, the report follows Google and notes the difference.",
+            f'Scoring is based on published AI search studies from Princeton, Zyppy and Ahrefs. <a href="/scoring/" class="{LINK}">See how scoring works</a>.',
             "Nobody can guarantee a citation. The aim is to remove the reasons a page would be passed over.",
             "Page scores are estimates from a single AI review plus rule-based checks. Use them to decide what to fix first, not as a measure of current AI visibility.",
             "Site mode scores 25 pages by default, picking the most important from your sitemap, and reviews each page once to keep token use predictable. Screaming Frog is optional: pass its export to score exactly the pages it crawled.",
@@ -1009,6 +1036,7 @@ PRO_FEATURES = [
     "Client-ready A4 PDF reports in your own branding",
     "White-label reports: your logo, colours and tone of voice on every export",
     "Google, backlink, local, AI search and strategy tools",
+    "GEO scoring based on published AI search studies",
     "All 3.x updates included",
     "Use it for client work",
     "Direct access to Dan, the creator",
@@ -1500,6 +1528,7 @@ FAQS = [
     ]),
     ("AI search", [
         ("What is generative engine optimisation?", f"GEO is the practice of making content easy for AI search features, such as Google AI Overviews, ChatGPT search and Perplexity, to find, understand and cite. Google's position is that this is still SEO, applied to new surfaces. The <a href=\"/commands/geo/\" class=\"{LINK}\">geo command</a> checks it."),
+        ("How is the GEO score worked out?", f'Each page is scored out of 100 for how easily AI tools can answer from it, lift passages from it, trust it and see that it is current. The weights come from published AI search studies. See <a href="/scoring/" class="{LINK}">how scoring works</a>.'),
         ("Do I need an llms.txt file?", "Google has said llms.txt is not needed for its AI features. The geo command reports whether one exists, but does not treat a missing file as a serious problem."),
     ]),
 ]
@@ -2265,6 +2294,94 @@ def not_found_page():
     page("/404/", "Page not found | SEO Agent", "The page you were looking for does not exist or has moved.", "/404/", [], body, noindex=True, canonical=False)
 
 
+SCORING_FAQ = [
+    ("What is GEO?", "GEO stands for generative engine optimisation. It is the practice of making content easy for AI tools such as Google AI Overviews, ChatGPT search and Perplexity to find, understand and quote."),
+    ("Is the GEO score the same as the health score?", "No. The health score covers the whole of SEO, with AI search readiness as one category. The GEO score looks only at how likely each page is to be quoted in AI answers. Strong SEO still helps, because many AI tools draw on search results."),
+    ("Which commands produce the scores?", f'Every {c("/seo audit")} gives a health score. {c("/seo geo")} gives the GEO score, and {c("/seo geo --site")} scores every key page and ranks them by what to fix first.'),
+    ("Can I put the scores in client reports?", f'Yes. SEO Agent Pro adds both scores to <a href="/white-label/" class="{LINK}">white-label PDF reports</a> with your logo, colours and tone of voice.'),
+    ("Does a high GEO score guarantee AI citations?", "No. Nobody can guarantee that an AI tool will quote a page, and results vary by platform and industry. The score shows how well a page follows the patterns that published research links to citations, so you know what to fix first."),
+]
+
+
+def scoring_page():
+    body = hero(
+        "Scoring",
+        "How SEO Agent scores your website",
+        "Every audit ends with a website health score, and the geo command adds a GEO score for AI search. Both are out of 100, both are built from published research, and both show you what to fix first.",
+    )
+    body += section(
+        "Why AI citations matter now",
+        f"""<div class="flex max-w-3xl flex-col gap-4 {P}">
+          <p>Fewer people click through to websites when an AI answer appears. <a href="https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears/" target="_blank" rel="noopener noreferrer" class="{LINK}">Pew Research Center</a> found Google users were less likely to click a link when an AI summary was shown, and <a href="https://ahrefs.com/blog/ai-overviews-reduce-clicks-update/" target="_blank" rel="noopener noreferrer" class="{LINK}">Ahrefs</a> found AI Overviews reduced clicks by 58%.</p>
+          <p>When AI tools answer your customers' questions, the businesses they quote get the visibility. The GEO score shows how ready each page is to be one of them.</p>
+        </div>""",
+    )
+    body += section(
+        "The website health score",
+        f'<p class="mb-5 max-w-3xl {P}">The health score combines the main areas of a full SEO audit. Each category is scored, weighted and combined into one number, with the top priorities listed underneath.</p>'
+        + table(
+            [
+                ["Content quality", "23%"],
+                ["Technical SEO", "22%"],
+                ["On-page SEO", "20%"],
+                ["Schema and structured data", "10%"],
+                ["Performance (Core Web Vitals)", "10%"],
+                ["AI search readiness", "10%"],
+                ["Images", "5%"],
+            ],
+            head=["Category", "Weight"],
+            mono_first=False,
+        ),
+    )
+    body += section(
+        "The GEO score",
+        f'<p class="mb-5 max-w-3xl {P}">The GEO score rates each page out of 100 across four groups. It combines an AI review of the page (60%) with rule-based checks of its server HTML (40%), the version AI crawlers actually read.</p>'
+        + table(
+            [
+                ["Answerability", "The page answers the questions it should win, near the top, with headings written as questions and the obvious follow-ups covered", "40"],
+                ["Extractability", "Passages make sense on their own, at a length AI tools can quote, with clear headings, lists and tables", "36"],
+                ["Evidence", "Statistics, named sources, first-hand detail and structured data", "20"],
+                ["Freshness", "Visible dates and named authors", "4"],
+            ],
+            head=["Group", "What we check", "Points"],
+            mono_first=False,
+        )
+        + f'<p class="mt-5 max-w-3xl text-sm {P}">Alongside the page scores, the GEO report checks the site as a whole: whether AI crawlers are allowed in, whether pages work without JavaScript, how often the brand is mentioned elsewhere, and whether an llms.txt file exists. Google has said llms.txt is not needed, so its absence is reported but not scored.</p>',
+    )
+    body += section(
+        "The research behind the GEO score",
+        f"""<div class="grid gap-4 sm:grid-cols-3">
+          <div class="{CARD}"><h3 class="font-semibold text-slate-900 dark:text-white">Answer the question early</h3><p class="mt-2 text-sm {P}"><a href="https://signal.zyppy.com/ai-citation-ranking-factors/" target="_blank" rel="noopener noreferrer" class="{LINK}">Zyppy's AI Citation Ranking Factors analysis</a> rated query-answer match 9.2 out of 10 and having the answer near the top of the page 8.8 out of 10, two of its strongest factors.</p></div>
+          <div class="{CARD}"><h3 class="font-semibold text-slate-900 dark:text-white">Back up your claims</h3><p class="mt-2 text-sm {P}">The <a href="https://arxiv.org/abs/2311.09735" target="_blank" rel="noopener noreferrer" class="{LINK}">GEO paper</a> from Princeton and partners, published at KDD 2024, found adding statistics improved visibility in AI answers by up to around 40% in its experiments. Citing sources and adding quotations also helped.</p></div>
+          <div class="{CARD}"><h3 class="font-semibold text-slate-900 dark:text-white">Keep it current</h3><p class="mt-2 text-sm {P}"><a href="https://ahrefs.com/blog/do-ai-assistants-prefer-to-cite-fresh-content/" target="_blank" rel="noopener noreferrer" class="{LINK}">Ahrefs analysed around 17 million URLs</a> cited by AI assistants and found they were 25.7% fresher on average than pages in standard Google results.</p></div>
+        </div>
+        <p class="mt-5 max-w-3xl text-sm {P}">The four groups follow a GEO scoring framework built on these three studies. We update the scoring as new research is published.</p>""",
+    )
+    body += section(
+        "What the scores are not",
+        f'<p class="max-w-3xl {P}">The scores show how well a site and its pages follow the patterns that research links to rankings and AI citations. They are estimates to help you decide what to fix first, not a measure of current AI visibility or a promise of results.</p>',
+    )
+    body += section("Frequently asked questions", faq_list(SCORING_FAQ))
+    body += cta()
+    faq_ld = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}}
+            for q, a in SCORING_FAQ
+        ],
+    }
+    return page(
+        "/scoring/",
+        "How SEO Agent Scores Websites | GEO and SEO Scoring",
+        "See how SEO Agent scores websites for SEO and AI search. The GEO score is based on published studies from Princeton, Zyppy and Ahrefs.",
+        "/scoring/",
+        [("/", "Home"), ("/scoring/", "How scoring works")],
+        body,
+        extra_ld=faq_ld,
+    )
+
+
 paths = []
 paths.append(home_page())
 paths.append(pricing_page())
@@ -2272,6 +2389,7 @@ paths.append(download_page())
 paths.append(commands_hub())
 paths.append(integrations_page())
 paths.append(white_label_page())
+paths.append(scoring_page())
 paths.append(compare_agents_page())
 paths.append(compare_tools_page())
 paths.append(audit_request_page())

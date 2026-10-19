@@ -2,7 +2,11 @@
 <html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1C1917" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -32,17 +36,17 @@
     />
     <meta
       property="og:image"
-      content="https://claudeseo.co.uk/assets/og/seo-agent-cover.png"
+      content="https://claudeseo.co.uk/assets/og/seo-agent-og.png"
     />
-    <meta property="og:image:width" content="1012" />
-    <meta property="og:image:height" content="824" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="SEO Agent Pro PDF report, executive summary page with category scores and issues by severity"
+      content="SEO Agent logo: SEO and AI search audits in Claude Code"
     />
     <meta
       name="twitter:image"
-      content="https://claudeseo.co.uk/assets/og/seo-agent-cover.png"
+      content="https://claudeseo.co.uk/assets/og/seo-agent-og.png"
     />
     <script>
       document.documentElement.classList.add("js");
@@ -110,10 +114,24 @@
           href="/"
           class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
         >
-          <span
-            class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-sm text-white dark:bg-white dark:text-slate-900"
-            >⌁</span
+          <svg
+            class="h-8 w-8 shrink-0 rounded-lg dark:ring-1 dark:ring-white/15"
+            viewBox="0 0 64 64"
+            aria-hidden="true"
           >
+            <rect width="64" height="64" rx="16" fill="#1C1917" />
+            <path
+              d="M13 21 L24 32 L13 43"
+              fill="none"
+              stroke="#FF6A3D"
+              stroke-width="6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <rect x="31" y="35" width="6" height="11" rx="1.5" fill="#fff" />
+            <rect x="40" y="27" width="6" height="19" rx="1.5" fill="#fff" />
+            <rect x="49" y="18" width="6" height="28" rx="1.5" fill="#fff" />
+          </svg>
           <span
             >SEO Agent
             <span
@@ -1018,6 +1036,31 @@
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
               >
+                How is the GEO score worked out?<span
+                  class="text-slate-400 transition group-open:rotate-45"
+                  >+</span
+                >
+              </summary>
+              <div
+                class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+              >
+                Each page is scored out of 100 for how easily AI tools can
+                answer from it, lift passages from it, trust it and see that it
+                is current. The weights come from published AI search studies.
+                See
+                <a
+                  href="/scoring/"
+                  class="font-medium text-slate-900 underline underline-offset-2 dark:text-white"
+                  >how scoring works</a
+                >.
+              </div>
+            </details>
+            <details
+              class="group rounded-xl border border-slate-200 p-5 dark:border-slate-800"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900 dark:text-white"
+              >
                 Do I need an llms.txt file?<span
                   class="text-slate-400 transition group-open:rotate-45"
                   >+</span
@@ -1078,10 +1121,45 @@
               href="/"
               class="flex items-center gap-2 font-semibold tracking-tight text-slate-900 dark:text-white"
             >
-              <span
-                class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs text-white dark:bg-white dark:text-slate-900"
-                >⌁</span
+              <svg
+                class="h-7 w-7 shrink-0 rounded-lg dark:ring-1 dark:ring-white/15"
+                viewBox="0 0 64 64"
+                aria-hidden="true"
               >
+                <rect width="64" height="64" rx="16" fill="#1C1917" />
+                <path
+                  d="M13 21 L24 32 L13 43"
+                  fill="none"
+                  stroke="#FF6A3D"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <rect
+                  x="31"
+                  y="35"
+                  width="6"
+                  height="11"
+                  rx="1.5"
+                  fill="#fff"
+                />
+                <rect
+                  x="40"
+                  y="27"
+                  width="6"
+                  height="19"
+                  rx="1.5"
+                  fill="#fff"
+                />
+                <rect
+                  x="49"
+                  y="18"
+                  width="6"
+                  height="28"
+                  rx="1.5"
+                  fill="#fff"
+                />
+              </svg>
               SEO Agent
             </a>
             <p class="mt-3 text-slate-500 dark:text-slate-400">
@@ -1193,6 +1271,13 @@
                   href="/commands/"
                   class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                   >All commands</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/scoring/"
+                  class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  >How scoring works</a
                 >
               </li>
               <li>
