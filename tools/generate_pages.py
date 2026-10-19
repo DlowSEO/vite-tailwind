@@ -2032,10 +2032,10 @@ def white_label_page():
         "How it works",
         steps(
             [
-                ("Add your brand", "Your agency name, logo, website and contact details."),
-                ("Choose your colours and fonts", "Enter your brand colours as hex codes. SEO Agent checks that text stays readable."),
+                ("Run /seo brand", "Answer a few questions in Claude Code: your agency name, logo, website and contact details."),
+                ("Choose your colours and font", "Enter your main and accent colours as hex codes, or describe them and SEO Agent suggests some. Pick serif, sans serif or any font installed on your computer."),
                 ("Describe your tone of voice", "A few lines on how your reports should sound, whether you write in British or American English, and any phrases to use or avoid."),
-                ("Preview, then export", "See a sample report in your brand, then run audits as normal. Every report follows the same format from now on."),
+                ("Run audits as normal", "Every PDF report uses your brand from then on, and SEO Agent can rebuild your last report in the new brand straight away."),
             ]
         )
         + f'<p class="mt-5 {P}">You do this once, in {c("/seo setup")}, and can change it whenever you like.</p>',
@@ -2045,7 +2045,7 @@ def white_label_page():
         ul(
             [
                 'The cover page, logo and "prepared by" line',
-                "Colours across charts, headings and score graphics",
+                "Colours across headings, charts and highlights",
                 "Fonts",
                 "The footer and contact details",
                 "The tone of the summary and recommendations",
@@ -2058,7 +2058,7 @@ def white_label_page():
     )
     body += section(
         "No brand set yet?",
-        f'<p class="max-w-2xl {P}">Out of the box, reports use a clean, neutral design with the SEO Agent name, so they are ready to send from the first audit.</p>',
+        f'<p class="max-w-2xl {P}">Out of the box, reports use a clean, neutral design with no business name or credit line, so they are ready to send from the first audit.</p>',
     )
     body += section(
         "Built for agencies",
