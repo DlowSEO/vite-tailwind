@@ -10,7 +10,8 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest?.("a[href]");
   if (!link) return;
   const href = link.getAttribute("href");
-  if (href.startsWith("https://buy.polar.sh")) track("checkout-click");
+  if (href.startsWith("https://buy.polar.sh"))
+    track("checkout-click", { page: location.pathname });
   else if (href.includes("seo-agent-lite")) track("lite-github-click");
   else if (href === "/audit-request/")
     track("audit-request-click", { page: location.pathname });
@@ -30,6 +31,21 @@ document.addEventListener("keydown", (event) => {
     menus.forEach((menu) => menu.removeAttribute("open"));
 });
 
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
+}
+
 // "Copy" button on every code block, so commands can be copied in one tap.
 document.querySelectorAll("pre > code").forEach((code) => {
   const button = document.createElement("button");
@@ -39,19 +55,7 @@ document.querySelectorAll("pre > code").forEach((code) => {
   button.setAttribute("aria-label", "Copy code to clipboard");
 
   button.addEventListener("click", async () => {
-    const text = code.innerText.trim();
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const area = document.createElement("textarea");
-      area.value = text;
-      area.style.position = "fixed";
-      area.style.opacity = "0";
-      document.body.appendChild(area);
-      area.select();
-      document.execCommand("copy");
-      area.remove();
-    }
+    await copyText(code.innerText.trim());
     track("copy-command");
     button.textContent = "Copied";
     setTimeout(() => (button.textContent = "Copy"), 1600);
@@ -59,6 +63,72 @@ document.querySelectorAll("pre > code").forEach((code) => {
 
   code.parentElement.appendChild(button);
 });
+
+// Buttons that copy a fixed snippet, such as a discount code.
+document.querySelectorAll("[data-copy]").forEach((button) => {
+  const label = button.querySelector("[data-copy-label]");
+  button.addEventListener("click", async () => {
+    await copyText(button.dataset.copy);
+    track("copy-discount-code", { code: button.dataset.copy });
+    if (!label) return;
+    label.textContent = "Copied";
+    setTimeout(() => (label.textContent = "Copy"), 1600);
+  });
+});
+
+// Limited-time offer: live countdowns, the end date in words, and a switch to
+// the "offer ended" copy once the deadline in data-offer-ends has passed.
+// To extend the offer, change data-offer-ends; everything else follows.
+const offer = document.querySelector("[data-offer-ends]");
+if (offer) {
+  const ends = new Date(offer.dataset.offerEnds).getTime();
+  const date = new Date(ends).toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "Europe/London",
+  });
+  document
+    .querySelectorAll("[data-offer-date]")
+    .forEach((el) => (el.textContent = date));
+
+  const timers = document.querySelectorAll("[data-countdown]");
+  const pad = (n) => String(n).padStart(2, "0");
+  let interval = null;
+
+  const tick = () => {
+    const left = ends - Date.now();
+    if (left <= 0) {
+      clearInterval(interval);
+      document
+        .querySelectorAll("[data-offer-live]")
+        .forEach((el) => (el.hidden = true));
+      document
+        .querySelectorAll("[data-offer-over]")
+        .forEach((el) => (el.hidden = false));
+      return false;
+    }
+    const s = Math.floor(left / 1000);
+    const parts = {
+      days: Math.floor(s / 86400),
+      hours: Math.floor(s / 3600) % 24,
+      mins: Math.floor(s / 60) % 60,
+      secs: s % 60,
+    };
+    timers.forEach((timer) => {
+      if (timer.dataset.countdown === "short") {
+        timer.textContent = `${parts.days}d ${pad(parts.hours)}h ${pad(parts.mins)}m ${pad(parts.secs)}s left`;
+      } else {
+        timer
+          .querySelectorAll("[data-unit]")
+          .forEach((el) => (el.textContent = pad(parts[el.dataset.unit])));
+      }
+    });
+    return true;
+  };
+
+  if (tick()) interval = setInterval(tick, 1000);
+}
 
 // Soft glow that follows the cursor across the whole page.
 const glow = document.getElementById("cursor-glow");

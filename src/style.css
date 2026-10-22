@@ -135,8 +135,8 @@ header {
   background: conic-gradient(
     from var(--angle),
     transparent 0 62%,
-    rgb(59 130 246 / 0.9) 78%,
-    rgb(165 180 252) 86%,
+    var(--glow-a, rgb(59 130 246 / 0.9)) 78%,
+    var(--glow-b, rgb(165 180 252)) 86%,
     transparent 100%
   );
   -webkit-mask:
@@ -1574,4 +1574,143 @@ header {
   border: 0;
   border-radius: 3cqw;
   background: #f5f3ff;
+}
+
+/* ---- Halloween offer (/reddit/) ---------------------------------------- */
+
+/* Night sky behind the whole page: violet and pumpkin glows plus faint stars. */
+.hw-sky {
+  background:
+    radial-gradient(
+      60rem 32rem at 85% -8%,
+      rgb(124 58 237 / 0.3),
+      transparent 70%
+    ),
+    radial-gradient(
+      50rem 28rem at 0% 105%,
+      rgb(234 88 12 / 0.16),
+      transparent 70%
+    );
+}
+
+.hw-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 24px 32px, #fff 0 1px, transparent 1.5px),
+    radial-gradient(
+      circle at 130px 90px,
+      rgb(255 255 255 / 0.7) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 210px 160px,
+      rgb(253 230 138 / 0.8) 0 1.2px,
+      transparent 1.8px
+    ),
+    radial-gradient(circle at 300px 40px, #fff 0 0.8px, transparent 1.3px),
+    radial-gradient(
+      circle at 350px 220px,
+      rgb(255 255 255 / 0.6) 0 1px,
+      transparent 1.5px
+    );
+  background-size: 380px 260px;
+  opacity: 0.45;
+  mask-image: linear-gradient(to bottom, #000, transparent 75%);
+}
+
+.hw-moon {
+  background:
+    radial-gradient(
+      circle at 62% 36%,
+      rgb(120 53 15 / 0.12) 0 9%,
+      transparent 10%
+    ),
+    radial-gradient(
+      circle at 38% 64%,
+      rgb(120 53 15 / 0.1) 0 7%,
+      transparent 8%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgb(120 53 15 / 0.08) 0 5%,
+      transparent 6%
+    ),
+    radial-gradient(circle at 35% 30%, #fffbe8, #fde68a 55%, #f4c25b);
+  box-shadow:
+    0 0 60px 12px rgb(253 230 138 / 0.25),
+    0 0 180px 60px rgb(251 146 60 / 0.12);
+  opacity: 0.9;
+}
+
+/* Bats drift on the outer element and flap on the inner SVG. */
+.hw-bat-path {
+  animation: hw-drift 14s ease-in-out infinite;
+}
+
+.hw-bat {
+  transform-origin: 50% 60%;
+  animation: hw-flap 0.26s ease-in-out infinite alternate;
+}
+
+@keyframes hw-flap {
+  to {
+    transform: scaleY(0.45);
+  }
+}
+
+@keyframes hw-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-4deg);
+  }
+  25% {
+    transform: translate(26px, -14px) rotate(3deg);
+  }
+  50% {
+    transform: translate(46px, 6px) rotate(-2deg);
+  }
+  75% {
+    transform: translate(16px, 16px) rotate(4deg);
+  }
+}
+
+/* Jack-o'-lantern: gentle bob, candlelight flicker in the carved face. */
+.hw-float {
+  animation: hw-float 6s ease-in-out infinite;
+}
+
+@keyframes hw-float {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hw-face {
+  animation: hw-flicker 3.4s infinite;
+}
+
+@keyframes hw-flicker {
+  0%,
+  40%,
+  44%,
+  100% {
+    opacity: 1;
+  }
+  42% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.88;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-bat-path,
+  .hw-bat,
+  .hw-float,
+  .hw-face {
+    animation: none;
+  }
 }
