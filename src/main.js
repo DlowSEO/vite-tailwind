@@ -17,6 +17,8 @@ document.addEventListener("click", (event) => {
     track("audit-request-click", { page: location.pathname });
   else if (href === "/pricing/" && /get pro/i.test(link.textContent))
     track("get-pro-click", { page: location.pathname });
+  else if (link.closest("[data-offer-banner]"))
+    track("offer-banner-click", { page: location.pathname });
 });
 
 // Close the Commands dropdown on outside click or Escape.
@@ -76,12 +78,14 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
-// Limited-time offer: live countdowns, the end date in words, and a switch to
-// the "offer ended" copy once the deadline in data-offer-ends has passed.
-// To extend the offer, change data-offer-ends; everything else follows.
-const offer = document.querySelector("[data-offer-ends]");
-if (offer) {
-  const ends = new Date(offer.dataset.offerEnds).getTime();
+// Limited-time offer: live countdowns, the end date in words, the site-wide
+// banner (hidden in the HTML, shown only while the offer runs), and a switch
+// to the "offer ended" copy once the deadline has passed.
+// To extend the offer, change OFFER_ENDS; every page follows it.
+const OFFER_ENDS = "2026-11-05T23:59:59Z";
+const banners = document.querySelectorAll("[data-offer-banner]");
+if (banners.length || document.querySelector("[data-offer-live]")) {
+  const ends = new Date(OFFER_ENDS).getTime();
   const date = new Date(ends).toLocaleDateString("en-GB", {
     weekday: "long",
     day: "numeric",
@@ -106,6 +110,7 @@ if (offer) {
       document
         .querySelectorAll("[data-offer-over]")
         .forEach((el) => (el.hidden = false));
+      banners.forEach((el) => (el.hidden = true));
       return false;
     }
     const s = Math.floor(left / 1000);
@@ -127,7 +132,10 @@ if (offer) {
     return true;
   };
 
-  if (tick()) interval = setInterval(tick, 1000);
+  if (tick()) {
+    banners.forEach((el) => (el.hidden = false));
+    interval = setInterval(tick, 1000);
+  }
 }
 
 // Soft glow that follows the cursor across the whole page.
