@@ -83,6 +83,27 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
 // to the "offer ended" copy once the deadline has passed.
 // To extend the offer, change OFFER_ENDS; every page follows it.
 const OFFER_ENDS = "2026-11-05T23:59:59Z";
+// Prices as Polar charges them. US visitors get dollars (Polar picks the
+// checkout currency from the buyer's location); links can force a currency
+// with ?currency=usd or ?currency=gbp.
+const OFFER_PRICES = {
+  gbp: {
+    sale: "£12.50",
+    full: "£50",
+    save: "£37.50",
+    tax: "VAT included",
+    taxSentence: "the price includes VAT",
+  },
+  usd: {
+    sale: "$12.50",
+    full: "$49.99",
+    save: "$37.49",
+    tax: "plus any sales tax",
+    taxSentence: "sales tax is added where it applies",
+  },
+};
+const US_TIME_ZONE =
+  /^(America\/(New_York|Detroit|Kentucky|Indiana|Chicago|Menominee|North_Dakota|Denver|Boise|Phoenix|Los_Angeles|Anchorage|Juneau|Sitka|Metlakatla|Yakutat|Nome|Adak)|Pacific\/Honolulu|US\/)/;
 const banners = document.querySelectorAll("[data-offer-banner]");
 if (banners.length || document.querySelector("[data-offer-live]")) {
   const ends = new Date(OFFER_ENDS).getTime();
@@ -95,6 +116,32 @@ if (banners.length || document.querySelector("[data-offer-live]")) {
   document
     .querySelectorAll("[data-offer-date]")
     .forEach((el) => (el.textContent = date));
+
+  const asked = new URLSearchParams(location.search)
+    .get("currency")
+    ?.toLowerCase();
+  const inUS = US_TIME_ZONE.test(
+    Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+  );
+  const currency = asked in OFFER_PRICES ? asked : inUS ? "usd" : "gbp";
+  if (currency === "usd") {
+    document
+      .querySelectorAll("[data-price]")
+      .forEach((el) => (el.textContent = OFFER_PRICES.usd[el.dataset.price]));
+  }
+  if (inUS) {
+    // The deadline in the visitor's own time, e.g. "6:59pm EST".
+    const time = new Date(ends)
+      .toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      })
+      .replace(/\s?([AP])M/, (_, x) => `${x.toLowerCase()}m`);
+    document
+      .querySelectorAll("[data-offer-time]")
+      .forEach((el) => (el.textContent = time));
+  }
 
   const timers = document.querySelectorAll("[data-countdown]");
   const pad = (n) => String(n).padStart(2, "0");
