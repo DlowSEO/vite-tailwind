@@ -1675,6 +1675,13 @@ def home_page():
           <a href="/download/" {BTN2}>Try Lite free</a>
         </div>
         {proof_strip()}
+        <figure class="w-full max-w-5xl pt-6">
+          <picture>
+            <source media="(min-width: 768px)" srcset="/assets/brand/seo-agent-hero.svg">
+            <img src="/assets/brand/seo-agent-hero-static.png" width="1200" height="420" alt="SEO Agent audits a website, fixing noindex, 404 errors, toxic links and slow pages while the site climbs in Google" class="h-auto w-full rounded-2xl shadow-2xl shadow-slate-900/20">
+          </picture>
+          <figcaption class="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">Illustrative. Rankings depend on far more than an audit.</figcaption>
+        </figure>
       </section>
       <section class="reveal -mt-6 pb-20" aria-label="Example audit run">
         <div class="terminal mx-auto max-w-3xl overflow-hidden rounded-2xl border border-slate-800 bg-[#030712] text-left shadow-2xl shadow-blue-900/30">
